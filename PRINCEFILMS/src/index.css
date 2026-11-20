@@ -1,6 +1,25 @@
 @import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Instrument+Sans:ital,wght@0,400..700;1,400..600&display=swap");
 @import "tailwindcss";
 
+body {
+  background-image: url("/bg.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  filter: none;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("/bg.jpg");
+  background-size: cover;
+  background-position: center;
+  filter: blur(18px) brightness(0.35);
+  z-index: -1;
+  transform: scale(1.1);
+}
 @theme {
   --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
@@ -173,4 +192,23 @@
 
 @utility text-pretty {
   text-wrap: pretty;
+}
+
+body {
+  background-image: url('/bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url('/bg.jpg');
+  background-size: cover;
+  background-position: center;
+  filter: blur(18px) brightness(0.35);
+  z-index: -1;
+  transform: scale(1.1);
 }

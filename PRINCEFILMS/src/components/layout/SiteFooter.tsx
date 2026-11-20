@@ -111,6 +111,11 @@ export function SiteFooter() {
                   Create an account
                 </Link>
               </li>
+              <li>
+                <Link to="/contact" className="text-white/60 transition-colors hover:text-white">
+                  Contact us
+                </Link>
+              </li>
             </ul>
             <p className="mt-5 text-[11.5px] leading-relaxed text-white/30">
               Kinyarwanda audio. English, French and Swahili subtitles on every title.

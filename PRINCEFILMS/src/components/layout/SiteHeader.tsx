@@ -13,6 +13,7 @@ const NAV_ITEMS = [
   { to: "/movies", label: "Movies" },
   { to: "/series", label: "Series" },
   { to: "/interpreters", label: "Interpreters" },
+  { to: "/contact", label: "Contact" },
 ];
 
 export function SiteHeader() {
@@ -160,6 +161,14 @@ export function SiteHeader() {
                   >
                     <Bookmark size={14} aria-hidden="true" /> My List
                     <span className="num ml-auto text-[11px] text-white/35">{saved.length}</span>
+                  </Link>
+                  <Link
+                    to="/profile"
+                    role="menuitem"
+                    onClick={() => setMenuOpen(false)}
+                    className="flex items-center gap-2.5 px-3.5 py-2.5 text-[13px] text-white/70 hover:bg-white/5 hover:text-white"
+                  >
+                    <User size={14} aria-hidden="true" /> Profile
                   </Link>
                   <button
                     type="button"

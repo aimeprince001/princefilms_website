@@ -19,9 +19,8 @@ interface HeroRailProps {
 export function HeroRail({ titles }: HeroRailProps) {
   const navigate = useNavigate();
   const { play } = usePlayer();
-  const [index, setIndex] = useState(0);
-  const [hovered, setHovered] = useState(false);
-  const [paused, setPaused] = useState(false);
+const [index, setIndex] = useState(0);
+const [paused, setPaused] = useState(false);
   const [progress, setProgress] = useState(0);
   const timerRef = useRef<number | null>(null);
   const progressRef = useRef<number>(0);
@@ -67,14 +66,12 @@ export function HeroRail({ titles }: HeroRailProps) {
   };
 
   const categoryLabel = current.categoryIds.join(" / ");
-  const isNew = new Date(current.releasedAt) > Date.now() - 30 * 86400000;
+  const isNew = new Date(current.releasedAt).getTime() > Date.now() - 30 * 86400000;
 
   return (
     <section
       className="relative isolate overflow-hidden rounded-[30px] border border-white/[0.10] bg-ink-900 shadow-2xl shadow-black/40"
       aria-label="Featured titles carousel"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
       onKeyDown={handleKeyDown}
       tabIndex={-1}
     >

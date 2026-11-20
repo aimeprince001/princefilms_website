@@ -19,6 +19,8 @@ import { SearchResults } from "@/pages/SearchResults";
 import { MyListPage } from "@/pages/MyList";
 import { Login } from "@/pages/Login";
 import { Register } from "@/pages/Register";
+import { Contact } from "@/pages/Contact";
+import { Profile } from "@/pages/Profile";
 import { NotFound } from "@/pages/NotFound";
 
 function ScrollToTop() {
@@ -63,6 +65,8 @@ export default function App() {
                     <Route path="/my-list" element={<MyListPage />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/profile" element={<Profile />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </main>
