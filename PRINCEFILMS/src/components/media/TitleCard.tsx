@@ -6,7 +6,6 @@ import {
   Film,
   Tv,
   Star,
-  Crown,
   Eye,
 } from "lucide-react";
 import {
@@ -21,18 +20,6 @@ import { usePlayer } from "@/context/PlayerContext";
 import { TONE_STYLES } from "@/lib/tones";
 import { cn } from "@/lib/cn";
 import { ProgressRail } from "@/components/ui/ProgressRail";
-
-type QualityBadge = {
-  label: string;
-  icon: typeof Crown;
-  color: string;
-};
-
-const QUALITY_BADGES: Record<string, QualityBadge> = {
-  "4K": { label: "4K Ultra HD", icon: Crown, color: "text-brand-300" },
-  HD: { label: "Full HD", icon: Crown, color: "text-brand-200" },
-  SD: { label: "Standard", icon: Crown, color: "text-white/60" },
-};
 
 const NEW_WINDOW_MS = 180 * 24 * 60 * 60 * 1000;
 
@@ -51,7 +38,6 @@ export function TitleCard({ title, className }: { title: Title; className?: stri
   const series = isSeries(title) ? title : null;
   const tone = TONE_STYLES[title.tone];
   const liked = isLiked(title.id);
-  const quality = QUALITY_BADGES[title.quality] ?? QUALITY_BADGES.SD;
   const isNew = Date.now() - new Date(title.releasedAt).getTime() < NEW_WINDOW_MS;
   const started = Boolean(entry) && percent > 0;
 
@@ -92,19 +78,6 @@ export function TitleCard({ title, className }: { title: Title; className?: stri
           {/* Top badges */}
           <div className="pointer-events-none absolute inset-x-3 top-3 z-20 flex flex-col gap-2">
             <div className="flex items-center justify-between gap-2">
-              <span
-                className={cn(
-                  "flex items-center gap-1.5 rounded-md border border-white/10 bg-ink-950/70 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.1em] backdrop-blur-md",
-                  quality.color,
-                )}
-              >
-                <quality.icon
-                  size={10}
-                  className={cn(quality.color, "fill-current")}
-                  aria-hidden="true"
-                />
-                {quality.label}
-              </span>
               {isNew && (
                 <span className="rounded-md bg-brand-600 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.1em] text-brand-100 shadow-[0_0_12px_rgba(149,82,227,0.55)]">
                   New
