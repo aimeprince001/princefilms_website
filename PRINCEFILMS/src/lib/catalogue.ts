@@ -25,7 +25,7 @@ export const DEFAULT_FILTERS: Filters = {
   duration: "all",
   kind: "all",
   sort: "views",
-  view: "list",
+  view: "grid",
 };
 
 export const SORT_OPTIONS: { value: SortKey; label: string }[] = [
@@ -67,7 +67,7 @@ export function parseFilters(params: URLSearchParams): Filters {
       sort === "rating" || sort === "year" || sort === "title" || sort === "views"
         ? sort
         : DEFAULT_FILTERS.sort,
-    view: view === "grid" ? "grid" : "list",
+    view: view === "list" ? "list" : "grid",
   };
 }
 
