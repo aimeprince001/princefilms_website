@@ -6,6 +6,7 @@ import {
   SERIES,
   TITLES,
   categoryCount,
+  getInterpreterById,
   getTitleById,
   isMovie,
   latestTitles,
@@ -84,10 +85,10 @@ export function Home() {
               .filter(isMovie)
               .slice(0, 10)
               .map((title) => (
-              <div key={title.id} className="w-[250px] shrink-0 snap-start">
-                <TitleCard title={title} />
-              </div>
-            ))}
+                <div key={title.id} className="w-[250px] shrink-0 snap-start">
+                  <TitleCard title={title} />
+                </div>
+              ))}
           </MediaRail>
         </div>
       </section>
@@ -239,8 +240,8 @@ export function Home() {
             .filter(isMovie)
             .slice(0, 8)
             .map((title) => (
-            <TitleCard key={title.id} title={title} />
-          ))}
+              <TitleCard key={title.id} title={title} />
+            ))}
         </div>
       </section>
 
