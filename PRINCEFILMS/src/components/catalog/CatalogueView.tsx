@@ -1,7 +1,8 @@
-import { LayoutGrid, List, SearchX, SlidersHorizontal, X } from "lucide-react";
+import { LayoutGrid, List, Search, SearchX, SlidersHorizontal, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
+  CATEGORIES,
   getCategory,
   getInterpreterById,
   type Title,
@@ -129,6 +130,48 @@ export function CatalogueView({ heading, description, baseTitles, lockedKind, sh
         </div>
         {description && <p className="mt-2.5 max-w-2xl text-[14px] leading-relaxed text-muted">{description}</p>}
       </header>
+
+      <div className="mt-6 max-w-xl">
+        <label htmlFor="catalog-search" className="sr-only">Search movies and series</label>
+        <div className="flex h-12 items-center gap-3 rounded-xl border border-white/10 bg-ink-850/80 px-4 transition focus-within:border-brand-400/60 focus-within:ring-2 focus-within:ring-brand-500/15">
+          <Search size={17} className="shrink-0 text-white/35" aria-hidden="true" />
+          <input
+            id="catalog-search"
+            type="search"
+            value={filters.q}
+            onChange={(event) => update({ q: event.target.value })}
+            placeholder={lockedKind === "movie" ? "Search movies, genres, interpreters…" : lockedKind === "series" ? "Search series, genres, interpreters…" : "Search movies, series, genres…"}
+            className="min-w-0 flex-1 bg-transparent text-[13px] text-white placeholder:text-white/35 outline-none"
+          />
+          {filters.q && (
+            <button type="button" onClick={() => update({ q: "" })} aria-label="Clear search" className="grid size-7 place-items-center rounded-md text-white/45 hover:bg-white/10 hover:text-white">
+              <X size={14} />
+            </button>
+          )}
+        </div>
+      </div>
+
+      <div className="mt-4 flex flex-wrap gap-2" aria-label="Quick category filters">
+        {CATEGORIES.slice(0, 7).map((category) => {
+          const active = filters.categories.includes(category.id);
+          return (
+            <button
+              key={category.id}
+              type="button"
+              aria-pressed={active}
+              onClick={() => update({ categories: active ? filters.categories.filter((id) => id !== category.id) : [...filters.categories, category.id] })}
+              className={cn(
+                "rounded-full border px-3 py-1.5 text-[11.5px] font-medium transition-colors",
+                active
+                  ? "border-brand-400/60 bg-brand-500/20 text-brand-100"
+                  : "border-white/10 bg-white/[0.025] text-white/55 hover:border-white/25 hover:text-white",
+              )}
+            >
+              {category.name}
+            </button>
+          );
+        })}
+      </div>
 
       {showKindSwitch && (
         <div
