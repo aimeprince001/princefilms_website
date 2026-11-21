@@ -7,7 +7,6 @@ import {
   TITLES,
   categoryCount,
   getTitleById,
-  getInterpreterById,
   isMovie,
   latestTitles,
   totalEpisodes,
@@ -16,7 +15,7 @@ import {
 import { useLibrary } from "@/context/LibraryContext";
 import { usePlayer } from "@/context/PlayerContext";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
-import { formatRuntime, formatViews } from "@/lib/format";
+import { formatViews } from "@/lib/format";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Rating } from "@/components/ui/Rating";
 import { SaveButton } from "@/components/ui/SaveButton";
@@ -85,51 +84,10 @@ export function Home() {
               .filter(isMovie)
               .slice(0, 10)
               .map((title) => (
-                <div key={title.id} className="w-[260px] shrink-0 snap-start">
-                  <div className="group relative overflow-hidden rounded-xl border border-white/[0.07] bg-ink-800 transition-colors duration-300 group-hover:border-brand-500/40">
-                    <div className="relative aspect-16/10 overflow-hidden">
-                      <span className="absolute top-3 left-3 z-20 inline-flex items-center gap-1 rounded-md bg-brand-600 px-2 py-1 text-[10px] font-bold text-white shadow-lg shadow-brand-500/40">
-                        NEW
-                      </span>
-                      <img
-                        src={title.image}
-                        alt={`${title.title} — still, photo by ${title.imageCredit}`}
-                        width={640}
-                        height={400}
-                        loading="lazy"
-                        decoding="async"
-                        className="size-full object-cover still-tone transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-ink-950/80 via-transparent to-transparent" />
-                      <Link
-                        to={`/${title.kind}/${title.id}`}
-                        className="absolute inset-0 rounded-xl focus-visible:ring-2 focus-visible:ring-brand-400"
-                        aria-label={`${title.title}, film from ${title.year}`}
-                      />
-                    </div>
-                    <div className="pt-3">
-                      <h3 className="font-display text-[15px] leading-snug text-text">
-                        <Link to={`/${title.kind}/${title.id}`} className="transition-colors hover:text-brand-200">
-                          {title.title}
-                        </Link>
-                      </h3>
-                      <p className="mt-1 flex items-center gap-1.5 text-[12.5px] text-white/45">
-                        <span className="num">{title.year}</span>
-                        <span aria-hidden="true">·</span>
-                        <span>{formatRuntime(title.runtime)}</span>
-                        <span aria-hidden="true">·</span>
-                        <span>{new Date(title.releasedAt).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })}</span>
-                      </p>
-                      <Link
-                        to={`/interpreters/${getInterpreterById(title.interpreterId)?.slug ?? ""}`}
-                        className="mt-1 inline-block text-[12px] text-muted transition-colors hover:text-brand-200"
-                      >
-                        {getInterpreterById(title.interpreterId)?.name ?? "Interpreter"}
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              ))}
+              <div key={title.id} className="w-[250px] shrink-0 snap-start">
+                <TitleCard title={title} />
+              </div>
+            ))}
           </MediaRail>
         </div>
       </section>
