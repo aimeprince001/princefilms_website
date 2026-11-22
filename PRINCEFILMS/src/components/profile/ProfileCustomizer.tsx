@@ -79,6 +79,7 @@ export function ProfileCustomizer({ userId, displayName }: { userId: string; dis
     setError("");
     try {
       localStorage.setItem(storageKey, JSON.stringify(preferences));
+      window.dispatchEvent(new Event("princefilms-profile-updated"));
       setSaved(true);
     } catch {
       setError("Your browser storage is full. Try using smaller profile images.");
