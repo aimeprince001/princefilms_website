@@ -206,7 +206,7 @@ export function ProfileCustomizer({ userId, displayName }: { userId: string; dis
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex flex-wrap gap-2">
             <button type="button" onClick={resetCustomization} className="rounded-xl border border-white/10 px-3 py-2.5 text-[11.5px] text-white/50 transition hover:border-white/20 hover:text-white">Reset customization</button>
-            <button type="button" onClick={save} className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-[12.5px] font-semibold text-white transition hover:brightness-110" style={{ background: preferences.accent }}><Save size={14} /> Save customization</button>
+  
           </div>
           <button type="button" onClick={save} className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-[12.5px] font-semibold text-white transition hover:brightness-110" style={{ background: preferences.accent }}><Save size={14} /> Save customization</button>
         </div>
