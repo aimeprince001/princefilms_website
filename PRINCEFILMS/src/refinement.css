@@ -1,0 +1,164 @@
+/* PRINCEFILMS visual refinement layer — progressive enhancement over existing Tailwind components. */
+:root {
+  color-scheme: dark;
+  --pf-glass: rgb(13 10 20 / 78%);
+  --pf-line: rgb(255 255 255 / 9%);
+  --pf-ease: cubic-bezier(.2,.75,.25,1);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+
+body {
+  background-color: #07060a;
+  background-image:
+    radial-gradient(ellipse at 15% 8%, rgb(110 50 165 / 14%), transparent 38%),
+    radial-gradient(ellipse at 85% 45%, rgb(48 72 130 / 10%), transparent 34%);
+}
+
+body::before {
+  opacity: .45;
+  pointer-events: none;
+}
+
+::selection {
+  background: rgb(149 82 227 / 48%);
+  color: #fff;
+}
+
+a, button, input, select, textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button, a {
+  touch-action: manipulation;
+}
+
+:focus-visible {
+  outline: 2px solid #c5a0fa !important;
+  outline-offset: 3px !important;
+}
+
+.page-shell {
+  position: relative;
+}
+
+.page-shell > section {
+  animation: pf-section-in .55s var(--pf-ease) both;
+}
+
+.page-shell > section:nth-of-type(2) { animation-delay: .04s; }
+.page-shell > section:nth-of-type(3) { animation-delay: .08s; }
+.page-shell > section:nth-of-type(4) { animation-delay: .12s; }
+
+article.group > div {
+  box-shadow: 0 10px 34px -28px rgb(0 0 0 / 85%);
+  transition:
+    border-color .35s var(--pf-ease),
+    box-shadow .45s var(--pf-ease),
+    transform .45s var(--pf-ease),
+    background-color .35s ease;
+}
+
+article.group:hover > div {
+  transform: translateY(-5px);
+  border-color: rgb(197 160 250 / 24%);
+  box-shadow: 0 24px 50px -26px rgb(0 0 0 / 95%), 0 0 0 1px rgb(149 82 227 / 7%);
+}
+
+article.group img {
+  backface-visibility: hidden;
+}
+
+[aria-label="Featured titles carousel"] {
+  isolation: isolate;
+  box-shadow: 0 32px 100px -52px rgb(0 0 0 / 95%), 0 0 0 1px rgb(255 255 255 / 3%);
+}
+
+[aria-label="Featured titles carousel"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(120deg, rgb(149 82 227 / 7%), transparent 42%, rgb(6 5 10 / 12%));
+  z-index: 1;
+}
+
+header {
+  backdrop-filter: saturate(140%);
+}
+
+header nav a {
+  transition: color .2s ease;
+}
+
+.panel, [role="dialog"], [role="menu"] {
+  backdrop-filter: blur(22px) saturate(135%);
+}
+
+input, select, textarea {
+  transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: rgb(174 121 242 / 65%) !important;
+  box-shadow: 0 0 0 3px rgb(149 82 227 / 13%);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #09070d;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 2px solid #09070d;
+  border-radius: 999px;
+  background: #342644;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #63417f;
+}
+
+@keyframes pf-section-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (hover: none) {
+  article.group:hover > div {
+    transform: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .page-shell {
+    padding-inline: 1rem;
+  }
+
+  [aria-label="Featured titles carousel"] {
+    border-radius: 22px;
+  }
+
+  article.group > div {
+    border-radius: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
