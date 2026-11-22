@@ -292,6 +292,7 @@ export function Profile() {
             </div>
           </section>
 
+          {profilePreferences.showStats && (
           {/* Stats cards */}
           <section className="max-w-2xl mb-12">
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -347,6 +348,7 @@ export function Profile() {
               ))}
             </div>
           </section>
+          )}
 
           {/* Recently watched: entries expire after 30 days; customization is stored separately. */}
           {recentWatched.length > 0 && (
