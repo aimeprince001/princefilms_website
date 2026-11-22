@@ -33,6 +33,7 @@ type LibraryContextValue = {
   continueWatching: ResumeItem[];
   finished: ResumeItem[];
   recentWatched: RecentWatchedItem[];
+  clearRecentWatched: () => void;
   isSaved: (titleId: string) => boolean;
   toggleSaved: (titleId: string) => void;
   isLiked: (titleId: string) => boolean;
@@ -68,6 +69,8 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
       Object.entries(current).filter(([, watchedAt]) => Number.isFinite(watchedAt) && watchedAt >= cutoff),
     ));
   }, [setRecentWatched]);
+
+  const clearRecentWatched = useCallback(() => setRecentWatched({}), [setRecentWatched]);
 
   const isSaved = useCallback((titleId: string) => saved.includes(titleId), [saved]);
 
@@ -181,6 +184,7 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
       continueWatching,
       finished,
       recentWatched: recentWatchedTitles,
+      clearRecentWatched,
       isSaved,
       toggleSaved,
       isLiked,
@@ -200,6 +204,7 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
       continueWatching,
       finished,
       recentWatchedTitles,
+      clearRecentWatched,
       isSaved,
       toggleSaved,
       isLiked,
