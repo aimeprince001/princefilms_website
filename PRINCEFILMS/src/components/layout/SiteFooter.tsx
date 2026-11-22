@@ -4,8 +4,8 @@ import { CATEGORIES, TITLES, INTERPRETERS } from "@/data/catalog";
 import { Logo } from "@/components/layout/Logo";
 
 const CONTACT = {
-  phone: "+250 788 621 000",
-  email: "hello@princefilms.rw",
+  phone: "+250 786030186",
+  email: "aimprince21@gmail.com",
 };
 
 export function SiteFooter() {
@@ -22,7 +22,7 @@ export function SiteFooter() {
             <ul className="mt-5 space-y-2 text-[12.5px] text-white/45">
               <li className="flex items-center gap-2">
                 <MapPin size={14} className="text-brand-300" aria-hidden="true" />
-                KG 7 Ave, Kigali
+                Nyamata, Bugesera
               </li>
               <li className="flex items-center gap-2">
                 <Phone size={14} className="text-brand-300" aria-hidden="true" />
@@ -125,7 +125,7 @@ export function SiteFooter() {
 
         <div className="mt-10 flex flex-col gap-2 border-t border-white/[0.07] pt-6 text-[11.5px] text-white/30 sm:flex-row sm:items-center sm:justify-between">
           <p>© 2026 PRINCEFILMS. All rights reserved.</p>
-          <p>Dubbing by independent interpreters in Kigali.</p>
+          <p>Made by : Cyuzuzo Aime Prince</p>
         </div>
       </div>
     </footer>
