@@ -2,6 +2,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   type ReactNode,
 } from "react";
@@ -18,6 +19,10 @@ export type WatchProgress = {
 };
 
 export type ResumeItem = { title: Title; progress: WatchProgress };
+export type RecentWatchedItem = { title: Title; watchedAt: number };
+const RECENT_WATCHED_KEY = "princefilms.recent-watched.v1";
+const RECENT_WATCHED_TTL = 30 * 24 * 60 * 60 * 1000;
+const MAX_RECENT_WATCHED = 50;
 
 type LibraryContextValue = {
   saved: string[];
@@ -27,6 +32,7 @@ type LibraryContextValue = {
   savedTitles: Title[];
   continueWatching: ResumeItem[];
   finished: ResumeItem[];
+  recentWatched: RecentWatchedItem[];
   isSaved: (titleId: string) => boolean;
   toggleSaved: (titleId: string) => void;
   isLiked: (titleId: string) => boolean;
@@ -53,6 +59,15 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
     "princefilms.searches.v1",
     [],
   );
+
+  const [recentWatched, setRecentWatched] = usePersistentState<Record<string, number>>(RECENT_WATCHED_KEY, {});
+
+  useEffect(() => {
+    const cutoff = Date.now() - RECENT_WATCHED_TTL;
+    setRecentWatched((current) => Object.fromEntries(
+      Object.entries(current).filter(([, watchedAt]) => Number.isFinite(watchedAt) && watchedAt >= cutoff),
+    ));
+  }, [setRecentWatched]);
 
   const isSaved = useCallback((titleId: string) => saved.includes(titleId), [saved]);
 
@@ -84,12 +99,19 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
 
   const saveProgress = useCallback(
     (update: Omit<WatchProgress, "updatedAt">) => {
+      const now = Date.now();
       setProgress((current) => ({
         ...current,
-        [update.titleId]: { ...update, updatedAt: Date.now() },
+        [update.titleId]: { ...update, updatedAt: now },
       }));
+      setRecentWatched((current) => {
+        const cutoff = now - RECENT_WATCHED_TTL;
+        const next = Object.fromEntries(Object.entries(current).filter(([, watchedAt]) => watchedAt >= cutoff));
+        next[update.titleId] = now;
+        return Object.fromEntries(Object.entries(next).sort((a, b) => b[1] - a[1]).slice(0, MAX_RECENT_WATCHED));
+      });
     },
-    [setProgress],
+    [setProgress, setRecentWatched],
   );
 
   const clearProgress = useCallback(
@@ -115,6 +137,15 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
   );
 
   const clearRecentSearches = useCallback(() => setRecentSearches([]), [setRecentSearches]);
+
+  const recentWatchedTitles = useMemo<RecentWatchedItem[]>(() => {
+    const cutoff = Date.now() - RECENT_WATCHED_TTL;
+    return Object.entries(recentWatched)
+      .filter(([, watchedAt]) => Number.isFinite(watchedAt) && watchedAt >= cutoff)
+      .sort((a, b) => b[1] - a[1])
+      .map(([titleId, watchedAt]) => ({ title: getTitleById(titleId), watchedAt }))
+      .filter((item): item is RecentWatchedItem => Boolean(item.title));
+  }, [recentWatched]);
 
   const savedTitles = useMemo(
     () => saved.map((id) => getTitleById(id)).filter((title): title is Title => Boolean(title)),
@@ -149,6 +180,7 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
       savedTitles,
       continueWatching,
       finished,
+      recentWatched: recentWatchedTitles,
       isSaved,
       toggleSaved,
       isLiked,
@@ -167,6 +199,7 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
       savedTitles,
       continueWatching,
       finished,
+      recentWatchedTitles,
       isSaved,
       toggleSaved,
       isLiked,
