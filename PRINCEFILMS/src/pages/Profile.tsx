@@ -32,6 +32,7 @@ export function Profile() {
     continueWatching,
     finished,
     recentWatched,
+    clearRecentWatched,
     isSaved,
     toggleSaved,
     clearProgress,
@@ -343,7 +344,10 @@ export function Profile() {
               <div className="mb-6 flex items-center justify-between">
                 <div>
                   <h2 className="font-display text-[20px] leading-none text-text">Recently watched</h2>
-                  <p className="mt-2 text-[11.5px] text-white/40">Viewing history automatically clears after 30 days. Your profile customization stays saved.</p>
+                  <div className="mt-2 flex flex-wrap items-center gap-3">
+                    <p className="text-[11.5px] text-white/40">Viewing history clears after 30 days. Your customization stays saved.</p>
+                    <button type="button" onClick={clearRecentWatched} className="text-[11px] font-medium text-rose-300/80 transition hover:text-rose-300">Clear history</button>
+                  </div>
                 </div>
               </div>
               <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
