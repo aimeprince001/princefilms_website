@@ -51,7 +51,7 @@ export function ProfileCustomizer({ userId, displayName }: { userId: string; dis
     setSaved(false);
   }, [storageKey]);
 
-  const update = <K extends keyof ProfilePreferences>(key: K, value: ProfilePreferences[K]) => {
+  const update = <K extends keyof ProfilePreferences,>(key: K, value: ProfilePreferences[K]) => {
     setPreferences((current) => ({ ...current, [key]: value }));
     setSaved(false);
   };
