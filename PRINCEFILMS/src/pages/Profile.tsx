@@ -26,7 +26,7 @@ import { ProfileCustomizer } from "@/components/profile/ProfileCustomizer";
 
 export function Profile() {
   useDocumentTitle("My Profile");
-  const { user, logout, isAuthenticating } = useAuth();
+  const { user, logout, isAuthenticating, updateName, changePassword } = useAuth();
   const {
     savedTitles,
     continueWatching,
@@ -45,6 +45,10 @@ export function Profile() {
   const [saveError, setSaveError] = useState("");
   const [saveSuccess, setSaveSuccess] = useState("");
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showPasswordForm, setShowPasswordForm] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [profilePreferences, setProfilePreferences] = useState<{ avatar: string; cover: string; bio: string; accent: string; favoriteGenres: string[]; isPublic: boolean; showStats: boolean }>({
     avatar: "", cover: "", bio: "", accent: "#e11d48", favoriteGenres: [], isPublic: true, showStats: true,
   });
@@ -79,40 +83,46 @@ export function Profile() {
       return;
     }
     try {
-      const raw = localStorage.getItem("princefilms.accounts.v1");
-      if (raw) {
-        const accounts = JSON.parse(raw);
-        const updated = accounts.map((acc: any) =>
-          acc.id === user?.id ? { ...acc, name: editName.trim() } : acc,
-        );
-        localStorage.setItem("princefilms.accounts.v1", JSON.stringify(updated));
-      }
+      updateName(editName.trim());
       setSaveSuccess("Profile updated successfully.");
       setEditMode(false);
-    } catch {
-      setSaveError("Failed to save profile. Try again.");
+    } catch (error) {
+      setSaveError(error instanceof Error ? error.message : "Failed to save profile. Try again.");
     }
   };
 
-  const handleChangePassword = (e: React.FormEvent) => {
+  const handleChangePassword = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSaveSuccess("Password changed successfully. You'll need to sign in again.");
-    setTimeout(() => {
-      logout();
-      navigate("/login");
-    }, 1200);
+    setSaveError("");
+    setSaveSuccess("");
+    if (newPassword !== confirmPassword) {
+      setSaveError("The new passwords do not match.");
+      return;
+    }
+    try {
+      await changePassword(currentPassword, newPassword);
+      setSaveSuccess("Password changed successfully.");
+      setShowPasswordForm(false);
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+    } catch (error) {
+      setSaveError(error instanceof Error ? error.message : "Could not change password.");
+    }
   };
 
   const handleDeleteAccount = async () => {
     try {
-      localStorage.removeItem("princefilms.accounts.v1");
-      localStorage.removeItem("princefilms.session.v1");
-      localStorage.removeItem("princefilms.saved.v1");
-      localStorage.removeItem("princefilms.progress.v1");
+      const raw = localStorage.getItem("princefilms.accounts.v1");
+      const accounts = raw ? JSON.parse(raw) : [];
+      const remaining = Array.isArray(accounts) ? accounts.filter((account: { id?: string }) => account.id !== user?.id) : [];
+      localStorage.setItem("princefilms.accounts.v1", JSON.stringify(remaining));
+      if (user) localStorage.removeItem(`princefilms.profile.preferences.v1.${user.id}`);
+      setShowDeleteConfirm(false);
       logout();
-      navigate("/login");
+      navigate("/register");
     } catch {
-      setSaveError("Failed to delete account.");
+      setSaveError("Failed to delete this account. Please try again.");
     }
   };
 
@@ -454,7 +464,7 @@ export function Profile() {
               <div className="space-y-4">
                 <button
                   type="button"
-                  onClick={handleChangePassword}
+                  onClick={() => { setShowPasswordForm(true); setSaveError(""); setSaveSuccess(""); }}
                   className="flex w-full items-center justify-between rounded-xl border border-white/12 bg-ink-850 px-4 py-4 text-left text-[14px] text-text transition hover:bg-white/5 hover:border-white/20"
                 >
                   <div className="flex items-center gap-3">
@@ -477,6 +487,22 @@ export function Profile() {
               </div>
             </div>
           </section>
+
+          {showPasswordForm && (
+            <dialog className="mx-auto max-w-md rounded-[24px] border border-white/10 bg-ink-850 p-8 text-text backdrop:bg-ink-950/80 backdrop:backdrop-blur-xl" open>
+              <h2 className="mb-2 font-display text-[22px]">Change password</h2>
+              <p className="mb-5 text-[12px] text-white/45">Confirm your current password and choose a new one.</p>
+              <form onSubmit={handleChangePassword} className="space-y-3">
+                <input type="password" autoComplete="current-password" required value={currentPassword} onChange={(event) => setCurrentPassword(event.target.value)} placeholder="Current password" className="h-11 w-full rounded-xl border border-white/10 bg-ink-900 px-3 text-sm outline-none focus:border-white/30" />
+                <input type="password" autoComplete="new-password" minLength={6} required value={newPassword} onChange={(event) => setNewPassword(event.target.value)} placeholder="New password (6+ characters)" className="h-11 w-full rounded-xl border border-white/10 bg-ink-900 px-3 text-sm outline-none focus:border-white/30" />
+                <input type="password" autoComplete="new-password" minLength={6} required value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} placeholder="Confirm new password" className="h-11 w-full rounded-xl border border-white/10 bg-ink-900 px-3 text-sm outline-none focus:border-white/30" />
+                <div className="flex gap-3 pt-2">
+                  <button type="button" onClick={() => setShowPasswordForm(false)} className="flex-1 rounded-xl border border-white/12 py-3 text-sm text-white/60">Cancel</button>
+                  <button type="submit" className="flex-1 rounded-xl bg-rose-600/80 py-3 text-sm font-semibold text-white">Update password</button>
+                </div>
+              </form>
+            </dialog>
+          )}
 
           {/* Delete confirmation dialog */}
           {showDeleteConfirm && (
