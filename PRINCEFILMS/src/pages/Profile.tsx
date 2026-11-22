@@ -71,7 +71,8 @@ export function Profile() {
   const totalWatching = continueWatching.length;
   const totalFinished = finished.length;
   const watchTime = Math.round(
-    continueWatching.reduce((sum, item) => sum + item.progress.position, 0) / 60,
+    (continueWatching.reduce((sum, item) => sum + item.progress.position, 0) +
+      finished.reduce((sum, item) => sum + item.progress.position, 0)) / 60,
   );
 
   const handleSaveProfile = async (e: React.FormEvent) => {
@@ -292,8 +293,8 @@ export function Profile() {
             </div>
           </section>
 
-          {profilePreferences.showStats && (
           {/* Stats cards */}
+          {profilePreferences.showStats && (
           <section className="max-w-2xl mb-12">
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {[
