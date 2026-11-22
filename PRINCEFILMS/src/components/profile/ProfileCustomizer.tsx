@@ -44,16 +44,29 @@ export function ProfileCustomizer({ userId, displayName }: { userId: string; dis
   const storageKey = `princefilms.profile.preferences.v1.${userId}`;
   const [preferences, setPreferences] = useState<ProfilePreferences>(() => readPreferences(storageKey));
   const [saved, setSaved] = useState(false);
+  const [dirty, setDirty] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
     setPreferences(readPreferences(storageKey));
-    setSaved(false);
+    setSaved(true);
+    setDirty(false);
   }, [storageKey]);
+
+  useEffect(() => {
+    if (!dirty) return;
+    const warnBeforeLeaving = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = "";
+    };
+    window.addEventListener("beforeunload", warnBeforeLeaving);
+    return () => window.removeEventListener("beforeunload", warnBeforeLeaving);
+  }, [dirty]);
 
   const update = <K extends keyof ProfilePreferences,>(key: K, value: ProfilePreferences[K]) => {
     setPreferences((current) => ({ ...current, [key]: value }));
     setSaved(false);
+    setDirty(true);
   };
 
   const uploadImage = (field: "avatar" | "cover", file?: File) => {
@@ -81,8 +94,22 @@ export function ProfileCustomizer({ userId, displayName }: { userId: string; dis
       localStorage.setItem(storageKey, JSON.stringify(preferences));
       window.dispatchEvent(new Event("princefilms-profile-updated"));
       setSaved(true);
+      setDirty(false);
     } catch {
       setError("Your browser storage is full. Try using smaller profile images.");
+    }
+  };
+
+  const resetCustomization = () => {
+    setPreferences(DEFAULTS);
+    try {
+      localStorage.removeItem(storageKey);
+      window.dispatchEvent(new Event("princefilms-profile-updated"));
+      setSaved(true);
+      setDirty(false);
+      setError("");
+    } catch {
+      setError("Could not reset customization. Please try again.");
     }
   };
 
@@ -177,7 +204,10 @@ export function ProfileCustomizer({ userId, displayName }: { userId: string; dis
 
         {error && <p role="alert" className="rounded-lg border border-rose-400/20 bg-rose-500/10 px-3 py-2 text-[11.5px] text-rose-300">{error}</p>}
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <p className="text-[10.5px] text-white/35">Changes are not applied until you save.</p>
+          <div className="flex flex-wrap gap-2">
+            <button type="button" onClick={resetCustomization} className="rounded-xl border border-white/10 px-3 py-2.5 text-[11.5px] text-white/50 transition hover:border-white/20 hover:text-white">Reset customization</button>
+            <button type="button" onClick={save} className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-[12.5px] font-semibold text-white transition hover:brightness-110" style={{ background: preferences.accent }}><Save size={14} /> Save customization</button>
+          </div>
           <button type="button" onClick={save} className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-[12.5px] font-semibold text-white transition hover:brightness-110" style={{ background: preferences.accent }}><Save size={14} /> Save customization</button>
         </div>
         {saved && <p role="status" className="flex items-center gap-2 text-[11.5px] text-emerald-300"><Check size={14} /> Profile customization saved on this device.</p>}
