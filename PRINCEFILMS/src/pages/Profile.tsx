@@ -31,6 +31,7 @@ export function Profile() {
     savedTitles,
     continueWatching,
     finished,
+    recentWatched,
     isSaved,
     toggleSaved,
     clearProgress,
@@ -335,6 +336,26 @@ export function Profile() {
               ))}
             </div>
           </section>
+
+          {/* Recently watched: entries expire after 30 days; customization is stored separately. */}
+          {recentWatched.length > 0 && (
+            <section aria-label="Recently watched" className="max-w-2xl mb-12">
+              <div className="mb-6 flex items-center justify-between">
+                <div>
+                  <h2 className="font-display text-[20px] leading-none text-text">Recently watched</h2>
+                  <p className="mt-2 text-[11.5px] text-white/40">Viewing history automatically clears after 30 days. Your profile customization stays saved.</p>
+                </div>
+              </div>
+              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                {recentWatched.map(({ title, watchedAt }) => (
+                  <div key={title.id}>
+                    <TitleCard title={title} />
+                    <p className="mt-2 text-[10.5px] text-white/35">Watched {new Date(watchedAt).toLocaleDateString()}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
           {/* Continue watching */}
           {continueWatching.length > 0 && (
