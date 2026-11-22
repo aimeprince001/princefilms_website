@@ -49,7 +49,7 @@ export function ProfileCustomizer({ userId, displayName }: { userId: string; dis
 
   useEffect(() => {
     setPreferences(readPreferences(storageKey));
-    setSaved(true);
+    setSaved(Boolean(localStorage.getItem(storageKey)));
     setDirty(false);
   }, [storageKey]);
 
@@ -192,8 +192,8 @@ export function ProfileCustomizer({ userId, displayName }: { userId: string; dis
 
         <div className="space-y-3 rounded-xl border border-white/10 p-4">
           <div className="flex items-center justify-between gap-4">
-            <div><p className="text-[12.5px] font-medium text-text">Public profile</p><p className="mt-1 text-[11px] text-white/40">Allow other visitors to view your profile details.</p></div>
-            <button type="button" role="switch" aria-checked={preferences.isPublic} onClick={() => update("isPublic", !preferences.isPublic)} className="relative h-6 w-11 shrink-0 rounded-full transition" style={{ background: preferences.isPublic ? preferences.accent : "#374151" }}><span className="absolute top-0.5 size-5 rounded-full bg-white shadow transition" style={{ left: preferences.isPublic ? "22px" : "2px" }} /></button>
+            <div><p className="text-[12.5px] font-medium text-text">Public profile</p><p className="mt-1 text-[11px] text-white/40">Online visibility is unavailable in this local-only version.</p></div>
+            <button type="button" role="switch" aria-checked={false} disabled title="Requires a backend and public profile page" className="relative h-6 w-11 shrink-0 cursor-not-allowed rounded-full bg-gray-700 opacity-50"><span className="absolute left-0.5 top-0.5 size-5 rounded-full bg-white shadow" /></button>
           </div>
           <div className="flex items-center justify-between gap-4 border-t border-white/8 pt-3">
             <div><p className="text-[12.5px] font-medium text-text">Show viewing stats</p><p className="mt-1 text-[11px] text-white/40">Display your watch statistics on your profile.</p></div>
