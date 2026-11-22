@@ -35,6 +35,8 @@ type AuthContextValue = {
   login: (credentials: LoginCredentials) => Promise<void>;
   register: (credentials: RegisterCredentials) => Promise<void>;
   logout: () => void;
+  updateName: (name: string) => void;
+  changePassword: (currentPassword: string, newPassword: string) => Promise<void>;
 };
 
 const ACCOUNTS_KEY = "princefilms.accounts.v1";
@@ -177,9 +179,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = useCallback(() => persistSession(null), [persistSession]);
 
+  const updateName = useCallback((name: string) => {
+    if (!user || !name.trim()) throw new Error("Name is required.");
+    const accounts = readAccounts();
+    const account = accounts.find((item) => item.id === user.id);
+    if (!account) throw new Error("This account could not be found on this device.");
+    const updatedAccounts = accounts.map((item) =>
+      item.id === user.id ? { ...item, name: name.trim() } : item,
+    );
+    window.localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(updatedAccounts));
+    persistSession({ ...user, name: name.trim() });
+  }, [user, persistSession]);
+
+  const changePassword = useCallback(async (currentPassword: string, newPassword: string) => {
+    if (!user) throw new Error("Please sign in again.");
+    if (newPassword.length < 6) throw new Error("Use at least 6 characters for the new password.");
+    const accounts = readAccounts();
+    const account = accounts.find((item) => item.id === user.id);
+    if (!account) throw new Error("This account could not be found on this device.");
+    if (account.password !== currentPassword) throw new Error("Your current password is incorrect.");
+    const updatedAccounts = accounts.map((item) =>
+      item.id === user.id ? { ...item, password: newPassword } : item,
+    );
+    window.localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(updatedAccounts));
+  }, [user]);
+
   const value = useMemo(
-    () => ({ user, isReady, isAuthenticating, login, register, logout }),
-    [user, isReady, isAuthenticating, login, register, logout],
+    () => ({ user, isReady, isAuthenticating, login, register, logout, updateName, changePassword }),
+    [user, isReady, isAuthenticating, login, register, logout, updateName, changePassword],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
