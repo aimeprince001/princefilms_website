@@ -22,6 +22,7 @@ import { cn } from "@/lib/cn";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { TitleCard } from "@/components/media/TitleCard";
 import { ResumeCard } from "@/components/media/ResumeCard";
+import { ProfileCustomizer } from "@/components/profile/ProfileCustomizer";
 
 export function Profile() {
   useDocumentTitle("My Profile");
@@ -175,6 +176,8 @@ export function Profile() {
               </div>
             )}
           </header>
+
+          <ProfileCustomizer userId={String(user.id)} displayName={user.name} />
 
           {/* Profile card */}
           <section className="max-w-2xl mb-12">
