@@ -12,7 +12,7 @@ import {
   User,
   Zap,
 } from "lucide-react";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { useLibrary } from "@/context/LibraryContext";
@@ -43,6 +43,22 @@ export function Profile() {
   const [saveError, setSaveError] = useState("");
   const [saveSuccess, setSaveSuccess] = useState("");
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [profilePreferences, setProfilePreferences] = useState<{ avatar: string; cover: string; bio: string; accent: string; favoriteGenres: string[]; isPublic: boolean; showStats: boolean }>({
+    avatar: "", cover: "", bio: "", accent: "#e11d48", favoriteGenres: [], isPublic: true, showStats: true,
+  });
+  const profileStorageKey = user ? `princefilms.profile.preferences.v1.${user.id}` : "";
+  useEffect(() => {
+    const loadPreferences = () => {
+      if (!profileStorageKey) return;
+      try {
+        const raw = localStorage.getItem(profileStorageKey);
+        setProfilePreferences(raw ? { avatar: "", cover: "", bio: "", accent: "#e11d48", favoriteGenres: [], isPublic: true, showStats: true, ...JSON.parse(raw) } : { avatar: "", cover: "", bio: "", accent: "#e11d48", favoriteGenres: [], isPublic: true, showStats: true });
+      } catch {}
+    };
+    loadPreferences();
+    window.addEventListener("princefilms-profile-updated", loadPreferences);
+    return () => window.removeEventListener("princefilms-profile-updated", loadPreferences);
+  }, [profileStorageKey]);
 
   const memberSince = "November 2026";
   const totalSaved = savedTitles.length;
@@ -181,7 +197,8 @@ export function Profile() {
 
           {/* Profile card */}
           <section className="max-w-2xl mb-12">
-            <div className="rounded-[24px] border border-white/10 bg-ink-850 p-8 lg:p-12">
+            <div className="rounded-[24px] border border-white/10 bg-ink-850 p-8 lg:p-12" style={{ borderColor: `${profilePreferences.accent}40` }}>
+              {!editMode && profilePreferences.cover && <div className="mb-6 h-28 overflow-hidden rounded-xl"><img src={profilePreferences.cover} alt="Profile cover" className="h-full w-full object-cover" /></div>
               {editMode ? (
                 <form onSubmit={handleSaveProfile} className="space-y-5">
                   <div className="space-y-3">
@@ -224,8 +241,8 @@ export function Profile() {
               ) : (
                 <div className="flex flex-col lg:flex-row lg:items-start gap-8">
                   <div className="flex items-center gap-4">
-                    <div className="grid size-20 place-items-center rounded-full border border-brand-500/40 bg-brand-500/10">
-                      <span className="text-[32px] font-bold text-brand-100">{avatarLetter}</span>
+                    <div className="grid size-20 place-items-center overflow-hidden rounded-full border bg-brand-500/10" style={{ borderColor: `${profilePreferences.accent}80` }}>
+                      {profilePreferences.avatar ? <img src={profilePreferences.avatar} alt="Profile avatar" className="h-full w-full object-cover" /> : <span className="text-[32px] font-bold" style={{ color: profilePreferences.accent }}>{avatarLetter}</span>}
                     </div>
                     <div>
                       <h2 className="font-display text-[24px] leading-none text-text">
@@ -234,6 +251,8 @@ export function Profile() {
                       <p className="mt-1 text-[13px] text-white/60">
                         {user.provider === "email" ? user.email : user.phone}
                       </p>
+                      {profilePreferences.bio && <p className="mt-2 max-w-md text-[12px] leading-relaxed text-white/65">{profilePreferences.bio}</p>}
+                      {profilePreferences.favoriteGenres.length > 0 && <div className="mt-3 flex flex-wrap gap-1.5">{profilePreferences.favoriteGenres.map((genre) => <span key={genre} className="rounded-full border px-2 py-1 text-[10px]" style={{ borderColor: `${profilePreferences.accent}55`, color: profilePreferences.accent }}>{genre}</span>)}</div>
                     </div>
                   </div>
                   <div className="flex flex-col gap-3">
