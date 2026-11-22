@@ -29,17 +29,20 @@ jobs:
         with:
           node-version: 22
           cache: npm
+          cache-dependency-path: PRINCEFILMS/package-lock.json
 
       - name: Install dependencies
+        working-directory: PRINCEFILMS
         run: npm ci
 
       - name: Build website
+        working-directory: PRINCEFILMS
         run: npm run build
 
       - name: Upload website
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
+          path: PRINCEFILMS/dist
 
   deploy:
     needs: build
