@@ -198,7 +198,7 @@ export function Profile() {
           {/* Profile card */}
           <section className="max-w-2xl mb-12">
             <div className="rounded-[24px] border border-white/10 bg-ink-850 p-8 lg:p-12" style={{ borderColor: `${profilePreferences.accent}40` }}>
-              {!editMode && profilePreferences.cover && <div className="mb-6 h-28 overflow-hidden rounded-xl"><img src={profilePreferences.cover} alt="Profile cover" className="h-full w-full object-cover" /></div>
+              {!editMode && profilePreferences.cover && <div className="mb-6 h-28 overflow-hidden rounded-xl"><img src={profilePreferences.cover} alt="Profile cover" className="h-full w-full object-cover" /></div>}
               {editMode ? (
                 <form onSubmit={handleSaveProfile} className="space-y-5">
                   <div className="space-y-3">
@@ -252,7 +252,7 @@ export function Profile() {
                         {user.provider === "email" ? user.email : user.phone}
                       </p>
                       {profilePreferences.bio && <p className="mt-2 max-w-md text-[12px] leading-relaxed text-white/65">{profilePreferences.bio}</p>}
-                      {profilePreferences.favoriteGenres.length > 0 && <div className="mt-3 flex flex-wrap gap-1.5">{profilePreferences.favoriteGenres.map((genre) => <span key={genre} className="rounded-full border px-2 py-1 text-[10px]" style={{ borderColor: `${profilePreferences.accent}55`, color: profilePreferences.accent }}>{genre}</span>)}</div>
+                      {profilePreferences.favoriteGenres.length > 0 && <div className="mt-3 flex flex-wrap gap-1.5">{profilePreferences.favoriteGenres.map((genre) => <span key={genre} className="rounded-full border px-2 py-1 text-[10px]" style={{ borderColor: `${profilePreferences.accent}55`, color: profilePreferences.accent }}>{genre}</span>)}</div>}
                     </div>
                   </div>
                   <div className="flex flex-col gap-3">
