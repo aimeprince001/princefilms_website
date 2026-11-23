@@ -16,23 +16,23 @@ const CONTACT_INFO = [
   {
     icon: <Phone size={20} />,
     title: "Call us",
-    value: "+250 788 621 000",
-    href: "tel:+250788621000",
-    subtitle: "Mon–Sat, 9 AM – 6 PM CAT",
+    value: "+250 786030186",
+    href: "tel:+250786030186",
+    subtitle: "Phone number listed in the site footer",
   },
   {
     icon: <Mail size={20} />,
     title: "Email us",
-    value: "hello@princefilms.rw",
-    href: "mailto:hello@princefilms.rw",
+    value: "aimprince21@gmail.com",
+    href: "mailto:aimprince21@gmail.com",
     subtitle: "Reply within 24 hours",
   },
   {
     icon: <MapPin size={20} />,
     title: "Visit us",
-    value: "KG 7 Ave, Kigali, Rwanda",
-    href: "https://maps.google.com/?q=KG+7+Ave,+Kigali",
-    subtitle: "Prince Films Studio",
+    value: "Nyamata, Bugesera",
+    href: "https://maps.google.com/?q=Nyamata,+Bugesera,+Rwanda",
+    subtitle: "Rwanda",
   },
 ];
 
@@ -333,7 +333,7 @@ export function Contact() {
             <div className="text-center">
               <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 mb-4">
                 <MapPin size={14} className="text-brand-300" aria-hidden="true" />
-                <span className="text-[11px] font-medium text-white/60">KG 7 Ave, Kigali</span>
+                <span className="text-[11px] font-medium text-white/60">Nyamata, Bugesera, Rwanda</span>
               </div>
               <div className="w-full h-[300px] rounded-xl border border-white/10 bg-ink-750 relative overflow-hidden">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(255,255,255,0.03)_0%,_transparent_70%)]"></div>
@@ -348,7 +348,7 @@ export function Contact() {
                 </div>
               </div>
               <p className="mt-4 text-[12.5px] text-white/40">
-                Interactive map coming soon — visit us at KG 7 Ave, Kigali.
+                Map location: Nyamata, Bugesera, Rwanda.
               </p>
             </div>
           </div>
