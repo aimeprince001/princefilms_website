@@ -25,7 +25,7 @@ const CONTACT_INFO = [
     title: "Email us",
     value: "aimprince21@gmail.com",
     href: "mailto:aimprince21@gmail.com",
-    subtitle: "Reply within 24 hours",
+    subtitle: "Contact us directly by email",
   },
   {
     icon: <MapPin size={20} />,
