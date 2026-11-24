@@ -10,7 +10,7 @@ export function SeriesPage() {
   return (
     <CatalogueView
       heading={t("series")}
-      description="Long-form series with season and episode lists. Every episode is dubbed by the same interpreter."
+      description={t("seriesDescription")}
       baseTitles={SERIES}
       lockedKind="series"
     />
