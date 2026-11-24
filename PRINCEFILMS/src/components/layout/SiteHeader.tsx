@@ -7,17 +7,19 @@ import { useSearchOverlay } from "@/context/SearchContext";
 import { buttonClass } from "@/components/ui/Button";
 import { Logo } from "@/components/layout/Logo";
 import { cn } from "@/lib/cn";
+import { useLanguage } from "@/context/LanguageContext";
 
 const NAV_ITEMS = [
-  { to: "/", label: "Home", end: true },
-  { to: "/movies", label: "Movies" },
-  { to: "/series", label: "Series" },
-  { to: "/interpreters", label: "Interpreters" },
-  { to: "/contact", label: "Contact" },
+  { to: "/", key: "home", end: true },
+  { to: "/movies", key: "movies" },
+  { to: "/series", key: "series" },
+  { to: "/interpreters", key: "interpreters" },
+  { to: "/contact", key: "contact" },
 ];
 
 export function SiteHeader() {
   const { user, logout } = useAuth();
+  const { language, setLanguage, t } = useLanguage();
   const { saved } = useLibrary();
   const { openSearch } = useSearchOverlay();
   const [scrolled, setScrolled] = useState(false);
@@ -74,7 +76,7 @@ export function SiteHeader() {
               >
                 {({ isActive }) => (
                   <>
-                    {item.label}
+                    {t(item.key)}
                     <span
                       className={cn(
                         "absolute -bottom-[3px] left-0 h-[2px] rounded-full bg-brand-400 transition-all",
@@ -89,14 +91,30 @@ export function SiteHeader() {
         </div>
 
         <div className="flex items-center gap-2 sm:gap-3">
+          <label className="relative flex h-9 items-center rounded-lg border border-white/10 bg-white/[0.03] px-2.5 text-[12px] text-white/70">
+            <span className="sr-only">{t("languageHelp")}</span>
+            <span className="mr-1.5" aria-hidden="true">🌐</span>
+            <select
+              value={language}
+              onChange={(event) => setLanguage(event.target.value as "en" | "rw" | "fr")}
+              aria-label={t("languageHelp")}
+              className="max-w-[76px] cursor-pointer appearance-none bg-transparent pr-1 text-inherit outline-none"
+            >
+              <option value="en" className="bg-ink-900 text-white">English</option>
+              <option value="rw" className="bg-ink-900 text-white">Kinyarwanda</option>
+              <option value="fr" className="bg-ink-900 text-white">Français</option>
+            </select>
+          </label>
+
+
           <button
             type="button"
             onClick={openSearch}
             className="group flex h-9 items-center gap-2 rounded-lg border border-white/10 bg-white/[0.03] px-2.5 text-white/50 transition hover:border-white/20 hover:text-white lg:w-[236px]"
-            aria-label="Search titles and interpreters"
+            aria-label={t("searchTitles")}
           >
             <Search size={15} className="shrink-0" />
-            <span className="hidden flex-1 text-left text-[13px] lg:inline">Search</span>
+            <span className="hidden flex-1 text-left text-[13px] lg:inline">{t("search")}</span>
             <kbd className="hidden rounded border border-white/10 px-1.5 py-0.5 text-[10px] font-medium text-white/35 lg:inline">
               ⌘K
             </kbd>
@@ -107,7 +125,7 @@ export function SiteHeader() {
             className="relative hidden h-9 items-center gap-2 rounded-lg px-2.5 text-[13px] font-medium text-white/60 transition hover:bg-white/5 hover:text-white lg:inline-flex"
           >
             <Bookmark size={15} aria-hidden="true" />
-            <span className="hidden xl:inline">My List</span>
+            <span className="hidden xl:inline">{t("myList")}</span>
             {saved.length > 0 && (
               <span className="num rounded bg-brand-500/25 px-1.5 py-0.5 text-[10.5px] font-semibold text-brand-200">
                 {saved.length}
@@ -159,7 +177,7 @@ export function SiteHeader() {
                     onClick={() => setMenuOpen(false)}
                     className="flex items-center gap-2.5 px-3.5 py-2.5 text-[13px] text-white/70 hover:bg-white/5 hover:text-white"
                   >
-                    <Bookmark size={14} aria-hidden="true" /> My List
+                    <Bookmark size={14} aria-hidden="true" /> {t("myList")}
                     <span className="num ml-auto text-[11px] text-white/35">{saved.length}</span>
                   </Link>
                   <Link
@@ -168,7 +186,7 @@ export function SiteHeader() {
                     onClick={() => setMenuOpen(false)}
                     className="flex items-center gap-2.5 px-3.5 py-2.5 text-[13px] text-white/70 hover:bg-white/5 hover:text-white"
                   >
-                    <User size={14} aria-hidden="true" /> Profile
+                    <User size={14} aria-hidden="true" /> {t("profile")}
                   </Link>
                   <button
                     type="button"
@@ -179,7 +197,7 @@ export function SiteHeader() {
                     }}
                     className="flex w-full items-center gap-2.5 px-3.5 py-2.5 text-left text-[13px] text-white/70 hover:bg-white/5 hover:text-white"
                   >
-                    <LogOut size={14} aria-hidden="true" /> Sign out
+                    <LogOut size={14} aria-hidden="true" /> {t("signOut")}
                   </button>
                 </div>
               )}
