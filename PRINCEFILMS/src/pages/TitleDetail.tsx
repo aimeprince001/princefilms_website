@@ -1,4 +1,4 @@
-import { ArrowLeft, Download, Play, Share2, Play, Languages, Mic } from "lucide-react";
+import { ArrowLeft, Download, Play, Share2, Languages, Mic } from "lucide-react";
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
