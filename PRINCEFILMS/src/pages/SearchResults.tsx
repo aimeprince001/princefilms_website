@@ -12,10 +12,12 @@ import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import { cn } from "@/lib/cn";
 import { TitleRow } from "@/components/media/TitleRow";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { useLanguage } from "@/context/LanguageContext";
 
 type TypeFilter = "all" | "movie" | "series" | "interpreter";
 
 export function SearchResults() {
+  const { t } = useLanguage();
   const [params] = useSearchParams();
   const navigate = useNavigate();
   const { addRecentSearch } = useLibrary();
@@ -24,7 +26,7 @@ export function SearchResults() {
   const [term, setTerm] = useState(query);
   const [type, setType] = useState<TypeFilter>("all");
 
-  useDocumentTitle(query ? `Search: ${query}` : "Search");
+  useDocumentTitle(query ? `${t("search")}: ${query}` : t("search"));
 
   useEffect(() => {
     setTerm(query);
@@ -84,7 +86,7 @@ export function SearchResults() {
             value={term}
             onChange={(event) => setTerm(event.target.value)}
             placeholder="Title, interpreter or genre"
-            aria-label="Search title, interpreter or genre"
+            aria-label={t("searchTitleInterpreterGenre")}
             className="h-11 w-full rounded-xl border border-white/12 bg-ink-850 pl-9 pr-3 text-[14px] text-text placeholder:text-white/30 focus:border-brand-400 focus:outline-none"
           />
         </div>
@@ -160,7 +162,7 @@ export function SearchResults() {
               {showTitles && filteredTitles.length > 0 && (
                 <section aria-labelledby="search-titles">
                   <h2 id="search-titles" className="font-display text-lg text-text">
-                    Titles
+                    {t("titles")}
                   </h2>
                   <div className="mt-2">
                     {filteredTitles.map((title) => (
@@ -173,8 +175,8 @@ export function SearchResults() {
               {totalCount === 0 && (
                 <EmptyState
                   icon={SearchX}
-                  title={`No matches for “${query}”`}
-                  description="Check the spelling, or search for an interpreter such as Rocky Kimomo, a genre such as crime, or a shorter word."
+                  title={`${t("noMatchesFor")} “${query}”`}
+                  description={t("checkSpelling")}
                   action={
                     <button
                       type="button"
@@ -191,7 +193,7 @@ export function SearchResults() {
             <aside className="space-y-6">
               <div className="rounded-xl border border-white/[0.07] bg-ink-850 p-4">
                 <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/35">
-                  <Users size={13} aria-hidden="true" /> Suggested searches
+                  <Users size={13} aria-hidden="true" /> {t("suggestedSearches")}
                 </p>
                 <div className="mt-3 flex flex-wrap gap-1.5">
                   {TRENDING_SEARCHES.map((suggestion) => (
@@ -207,7 +209,7 @@ export function SearchResults() {
                 </div>
               </div>
               <p className="text-[11.5px] leading-relaxed text-white/30">
-                Search matches title, genre, tag and interpreter name. Results are grouped by record type.
+                {t("searchMatchesDescription")}
               </p>
             </aside>
           </div>
@@ -218,8 +220,8 @@ export function SearchResults() {
         <div className="mt-8 max-w-3xl">
           <EmptyState
             icon={Search}
-            title="Search titles, people or genres"
-            description="Start with an interpreter you know, a category such as Crime, or a word from a title."
+            title={t("searchHeading")}
+            description={t("searchDescription")}
             action={
               <div className="flex flex-wrap justify-center gap-1.5">
                 {TRENDING_SEARCHES.map((suggestion) => (
