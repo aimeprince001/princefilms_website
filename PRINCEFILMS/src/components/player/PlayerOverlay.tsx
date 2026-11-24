@@ -1,4 +1,4 @@
-import { ArrowLeft, Check, ListVideo, Play, X, Download, Play, Mic, Languages } from "lucide-react";
+import { ArrowLeft, Check, ListVideo, Play, X, Download, Mic, Languages } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
