@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
 import { LanguageProvider, useLanguage } from "@/context/LanguageContext";
@@ -23,6 +23,7 @@ import { Register } from "@/pages/Register";
 import { Contact } from "@/pages/Contact";
 import { Profile } from "@/pages/Profile";
 import { NotFound } from "@/pages/NotFound";
+import { PageSkeleton } from "@/components/ui/Skeleton";
 
 function SkipLink() {
   const { t } = useLanguage();
@@ -46,6 +47,39 @@ function ScrollToTop() {
   return null;
 }
 
+function RouteContent() {
+  const { pathname } = useLocation();
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    const timeout = window.setTimeout(() => setLoading(false), 320);
+    return () => window.clearTimeout(timeout);
+  }, [pathname]);
+
+  if (loading) return <PageSkeleton />;
+
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/movies" element={<MoviesPage />} />
+      <Route path="/series" element={<SeriesPage />} />
+      <Route path="/category/:slug" element={<CategoryPage />} />
+      <Route path="/interpreters" element={<InterpretersPage />} />
+      <Route path="/interpreters/:slug" element={<InterpreterDetail />} />
+      <Route path="/movie/:id" element={<TitleDetail />} />
+      <Route path="/series/:id" element={<TitleDetail />} />
+      <Route path="/search" element={<SearchResults />} />
+      <Route path="/my-list" element={<MyListPage />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/contact" element={<Contact />} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
+}
+
 export default function App() {
   return (
     <LanguageProvider>
@@ -61,23 +95,7 @@ export default function App() {
                 <SiteHeader />
 
                 <main id="main" className="flex-1 pt-16 pb-4 lg:pt-[68px]">
-                  <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/movies" element={<MoviesPage />} />
-                    <Route path="/series" element={<SeriesPage />} />
-                    <Route path="/category/:slug" element={<CategoryPage />} />
-                    <Route path="/interpreters" element={<InterpretersPage />} />
-                    <Route path="/interpreters/:slug" element={<InterpreterDetail />} />
-                    <Route path="/movie/:id" element={<TitleDetail />} />
-                    <Route path="/series/:id" element={<TitleDetail />} />
-                    <Route path="/search" element={<SearchResults />} />
-                    <Route path="/my-list" element={<MyListPage />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
-                    <Route path="/contact" element={<Contact />} />
-                    <Route path="/profile" element={<Profile />} />
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
+                  <RouteContent />
                 </main>
 
                 <SiteFooter />
