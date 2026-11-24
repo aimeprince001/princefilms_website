@@ -39,7 +39,7 @@ export function TitleDetail() {
         <h1 className="font-display text-2xl text-text">{t("titleNotFound")}</h1>
         <p className="mt-2 text-[13.5px] text-muted">{t("titleNotFoundDesc")}</p>
         <Link to="/movies" className={buttonClass({ size: "md", className: "mt-5" })}>
-          Browse movies
+          {t("browseMovies")}
         </Link>
       </div>
     );
@@ -186,7 +186,7 @@ export function TitleDetail() {
 
             <section aria-labelledby="about-heading" className="mt-8">
               <h2 id="about-heading" className="font-display text-xl text-text">
-                Synopsis
+                {t("synopsis")}
               </h2>
               <p className="mt-2.5 max-w-2xl text-pretty text-[14px] leading-relaxed text-muted">
                 {title.synopsis}
@@ -212,7 +212,7 @@ export function TitleDetail() {
             <section aria-labelledby="related-heading" className="mt-12">
               <div className="flex items-baseline justify-between gap-4">
                 <h2 id="related-heading" className="font-display text-xl text-text">
-                  More in this category
+                  {t("moreInCategory")}
                 </h2>
                 <Link
                   to={`/category/${categories[0]?.slug ?? "action"}`}
@@ -242,7 +242,7 @@ export function TitleDetail() {
                 </span>
                 <span className="min-w-0">
                   <span className="block text-[10.5px] font-semibold uppercase tracking-[0.13em] text-white/35">
-                    Interpreter
+                    {t("interpreterLabel")}
                   </span>
                   <span className="block truncate text-[14px] font-medium text-text">{interpreter.name}</span>
                   <span className="block text-[11.5px] text-white/40">{interpreter.role}</span>
@@ -252,7 +252,7 @@ export function TitleDetail() {
 
             <div className="rounded-xl border border-white/[0.07] bg-ink-850 p-4">
               <h2 className="text-[10.5px] font-semibold uppercase tracking-[0.14em] text-white/35">
-                Title details
+                {t("titleDetails")}
               </h2>
               <dl className="mt-3 space-y-2.5 text-[12.5px]">
                 <Fact label={t("released")} value={formatDate(title.releasedAt)} />
