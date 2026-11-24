@@ -38,7 +38,7 @@ const CONTACT_INFO = [
 ];
 
 const DEPARTMENTS = [
-  { id: "general", label: "General inquiry" },
+  { id: "general", label: "generalInquiry" },
   { id: "billing", label: "billingPayments" },
   { id: "technical", label: "technicalSupport" },
   { id: "partnership", label: "partnershipsDubbing" },
@@ -117,14 +117,14 @@ export function Contact() {
               onClick={() => navigate("/")}
               className={buttonClass({ size: "md" })}
             >
-              Back to home
+              {t("backHome")}
             </button>
             <button
               type="button"
               onClick={() => navigate("/movies")}
               className={buttonClass({ variant: "secondary", size: "md" })}
             >
-              Browse movies
+              {t("browseMovies")}
             </button>
           </div>
         </div>
@@ -137,7 +137,7 @@ export function Contact() {
       {/* Contact Info Cards */}
       <section aria-labelledby="contact-info-heading" className="mb-16">
         <h2 id="contact-info-heading" className="font-display text-[28px] leading-none text-text mb-10">
-          Get in touch
+          {t("contactGetInTouch")}
         </h2>
         <div className="grid gap-4 sm:grid-cols-3 lg:gap-6">
           {CONTACT_INFO.map((item, i) => (
@@ -169,12 +169,12 @@ export function Contact() {
           <div className="lg:col-span-1">
             <div className="rounded-[24px] border border-white/10 bg-ink-850 p-8 lg:p-10">
               <h2 id="contact-form-heading" className="font-display text-[24px] leading-none text-text mb-6">
-                Send us a message
+                {t("sendMessage")}
               </h2>
               <form onSubmit={handleSubmit} className="space-y-5" noValidate>
                 <div className="space-y-3">
                   <label className="block text-[12.5px] font-medium text-white/70">
-                    Department
+                    {t("department")}
                   </label>
                   <select
                     value={department}
@@ -191,7 +191,7 @@ export function Contact() {
 
                 <div className="space-y-3">
                   <label className="block text-[12.5px] font-medium text-white/70">
-                    Full name
+                    {t("fullName")}
                   </label>
                   <input
                     type="text"
@@ -205,7 +205,7 @@ export function Contact() {
 
                 <div className="space-y-3">
                   <label className="block text-[12.5px] font-medium text-white/70">
-                    Email address
+                    {t("emailAddress")}
                   </label>
                   <input
                     type="email"
@@ -219,7 +219,7 @@ export function Contact() {
 
                 <div className="space-y-3">
                   <label className="block text-[12.5px] font-medium text-white/70">
-                    Subject
+                    {t("subject")}
                   </label>
                   <input
                     type="text"
@@ -232,7 +232,7 @@ export function Contact() {
 
                 <div className="space-y-3">
                   <label className="block text-[12.5px] font-medium text-white/70">
-                    Message
+                    {t("message")}
                   </label>
                   <textarea
                     rows={5}
@@ -245,7 +245,7 @@ export function Contact() {
 
                 <div className="space-y-3">
                   <label className="block text-[12.5px] font-medium text-white/70">
-                    Attachment (screenshot, invoice, etc.)
+                    {t("attachment")}
                   </label>
                   <div className="relative group">
                     <input
@@ -294,7 +294,7 @@ export function Contact() {
           <div className="lg:col-span-1">
             <div className="rounded-[24px] border border-white/10 bg-ink-850 p-8 lg:p-10">
               <h2 className="font-display text-[20px] leading-none text-text mb-6">
-                Frequently asked questions
+                {t("frequentlyAsked")}
               </h2>
               <div className="space-y-3">
                 {FAQS.map((faq, i) => {
