@@ -154,7 +154,7 @@ export function InterpreterExplorer() {
                 className="inline-flex h-10 items-center gap-2 rounded-lg bg-white px-4 text-[13px] font-semibold text-ink-950 transition hover:bg-brand-100"
               >
                 <Play size={13} className="fill-current" aria-hidden="true" />
-                {entry && percent < 92 ? t(entry && percent < 92 ? "resume" : "play")}
+                {t(entry && percent < 92 ? "resume" : "play")}
               </button>
               <Link
                 to={`/${featured.kind}/${featured.id}`}
