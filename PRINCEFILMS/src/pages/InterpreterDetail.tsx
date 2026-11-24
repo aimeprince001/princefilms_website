@@ -107,13 +107,13 @@ export function InterpreterDetail() {
                     className="inline-flex h-10 items-center gap-2 rounded-lg bg-white px-4 text-[13px] font-semibold text-ink-950 transition hover:bg-brand-100"
                   >
                     <Play size={13} className="fill-current" aria-hidden="true" />
-                    Play
+                    {t("play")}
                   </button>
                   <Link
                     to={`/${featured.kind}/${featured.id}`}
                     className="inline-flex h-10 items-center rounded-lg border border-white/20 px-4 text-[13px] font-medium text-white/85 transition hover:border-white/40 hover:bg-white/10"
                   >
-                    Details
+                    {t("details")}
                   </Link>
                 </div>
               </div>
@@ -127,7 +127,7 @@ export function InterpreterDetail() {
               <section aria-labelledby="films-heading">
                 <div className="flex items-baseline justify-between gap-4">
                   <h2 id="films-heading" className="font-display text-xl text-text">
-                    Films
+                    {t("movies")}
                   </h2>
                   <span className="num text-[12px] text-white/30">{films.length}</span>
                 </div>
@@ -143,7 +143,7 @@ export function InterpreterDetail() {
               <section aria-labelledby="series-heading">
                 <div className="flex items-baseline justify-between gap-4">
                   <h2 id="series-heading" className="font-display text-xl text-text">
-                    Series
+                    {t("series")}
                   </h2>
                   <span className="num text-[12px] text-white/30">{seriesList.length}</span>
                 </div>
@@ -163,7 +163,7 @@ export function InterpreterDetail() {
           <aside className="space-y-6">
             <div className="rounded-xl border border-white/[0.07] bg-ink-850 p-4">
               <p className="text-[10.5px] font-semibold uppercase tracking-[0.14em] text-white/35">
-                Other interpreters
+                {t("otherInterpreters")}
               </p>
               <ul className="mt-3 space-y-1">
                 {others.map((person) => (
