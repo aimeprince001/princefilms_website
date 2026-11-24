@@ -22,91 +22,43 @@ import { Login } from "@/pages/Login";
 import { Register } from "@/pages/Register";
 import { Contact } from "@/pages/Contact";
 import { Profile } from "@/pages/Profile";
+import { AdminPage } from "@/pages/Admin";
 import { NotFound } from "@/pages/NotFound";
 import { PageSkeleton } from "@/components/ui/Skeleton";
 
 function SkipLink() {
   const { t } = useLanguage();
-  return (
-    <a
-      href="#main"
-      className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[120] focus:rounded-lg focus:bg-white focus:px-3 focus:py-2 focus:text-[13px] focus:font-semibold focus:text-ink-950"
-    >
-      {t("skip")}
-    </a>
-  );
+  return <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[120] focus:rounded-lg focus:bg-white focus:px-3 focus:py-2 focus:text-[13px] focus:font-semibold focus:text-ink-950">{t("skip")}</a>;
 }
-
 function ScrollToTop() {
   const { pathname } = useLocation();
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "auto" });
-  }, [pathname]);
-
+  useEffect(() => { window.scrollTo({ top: 0, behavior: "auto" }); }, [pathname]);
   return null;
 }
-
 function RouteContent() {
   const { pathname } = useLocation();
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    setLoading(true);
-    const timeout = window.setTimeout(() => setLoading(false), 320);
-    return () => window.clearTimeout(timeout);
-  }, [pathname]);
-
+  useEffect(() => { setLoading(true); const timeout = window.setTimeout(() => setLoading(false), 320); return () => window.clearTimeout(timeout); }, [pathname]);
   if (loading) return <PageSkeleton />;
-
-  return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/movies" element={<MoviesPage />} />
-      <Route path="/series" element={<SeriesPage />} />
-      <Route path="/category/:slug" element={<CategoryPage />} />
-      <Route path="/interpreters" element={<InterpretersPage />} />
-      <Route path="/interpreters/:slug" element={<InterpreterDetail />} />
-      <Route path="/movie/:id" element={<TitleDetail />} />
-      <Route path="/series/:id" element={<TitleDetail />} />
-      <Route path="/search" element={<SearchResults />} />
-      <Route path="/my-list" element={<MyListPage />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/contact" element={<Contact />} />
-      <Route path="/profile" element={<Profile />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
-  );
+  return <Routes>
+    <Route path="/" element={<Home />} />
+    <Route path="/movies" element={<MoviesPage />} />
+    <Route path="/series" element={<SeriesPage />} />
+    <Route path="/category/:slug" element={<CategoryPage />} />
+    <Route path="/interpreters" element={<InterpretersPage />} />
+    <Route path="/interpreters/:slug" element={<InterpreterDetail />} />
+    <Route path="/movie/:id" element={<TitleDetail />} />
+    <Route path="/series/:id" element={<TitleDetail />} />
+    <Route path="/search" element={<SearchResults />} />
+    <Route path="/my-list" element={<MyListPage />} />
+    <Route path="/login" element={<Login />} />
+    <Route path="/register" element={<Register />} />
+    <Route path="/contact" element={<Contact />} />
+    <Route path="/profile" element={<Profile />} />
+    <Route path="/admin" element={<AdminPage />} />
+    <Route path="*" element={<NotFound />} />
+  </Routes>;
 }
-
 export default function App() {
-  return (
-    <LanguageProvider>
-    <AuthProvider>
-      <LibraryProvider>
-        <SearchProvider>
-          <BrowserRouter basename={import.meta.env.BASE_URL}>
-            <PlayerProvider>
-              <SkipLink />
-
-              <div className="flex min-h-screen flex-col">
-                <ScrollToTop />
-                <SiteHeader />
-
-                <main id="main" className="flex-1 pt-16 pb-4 lg:pt-[68px]">
-                  <RouteContent />
-                </main>
-
-                <SiteFooter />
-                <MobileTabBar />
-                <SearchCommand />
-              </div>
-            </PlayerProvider>
-          </BrowserRouter>
-        </SearchProvider>
-      </LibraryProvider>
-    </AuthProvider>
-    </LanguageProvider>
-  );
+ return <LanguageProvider><AuthProvider><LibraryProvider><SearchProvider><BrowserRouter basename={import.meta.env.BASE_URL}><PlayerProvider><SkipLink/><div className="flex min-h-screen flex-col"><ScrollToTop/><SiteHeader/><main id="main" className="flex-1 pt-16 pb-4 lg:pt-[68px]"><RouteContent/></main><SiteFooter/><MobileTabBar/><SearchCommand/></div></PlayerProvider></BrowserRouter></SearchProvider></LibraryProvider></AuthProvider></LanguageProvider>;
 }
