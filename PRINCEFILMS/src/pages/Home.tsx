@@ -10,7 +10,7 @@ import {
   getTitleById,
   isMovie,
   latestTitles,
-  totalEpisodes,
+  total{t("episodes")},
   trendingTitles,
 } from "@/data/catalog";
 import { useLibrary } from "@/context/LibraryContext";
@@ -77,7 +77,7 @@ export function Home() {
               to="/movies"
               className="inline-flex items-center gap-1.5 text-[12.5px] font-medium text-brand-200 transition hover:text-brand-100"
             >
-              All new releases <ArrowRight size={13} aria-hidden="true" />
+              {t("allReleases")} <ArrowRight size={13} aria-hidden="true" />
             </Link>
           }
         />
@@ -129,11 +129,11 @@ export function Home() {
       <section aria-labelledby="trending-heading" className="page-shell mt-14 lg:mt-20">
         <SectionHeading
           id="trending-heading"
-          title="Most watched"
-          description="Ranked by views across Kigali and upcountry."
+          title={t("mostWatched")}
+          description={t("rankedByViews")}
           action={
             <span className="inline-flex items-center gap-1.5 text-[12px] font-medium text-white/35">
-              <TrendingUp size={14} aria-hidden="true" /> Updated weekly
+              <TrendingUp size={14} aria-hidden="true" /> {t("updatedWeekly")}
             </span>
           }
         />
@@ -208,7 +208,7 @@ export function Home() {
                 className={buttonClass({ size: "md" })}
               >
                 <Play size={14} className="fill-current" aria-hidden="true" />
-                Play episode 1
+                {t("playEpisodeOne")}
               </button>
               <Link
                 to={`/series/${spotlight.id}`}
@@ -226,14 +226,14 @@ export function Home() {
       <section aria-labelledby="latest-heading" className="page-shell mt-14 lg:mt-20">
         <SectionHeading
           id="latest-heading"
-          title="New films"
-          description="The most recent film releases in the catalogue."
+          title={t("newFilms")}
+          description={t("recentFilmReleases")}
           action={
             <Link
               to="/movies"
               className="inline-flex items-center gap-1.5 text-[12.5px] font-medium text-brand-200 transition hover:text-brand-100"
             >
-              All films <ArrowRight size={13} aria-hidden="true" />
+              {t("allFilms")} <ArrowRight size={13} aria-hidden="true" />
             </Link>
           }
         />
@@ -256,7 +256,7 @@ export function Home() {
               to="/series"
               className="inline-flex items-center gap-1.5 text-[12.5px] font-medium text-brand-200 transition hover:text-brand-100"
             >
-              All series <ArrowRight size={13} aria-hidden="true" />
+              {t("allSeries")} <ArrowRight size={13} aria-hidden="true" />
             </Link>
           }
         />
@@ -270,7 +270,7 @@ export function Home() {
       </section>
 
       <section aria-labelledby="categories-heading" className="page-shell mt-14 lg:mt-20">
-        <SectionHeading id="categories-heading" title="Browse by category" />
+        <SectionHeading id="categories-heading" title={t("browseCategory")} />
         <ul className="mt-5 flex flex-wrap gap-2">
           {CATEGORIES.map((category) => (
             <li key={category.id}>
@@ -290,7 +290,7 @@ export function Home() {
               to="/my-list"
               className="inline-flex items-center gap-2 rounded-lg px-3.5 py-2 text-[13px] font-medium text-brand-200 transition hover:text-brand-100"
             >
-              <Bookmark size={14} aria-hidden="true" /> Saved titles
+              <Bookmark size={14} aria-hidden="true" /> {t("savedTitles")}
             </Link>
           </li>
         </ul>
@@ -299,8 +299,8 @@ export function Home() {
       <section aria-labelledby="interpreters-heading" className="page-shell mt-14 lg:mt-20">
         <SectionHeading
           id="interpreters-heading"
-          title="Find a title by its voice"
-          description="Every film and series here is dubbed in Kinyarwanda. Pick an interpreter to see their catalogue."
+          title={t("findByVoice")}
+          description={t("voiceCatalogueDesc")}
         />
         <div className="mt-6">
           <InterpreterExplorer />
