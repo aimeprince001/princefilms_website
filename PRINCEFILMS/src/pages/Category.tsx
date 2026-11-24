@@ -7,10 +7,12 @@ import {
 } from "@/data/catalog";
 import { CatalogueView } from "@/components/catalog/CatalogueView";
 import { EmptyState } from "@/components/ui/EmptyState";
-import { useDocumentTitle } from "@/hooks/useDocumentTitle";\nimport { useLanguage } from "@/context/LanguageContext";
+import { useDocumentTitle } from "@/hooks/useDocumentTitle";
+import { useLanguage } from "@/context/LanguageContext";
 
 export function CategoryPage() {
-  const { t } = useLanguage();\n  const { slug } = useParams<{ slug: string }>();
+  const { t } = useLanguage();
+  const { slug } = useParams<{ slug: string }>();
   const category = slug ? getCategoryBySlug(slug) : undefined;
 
   useDocumentTitle(category ? category.name : t("category"));
