@@ -2,10 +2,12 @@ import { Compass } from "lucide-react";
 import { Link } from "react-router-dom";
 import { buttonClass } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
-import { useDocumentTitle } from "@/hooks/useDocumentTitle";\nimport { useLanguage } from "@/context/LanguageContext";
+import { useDocumentTitle } from "@/hooks/useDocumentTitle";
+import { useLanguage } from "@/context/LanguageContext";
 
 export function NotFound() {
-  const { t } = useLanguage();\n  useDocumentTitle(t("pageNotFound"));
+  const { t } = useLanguage();
+  useDocumentTitle(t("pageNotFound"));
 
   return (
     <div className="page-shell py-16">
