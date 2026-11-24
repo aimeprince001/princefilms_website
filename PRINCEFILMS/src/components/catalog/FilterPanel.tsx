@@ -15,6 +15,7 @@ import {
   type Filters,
 } from "@/lib/catalogue";
 import { cn } from "@/lib/cn";
+import { useLanguage } from "@/context/LanguageContext";
 
 type FilterProps = {
   filters: Filters;
@@ -113,6 +114,7 @@ function RadioRow({
 }
 
 export function FilterFields({ filters, onChange, showDuration = true }: FilterProps) {
+  const { t } = useLanguage();
   const toggle = (key: "interpreters" | "categories" | "years", value: string) => {
     const current = filters[key];
     onChange({
@@ -124,7 +126,7 @@ export function FilterFields({ filters, onChange, showDuration = true }: FilterP
 
   return (
     <div className="space-y-7">
-      <Group legend="Category">
+      <Group legend={t("category")}>
         {CATEGORIES.map((category) => (
           <CheckRow
             key={category.id}
@@ -136,7 +138,7 @@ export function FilterFields({ filters, onChange, showDuration = true }: FilterP
         ))}
       </Group>
 
-      <Group legend="Interpreter">
+      <Group legend={t("interpreterLabel")}>
         {INTERPRETERS.map((interpreter) => (
           <CheckRow
             key={interpreter.id}
@@ -148,7 +150,7 @@ export function FilterFields({ filters, onChange, showDuration = true }: FilterP
         ))}
       </Group>
 
-      <Group legend="Release year">
+      <Group legend={t("releaseYear")}>
         <div className="flex flex-wrap gap-1.5 pt-1">
           {AVAILABLE_YEARS.map((year) => {
             const active = filters.years.includes(String(year));
@@ -172,7 +174,7 @@ export function FilterFields({ filters, onChange, showDuration = true }: FilterP
         </div>
       </Group>
 
-      <Group legend="Rating">
+      <Group legend={t("rating")}>
         {RATING_OPTIONS.map((option) => (
           <RadioRow
             key={option.value}
@@ -185,7 +187,7 @@ export function FilterFields({ filters, onChange, showDuration = true }: FilterP
       </Group>
 
       {showDuration && (
-        <Group legend="Film length">
+        <Group legend={t("filmLength")}>
           {DURATION_OPTIONS.map((option) => (
             <RadioRow
               key={option.value}
@@ -199,7 +201,7 @@ export function FilterFields({ filters, onChange, showDuration = true }: FilterP
       )}
 
       <p className="border-t border-white/[0.07] pt-4 text-[11.5px] text-white/30">
-        {TITLES.length} titles in the catalogue.
+        {TITLES.length} {t("titlesInCatalogue")}
       </p>
     </div>
   );
@@ -212,12 +214,13 @@ export function FilterPanel({
   showDuration,
   count,
 }: FilterProps & { onClear: () => void; count?: number }) {
+  const { t } = useLanguage();
   const activeCount = count ?? activeFilterCount(filters);
 
   return (
     <div className="sticky top-24">
       <div className="mb-5 flex items-center justify-between">
-        <h2 className="font-display text-[15px] text-text">Filters</h2>
+        <h2 className="font-display text-[15px] text-text">{t("filters")}</h2>
         <button
           type="button"
           onClick={onClear}
