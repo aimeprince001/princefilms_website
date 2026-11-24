@@ -12,21 +12,21 @@ import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import { usePlayer } from "@/context/PlayerContext";
 import { formatRuntime, formatViews } from "@/lib/format";
 import { Rating } from "@/components/ui/Rating";
-import { TitleRow } from "@/components/media/TitleRow";
+import { TitleRow } from "@/components/media/TitleRow";\nimport { useLanguage } from "@/context/LanguageContext";
 
-export function InterpreterDetail() {
+export function InterpreterDetail() {\n  const { t } = useLanguage();
   const { slug } = useParams<{ slug: string }>();
   const interpreter = slug ? getInterpreterBySlug(slug) : undefined;
   const { play } = usePlayer();
 
-  useDocumentTitle(interpreter ? interpreter.name : "Interpreter");
+  useDocumentTitle(interpreter ? interpreter.name : t("interpreterLabel"));
 
   if (!interpreter) {
     return (
       <div className="page-shell py-16">
-        <h1 className="font-display text-2xl text-text">Interpreter not found</h1>
+        <h1 className="font-display text-2xl text-text">{t("interpreterNotFound")}</h1>
         <Link to="/interpreters" className="mt-3 inline-flex items-center gap-2 text-[13px] font-medium text-brand-200">
-          <ArrowUpRight size={14} /> All interpreters
+          <ArrowUpRight size={14} /> {t("allInterpreters")}
         </Link>
       </div>
     );
@@ -47,7 +47,7 @@ export function InterpreterDetail() {
           className="inline-flex items-center gap-2 text-[12.5px] text-white/45 transition hover:text-white"
         >
           <ArrowLeft size={14} aria-hidden="true" />
-          All interpreters
+          {t("allInterpreters")}
         </Link>
 
         <header className="mt-6 flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
@@ -84,11 +84,11 @@ export function InterpreterDetail() {
               <div className="absolute inset-x-0 bottom-0 p-5 sm:p-7">
                 <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[11.5px] text-white/55">
                   <span className="rounded bg-ink-950/60 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-white/75">
-                    {isSeries(featured) ? "Series" : "Film"}
+                    {isSeries(featured) ? t("seriesLabel") : t("filmLabel")}
                   </span>
                   <span className="num">{featured.year}</span>
                   <span className="num">
-                    {isSeries(featured) ? `${totalEpisodes(featured)} episodes` : formatRuntime(featured.runtime)}
+                    {isSeries(featured) ? `${totalEpisodes(featured)} ${t("episodesCount")}` : formatRuntime(featured.runtime)}
                   </span>
                   <Rating value={featured.rating} />
                   <span className="num">{formatViews(featured.views)} views</span>
@@ -154,7 +154,7 @@ export function InterpreterDetail() {
             )}
 
             {titles.length === 0 && (
-              <p className="text-[13.5px] text-muted">No titles are credited to this interpreter yet.</p>
+              <p className="text-[13.5px] text-muted">{t("noInterpreterTitles")}</p>
             )}
           </div>
 
