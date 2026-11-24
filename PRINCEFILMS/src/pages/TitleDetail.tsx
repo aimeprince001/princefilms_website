@@ -132,6 +132,9 @@ export function TitleDetail() {
             {resumable ? "Resume" : isSeries(title) ? "Play episode 1" : "Play film"}
           </button>
           <SaveButton titleId={title.id} title={title.title} variant="full" />
+          <a href="#trailer" className="inline-flex h-11 items-center gap-2 rounded-xl border border-brand-300/25 px-4 text-[13px] font-medium text-brand-100 transition hover:bg-brand-500/10">
+            <Youtube size={15} aria-hidden="true" /> Watch trailer
+          </a>
           <button
             type="button"
             onClick={share}
