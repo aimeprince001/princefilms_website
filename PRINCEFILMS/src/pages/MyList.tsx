@@ -38,7 +38,7 @@ export function MyListPage() {
         {!user && (
           <p className="mt-3 text-[12.5px] text-white/40">
             <Link to="/login" className="font-medium text-brand-200 hover:text-brand-100">
-              Sign in
+              {t("signIn")}
             </Link>{" "}
             {t("continueAcrossSessions")}
           </p>
@@ -68,7 +68,7 @@ export function MyListPage() {
       </div>
 
       {tab === "continue" && (
-        <section aria-label="Continue watching" className="mt-7">
+        <section aria-label={t("continueWatching")} className="mt-7">
           {continueWatching.length === 0 ? (
             <EmptyState
               icon={PlayCircle}
@@ -76,7 +76,7 @@ export function MyListPage() {
               description={t("startPlaybackMessage")}
               action={
                 <Link to="/movies" className={buttonClass({ size: "md" })}>
-                  Browse movies
+                  {t("browseMovies")}
                 </Link>
               }
             />
@@ -101,7 +101,7 @@ export function MyListPage() {
       )}
 
       {tab === "saved" && (
-        <section aria-label="Saved titles" className="mt-7">
+        <section aria-label={t("savedTitles")} className="mt-7">
           {savedTitles.length === 0 ? (
             <EmptyState
               icon={Bookmark}
@@ -124,7 +124,7 @@ export function MyListPage() {
       )}
 
       {tab === "finished" && (
-        <section aria-label="Finished titles" className="mt-7">
+        <section aria-label={t("finished")} className="mt-7">
           {finished.length === 0 ? (
             <EmptyState
               icon={CheckCircle2}
