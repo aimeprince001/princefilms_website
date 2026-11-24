@@ -27,7 +27,7 @@ import { Logo } from "@/components/layout/Logo";
 
 export function Login() {
   useDocumentTitle("Sign in");
-  const { login, isAuthenticating } = useAuth();
+  const { login, resetPassword, isAuthenticating } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -72,11 +72,9 @@ export function Login() {
   const handleSocialLogin = useCallback(
     async (provider: "google" | "apple") => {
       setError("");
-      await new Promise((r) => setTimeout(r, 1500));
       setError(
-        `Connected via ${provider.charAt(0).toUpperCase() + provider.slice(1)}. Redirecting…`,
+        `${provider.charAt(0).toUpperCase() + provider.slice(1)} sign-in is not connected yet. Please use your email or phone and password.`,
       );
-      navigate(from ?? "/profile", { replace: true });
     },
     [from, navigate],
   );
@@ -111,7 +109,7 @@ export function Login() {
       setError("Enter your email or phone to recover your account.");
       return;
     }
-    setResetStep("code");
+    setResetStep("reset");
   };
 
   const handleResetVerify = async (e: React.FormEvent) => {
@@ -127,11 +125,12 @@ export function Login() {
   const handleResetPassword = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    if (newPassword.length < 6) {
-      setError("Password must be at least 6 characters.");
-      return;
+    try {
+      await resetPassword(resetIdentifier, newPassword);
+      setResetStep("done");
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : "Could not reset the password.");
     }
-    setResetStep("done");
   };
 
   const getFieldIcon = () => (mode === "email" ? <Mail size={16} /> : <Phone size={16} />);
@@ -155,7 +154,7 @@ export function Login() {
         <div className="mt-7 space-y-4 animate-fade-in">
           <h2 className="font-display text-[24px] leading-none text-text">Forgot password?</h2>
           <p className="text-[13px] text-muted">
-            No worries. We&apos;ll help you regain access to your account.
+            This recovery option updates a local account saved in this browser. It does not send an email or verification code
           </p>
           {resetStep === "request" && (
             <form onSubmit={handleResetRequest} className="mt-5 space-y-4" noValidate>
@@ -172,7 +171,7 @@ export function Login() {
                 disabled={isAuthenticating}
                 className={buttonClass({ size: "lg", className: "w-full" })}
               >
-                Send recovery code
+                Continue
               </button>
             </form>
           )}
@@ -223,7 +222,7 @@ export function Login() {
                 disabled={isAuthenticating || newPassword.length < 6}
                 className={buttonClass({ size: "lg", className: "w-full" })}
               >
-                Reset password
+                Set new password
               </button>
             </div>
           )}
@@ -232,7 +231,7 @@ export function Login() {
               <ShieldCheck size={32} className="mx-auto mb-3 text-mint-400" aria-hidden="true" />
               <h3 className="font-display text-[18px] text-text">Password reset!</h3>
               <p className="mt-1 text-[12.5px] text-muted">
-                Your password has been updated. You can now sign in.
+                Your local password was updated. You can now sign in on this browser.
               </p>
               <button
                 type="button"
