@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
-import { LanguageProvider } from "@/context/LanguageContext";
+import { LanguageProvider, useLanguage } from "@/context/LanguageContext";
 import { LibraryProvider } from "@/context/LibraryContext";
 import { SearchProvider } from "@/context/SearchContext";
 import { PlayerProvider } from "@/context/PlayerContext";
@@ -24,7 +24,7 @@ import { Contact } from "@/pages/Contact";
 import { Profile } from "@/pages/Profile";
 import { NotFound } from "@/pages/NotFound";
 
-function ScrollToTop() {
+function SkipLink() {\n  const { t } = useLanguage();\n  return (\n    <a\n      href="#main"\n      className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[120] focus:rounded-lg focus:bg-white focus:px-3 focus:py-2 focus:text-[13px] focus:font-semibold focus:text-ink-950"\n    >\n      {t("skip")}\n    </a>\n  );\n}\n\nfunction ScrollToTop() {
   const { pathname } = useLocation();
 
   useEffect(() => {
