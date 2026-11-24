@@ -175,7 +175,7 @@ export function TitleCard({ title, className }: { title: Title; className?: stri
               )}
               <span className="num">
                 {isSeries(title)
-                  ? `${totalEpisodes(title)} eps`
+                  ? `${totalEpisodes(title)} ${t("eps")}`
                   : formatRuntime(title.runtime)}
               </span>
             </span>
