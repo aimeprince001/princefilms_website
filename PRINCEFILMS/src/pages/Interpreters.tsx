@@ -28,16 +28,16 @@ export function InterpretersPage() {
             <li key={interpreter.id}>
               <Link
                 to={`/interpreters/${interpreter.slug}`}
-                className="group block rounded-2xl border border-white/[0.07] bg-ink-850 p-5 transition-colors hover:border-white/[0.14] hover:bg-white/[0.03]"
+                className="group block min-h-[190px] rounded-2xl border border-brand-400/15 bg-gradient-to-br from-ink-850 via-ink-850 to-brand-900/20 p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brand-300/40 hover:shadow-[0_18px_42px_-24px_rgba(34,211,238,.38)] sm:p-8"
               >
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-5">
                   <img
                     src={interpreter.avatar}
                     alt={interpreter.name}
-                    className="size-14 shrink-0 rounded-full object-cover ring-2 ring-inset ring-white/10"
+                    className="size-16 shrink-0 rounded-full object-cover ring-2 ring-inset ring-brand-300/25 sm:size-[72px]"
                   />
                   <div className="min-w-0">
-                    <span className="block truncate font-display text-[18px] leading-tight text-text">
+                    <span className="block truncate font-display text-[20px] leading-tight text-text sm:text-[22px]">
                       {interpreter.name}
                     </span>
                     <span className="num mt-1 block text-[11.5px] text-white/40">
