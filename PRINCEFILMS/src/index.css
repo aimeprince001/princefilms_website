@@ -104,3 +104,18 @@
 @utility text-pretty { text-wrap: pretty; }
 
 body::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; background: var(--pf-cinematic-glow); }
+
+
+/* Ocean-blue loading placeholders shared by route and media loading states. */
+.pf-skeleton {
+  background: linear-gradient(100deg, rgba(15, 32, 58, .92) 20%, rgba(34, 211, 238, .16) 42%, rgba(37, 99, 235, .22) 58%, rgba(15, 32, 58, .92) 78%);
+  background-size: 220% 100%;
+  animation: pf-skeleton-shimmer 1.45s ease-in-out infinite;
+}
+@keyframes pf-skeleton-shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pf-skeleton { animation: none; background-position: 50% 0; }
+}
