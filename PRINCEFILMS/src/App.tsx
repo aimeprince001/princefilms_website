@@ -24,7 +24,19 @@ import { Contact } from "@/pages/Contact";
 import { Profile } from "@/pages/Profile";
 import { NotFound } from "@/pages/NotFound";
 
-function SkipLink() {\n  const { t } = useLanguage();\n  return (\n    <a\n      href="#main"\n      className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[120] focus:rounded-lg focus:bg-white focus:px-3 focus:py-2 focus:text-[13px] focus:font-semibold focus:text-ink-950"\n    >\n      {t("skip")}\n    </a>\n  );\n}\n\nfunction ScrollToTop() {
+function SkipLink() {
+  const { t } = useLanguage();
+  return (
+    <a
+      href="#main"
+      className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[120] focus:rounded-lg focus:bg-white focus:px-3 focus:py-2 focus:text-[13px] focus:font-semibold focus:text-ink-950"
+    >
+      {t("skip")}
+    </a>
+  );
+}
+
+function ScrollToTop() {
   const { pathname } = useLocation();
 
   useEffect(() => {
@@ -42,12 +54,7 @@ export default function App() {
         <SearchProvider>
           <BrowserRouter>
             <PlayerProvider>
-              <a
-                href="#main"
-                className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[120] focus:rounded-lg focus:bg-white focus:px-3 focus:py-2 focus:text-[13px] focus:font-semibold focus:text-ink-950"
-              >
-                Skip to content
-              </a>
+              <SkipLink />
 
               <div className="flex min-h-screen flex-col">
                 <ScrollToTop />
