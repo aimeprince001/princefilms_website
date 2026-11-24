@@ -228,7 +228,7 @@ export function FilterPanel({
           className="inline-flex items-center gap-1.5 text-[12px] text-white/45 transition hover:text-white disabled:opacity-35"
         >
           <RotateCcw size={12} aria-hidden="true" />
-          Clear
+          {t("clear")}
           {activeCount > 0 && <span className="num text-white/30">({activeCount})</span>}
         </button>
       </div>
