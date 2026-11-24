@@ -2,6 +2,7 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
 import { CATEGORIES, TITLES, INTERPRETERS } from "@/data/catalog";
 import { Logo } from "@/components/layout/Logo";
+import { useLanguage } from "@/context/LanguageContext";
 
 const CONTACT = {
   phone: "+250 786030186",
@@ -9,6 +10,7 @@ const CONTACT = {
 };
 
 export function SiteFooter() {
+  const { t } = useLanguage();
   return (
     <footer className="mt-20 border-t border-white/[0.07] bg-ink-900/70 pb-16 md:pb-0">
       <div className="page-shell py-12 lg:py-16">
@@ -16,8 +18,7 @@ export function SiteFooter() {
           <div>
             <Logo />
             <p className="mt-4 max-w-xs text-[13px] leading-relaxed text-white/45">
-              Kinyarwanda dubs of feature films and series, recorded in Kigali and streamed
-              on demand.
+              {t("footerDescription")}
             </p>
             <ul className="mt-5 space-y-2 text-[12.5px] text-white/45">
               <li className="flex items-center gap-2">
@@ -118,7 +119,7 @@ export function SiteFooter() {
               </li>
             </ul>
             <p className="mt-5 text-[11.5px] leading-relaxed text-white/30">
-              Kinyarwanda audio. English, French and Swahili subtitles on every title.
+              {t("subtitles")}
             </p>
           </nav>
         </div>
