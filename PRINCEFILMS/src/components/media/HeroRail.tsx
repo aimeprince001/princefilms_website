@@ -11,12 +11,14 @@ import { motion } from "framer-motion";
 import { getInterpreterById, isSeries, type Title } from "@/data/catalog";
 import { usePlayer } from "@/context/PlayerContext";
 import { formatRuntime } from "@/lib/format";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface HeroRailProps {
   titles: Title[];
 }
 
 export function HeroRail({ titles }: HeroRailProps) {
+  const { t } = useLanguage();
   const navigate = useNavigate();
   const { play } = usePlayer();
 const [index, setIndex] = useState(0);
@@ -71,7 +73,7 @@ const [paused, setPaused] = useState(false);
   return (
     <section
       className="relative isolate overflow-hidden rounded-[30px] border border-white/[0.10] bg-ink-900 shadow-2xl shadow-black/40"
-      aria-label="Featured titles carousel"
+      aria-label={t("featuredTitles")}
       onKeyDown={handleKeyDown}
       tabIndex={-1}
     >
@@ -116,7 +118,7 @@ const [paused, setPaused] = useState(false);
             <div className="flex items-center gap-2 mb-8">
               <span className="flex h-2 w-2 rounded-full bg-brand-500 animate-pulse" aria-hidden="true" />
               <span className="text-[11px] font-bold uppercase tracking-widest text-brand-100">
-                Now streaming
+                {t("nowStreaming")}
               </span>
             </div>
           )}
@@ -128,12 +130,12 @@ const [paused, setPaused] = useState(false);
               </span>
             )}
             <span className="rounded bg-brand-600/30 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] text-brand-100 ring-1 ring-inset ring-brand-400/35">
-              {isSeries(current) ? "Series" : "Film"}
+              {isSeries(current) ? t("seriesLabel") : t("filmLabel")}
             </span>
             <span className="num font-mono text-white">{current.year}</span>
             <span aria-hidden="true" className="text-white/20">/</span>
             <span className="num font-mono text-white">
-              {isSeries(current) ? `${current.seasons.length} seasons` : formatRuntime(current.runtime)}
+              {isSeries(current) ? `${current.seasons.length} ${t("seasons")}` : formatRuntime(current.runtime)}
             </span>
             <span aria-hidden="true" className="text-white/20">/</span>
             <span className="text-white">{categoryLabel}</span>
@@ -171,14 +173,14 @@ const [paused, setPaused] = useState(false);
             >
               <Play size={17} className="fill-current translate-x-[1px]" aria-hidden="true" />
               <span className="tracking-wider">
-                {isSeries(current) ? "Play episode 1" : "Play film"}
+                {isSeries(current) ? t("playEpisodeOne") : t("playFilm")}
               </span>
             </button>
             <Link
               to={`/${current.kind}/${current.id}`}
               className="relative inline-flex h-13 items-center justify-center gap-2 rounded-2xl border border-white/15 bg-white/5 px-6 text-[13px] font-medium text-white/90 transition-all hover:border-white/30 hover:bg-white/10 hover:text-white hover:scale-[1.02] active:scale-95 backdrop-blur-sm"
             >
-              More info <ArrowRight size={15} className="text-white" aria-hidden="true" />
+              {t("moreInfo")} <ArrowRight size={15} className="text-white" aria-hidden="true" />
             </Link>
           </div>
 
@@ -197,7 +199,7 @@ const [paused, setPaused] = useState(false);
                 />
               <div className="text-left">
                 <span className="block text-[11px] font-semibold uppercase tracking-wider text-white/50">
-                  Voiced by
+                  {t("voicedBy")}
                 </span>
                 <Link
                   to={`/interpreters/${interpreter.slug}`}
@@ -219,7 +221,7 @@ const [paused, setPaused] = useState(false);
               onClick={() => goTo(index - 1)}
               onMouseEnter={() => setPaused(true)}
               onMouseLeave={() => setPaused(false)}
-              aria-label="Previous featured title"
+              aria-label={t("previousTitle")}
               className="absolute left-6 top-1/2 -translate-y-1/2 z-40 flex size-12 items-center justify-center rounded-full bg-white/10 text-white transition-all hover:bg-white/20 hover:text-white hover:scale-110 active:scale-95 backdrop-blur-md border border-white/5"
             >
               <ChevronLeft size={20} className="text-white" />
@@ -229,7 +231,7 @@ const [paused, setPaused] = useState(false);
               onClick={() => goTo(index + 1)}
               onMouseEnter={() => setPaused(true)}
               onMouseLeave={() => setPaused(false)}
-              aria-label="Next featured title"
+              aria-label={t("nextTitle")}
               className="absolute right-6 top-1/2 -translate-y-1/2 z-40 flex size-12 items-center justify-center rounded-full bg-white/10 text-white transition-all hover:bg-white/20 hover:text-white hover:scale-110 active:scale-95 backdrop-blur-md border border-white/5"
             >
               <ChevronRight size={20} className="text-white" />
@@ -247,7 +249,7 @@ const [paused, setPaused] = useState(false);
                 onClick={() => goTo(i)}
                 onMouseEnter={() => setPaused(true)}
                 onMouseLeave={() => setPaused(false)}
-                aria-label={`Go to slide ${i + 1}`}
+                aria-label={`${t("goToSlide")} ${i + 1}`}
                 aria-pressed={i === index}
                 className={`relative w-2.5 h-2.5 rounded-full transition-all duration-500 ease-out ${
                   i === index
