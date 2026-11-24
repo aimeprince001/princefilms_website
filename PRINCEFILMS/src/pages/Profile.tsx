@@ -118,7 +118,16 @@ export function Profile() {
       const accounts = raw ? JSON.parse(raw) : [];
       const remaining = Array.isArray(accounts) ? accounts.filter((account: { id?: string }) => account.id !== user?.id) : [];
       localStorage.setItem("princefilms.accounts.v1", JSON.stringify(remaining));
-      if (user) localStorage.removeItem(`princefilms.profile.preferences.v1.${user.id}`);
+      if (user) {
+        localStorage.removeItem(`princefilms.profile.preferences.v1.${user.id}`);
+        [
+          "princefilms.saved.v1",
+          "princefilms.likes.v1",
+          "princefilms.progress.v1",
+          "princefilms.searches.v1",
+          "princefilms.recent-watched.v1",
+        ].forEach((key) => localStorage.removeItem(`${key}.${user.id}`));
+      }
       setShowDeleteConfirm(false);
       logout();
       navigate("/register");
