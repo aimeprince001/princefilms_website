@@ -21,8 +21,9 @@ import { ProgressRail } from "@/components/ui/ProgressRail";
 import { EpisodeList } from "@/components/media/EpisodeList";
 import { MediaRail } from "@/components/media/MediaRail";
 import { TitleCard } from "@/components/media/TitleCard";
+import { useLanguage } from "@/context/LanguageContext";
 
-export function TitleDetail() {
+export function TitleDetail() {\n  const { t } = useLanguage();
   const { id } = useParams<{ id: string }>();
   const title = getTitleById(id);
   const { play } = usePlayer();
@@ -34,8 +35,8 @@ export function TitleDetail() {
   if (!title) {
     return (
       <div className="page-shell py-16">
-        <h1 className="font-display text-2xl text-text">This title is not in the catalogue</h1>
-        <p className="mt-2 text-[13.5px] text-muted">It may have been removed or the link is out of date.</p>
+        <h1 className="font-display text-2xl text-text">{t("titleNotFound")}</h1>
+        <p className="mt-2 text-[13.5px] text-muted">{t("titleNotFoundDesc")}</p>
         <Link to="/movies" className={buttonClass({ size: "md", className: "mt-5" })}>
           Browse movies
         </Link>
@@ -191,7 +192,7 @@ export function TitleDetail() {
               </p>
               {interpreter && (
                 <p className="mt-4 flex flex-wrap items-center gap-2 text-[12.5px] text-white/40">
-                  Voiced in Kinyarwanda by
+                  {t("voicedBy")}
                   <Link
                     to={`/interpreters/${interpreter.slug}`}
                     className="inline-flex items-center gap-2 font-medium text-brand-200 transition hover:text-brand-100"
@@ -219,7 +220,7 @@ export function TitleDetail() {
                   {categories[0]?.name ?? "Browse"}
                 </Link>
               </div>
-              <MediaRail label="Related titles" className="mt-4">
+              <MediaRail label={t("relatedTitles")} className="mt-4">
                 {related.map((item) => (
                   <div key={item.id} className="w-[240px] shrink-0 snap-start">
                     <TitleCard title={item} />
@@ -253,20 +254,20 @@ export function TitleDetail() {
                 Title details
               </h2>
               <dl className="mt-3 space-y-2.5 text-[12.5px]">
-                <Fact label="Released" value={formatDate(title.releasedAt)} />
+                <Fact label={t("released")} value={formatDate(title.releasedAt)} />
                 <Fact
-                  label={isSeries(title) ? "Seasons" : "Runtime"}
+                  label={isSeries(title) ? t("seasons") : t("runtime")}
                   value={
                     isSeries(title)
                       ? `${title.seasons.length} · ${totalEpisodes(title)} episodes`
                       : formatRuntime(title.runtime)
                   }
                 />
-                <Fact label="Genre" value={title.genre} />
-                <Fact label="Audio" value="Kinyarwanda" />
-                <Fact label="Subtitles" value={title.subtitles.join(", ")} />
-                <Fact label="Quality" value={title.quality} />
-                <Fact label="Views" value={`${formatViews(title.views)}`} />
+                <Fact label={t("genre")} value={title.genre} />
+                <Fact label={t("audio")} value="Kinyarwanda" />
+                <Fact label={t("subtitlesLabel")} value={title.subtitles.join(", ")} />
+                <Fact label={t("quality")} value={title.quality} />
+                <Fact label={t("views")} value={`${formatViews(title.views)}`} />
               </dl>
             </div>
 
