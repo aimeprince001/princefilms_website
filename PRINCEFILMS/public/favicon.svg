@@ -1,12 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <defs>
-    <linearGradient id="pf" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#9552e3"/>
-      <stop offset="1" stop-color="#48156f"/>
-    </linearGradient>
-  </defs>
-  <rect width="64" height="64" rx="16" fill="url(#pf)"/>
-  <rect x="1" y="1" width="62" height="62" rx="15" fill="none" stroke="#ffffff" stroke-opacity="0.18"/>
-  <path d="M25 18.5v27L50 32z" fill="#ffffff"/>
-  <rect x="14" y="47" width="36" height="2.5" rx="1.25" fill="#ffffff" fill-opacity="0.35"/>
+  <defs><linearGradient id="metal" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff4c2"/><stop offset=".45" stop-color="#d6b76a"/><stop offset=".72" stop-color="#f4e3a1"/><stop offset="1" stop-color="#8f7137"/></linearGradient></defs>
+  <rect width="64" height="64" rx="15" fill="#080808"/><rect x="1" y="1" width="62" height="62" rx="14" fill="none" stroke="#d6b76a" stroke-opacity=".65"/>
+  <path d="M14 19 22 25 32 11 42 25 50 19 46 35H18Z" fill="url(#metal)"/>
+  <path d="M19 39V53H25V47H35C43 47 47 41 47 36C47 30 42 27 35 27H19V39ZM25 33H34C38 33 40 34 40 37S38 41 34 41H25Z" fill="url(#metal)" fill-rule="evenodd"/>
+  <g fill="#d6b76a"><rect x="9" y="24" width="3" height="5"/><rect x="9" y="33" width="3" height="5"/><rect x="9" y="42" width="3" height="5"/><rect x="52" y="24" width="3" height="5"/><rect x="52" y="33" width="3" height="5"/><rect x="52" y="42" width="3" height="5"/></g>
 </svg>
