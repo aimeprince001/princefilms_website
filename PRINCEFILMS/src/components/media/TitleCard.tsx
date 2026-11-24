@@ -7,6 +7,7 @@ import {
   Tv,
   Star,
   Eye,
+  Sparkles,
 } from "lucide-react";
 import {
   getInterpreterById,
@@ -21,7 +22,7 @@ import { TONE_STYLES } from "@/lib/tones";
 import { cn } from "@/lib/cn";
 import { ProgressRail } from "@/components/ui/ProgressRail";
 
-const NEW_WINDOW_MS = 180 * 24 * 60 * 60 * 1000;
+const NEW_WINDOW_MS = 30 * 24 * 60 * 60 * 1000;
 
 /**
  * The catalogue's poster card. Used in grids, rails and the player's related
@@ -38,7 +39,9 @@ export function TitleCard({ title, className }: { title: Title; className?: stri
   const series = isSeries(title) ? title : null;
   const tone = TONE_STYLES[title.tone];
   const liked = isLiked(title.id);
-  const isNew = Date.now() - new Date(title.releasedAt).getTime() < NEW_WINDOW_MS;
+  const releaseTime = new Date(title.releasedAt).getTime();
+  const age = Date.now() - releaseTime;
+  const isNew = Number.isFinite(releaseTime) && age >= 0 && age < NEW_WINDOW_MS;
   const started = Boolean(entry) && percent > 0;
 
   return (
