@@ -205,8 +205,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     window.localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(updatedAccounts));
   }, [user]);
 
+  const resetPassword = useCallback(async (identifier: string, newPassword: string) => {
+    const value = identifier.trim();
+    if (!value) throw new Error("Enter the email or phone used for this account.");
+    if (newPassword.length < 6) throw new Error("Use at least 6 characters for the new password.");
+    const accounts = readAccounts();
+    const account = accounts.find((item) => item.identifier.toLowerCase() === value.toLowerCase());
+    if (!account) throw new Error("No account with that email or phone was found on this browser.");
+    const updatedAccounts = accounts.map((item) => item.id === account.id ? { ...item, password: newPassword } : item);
+    try {
+      window.localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(updatedAccounts));
+    } catch {
+      throw new Error("This browser blocked local storage, so the password could not be changed.");
+    }
+  }, []);
+
   const value = useMemo(
-    () => ({ user, isReady, isAuthenticating, login, register, logout, updateName, changePassword }),
+    () => ({ user, isReady, isAuthenticating, login, register, logout, updateName, changePassword, resetPassword }),
     [user, isReady, isAuthenticating, login, register, logout, updateName, changePassword, resetPassword],
   );
 
