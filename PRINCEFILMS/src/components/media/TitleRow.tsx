@@ -121,7 +121,7 @@ export function TitleRow({ title, className }: { title: Title; className?: strin
           to={href}
           className="hidden h-9 items-center rounded-lg border border-white/10 px-3 text-[12.5px] font-medium text-white/70 transition-colors hover:border-brand-400/60 hover:text-white md:inline-flex"
         >
-          Details
+          {t("details")}
         </Link>
       </div>
     </article>
