@@ -23,7 +23,8 @@ import { MediaRail } from "@/components/media/MediaRail";
 import { TitleCard } from "@/components/media/TitleCard";
 import { useLanguage } from "@/context/LanguageContext";
 
-export function TitleDetail() {\n  const { t } = useLanguage();
+export function TitleDetail() {
+  const { t } = useLanguage();
   const { id } = useParams<{ id: string }>();
   const title = getTitleById(id);
   const { play } = usePlayer();
