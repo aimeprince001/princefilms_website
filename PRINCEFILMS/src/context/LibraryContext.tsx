@@ -4,6 +4,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useState,
   type ReactNode,
 } from "react";
 import { usePersistentState } from "@/hooks/usePersistentState";
@@ -49,6 +50,13 @@ type LibraryContextValue = {
 const LibraryContext = createContext<LibraryContextValue | undefined>(undefined);
 
 const COMPLETE_THRESHOLD = 92;
+const ACCOUNT_LIBRARY_KEYS = [
+  "princefilms.saved.v1",
+  "princefilms.likes.v1",
+  "princefilms.progress.v1",
+  "princefilms.searches.v1",
+  RECENT_WATCHED_KEY,
+];
 
 export function LibraryProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth();
@@ -57,14 +65,28 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
 }
 
 function LibraryStateProvider({ children, accountId }: { children: ReactNode; accountId: string }) {
-  const [saved, setSaved] = usePersistentState<string[]>("princefilms.saved.v1", []);
-  const [likes, setLikes] = usePersistentState<string[]>("princefilms.likes.v1", []);
+  // Move the legacy shared library to the first signed-in account once, so
+  // existing local data is retained without exposing it to later accounts.
+  useState(() => {
+    if (accountId === "guest" || typeof window === "undefined") return false;
+    ACCOUNT_LIBRARY_KEYS.forEach((baseKey) => {
+      const scopedKey = `${baseKey}.${accountId}`;
+      if (window.localStorage.getItem(scopedKey)) return;
+      const legacyValue = window.localStorage.getItem(baseKey);
+      if (!legacyValue) return;
+      window.localStorage.setItem(scopedKey, legacyValue);
+      window.localStorage.removeItem(baseKey);
+    });
+    return true;
+  });
+  const [saved, setSaved] = usePersistentState<string[]>(`princefilms.saved.v1.${accountId}`, []);
+  const [likes, setLikes] = usePersistentState<string[]>(`princefilms.likes.v1.${accountId}`, []);
   const [progress, setProgress] = usePersistentState<Record<string, WatchProgress>>(
-    "princefilms.progress.v1",
+    `princefilms.progress.v1.${accountId}`,
     {},
   );
   const [recentSearches, setRecentSearches] = usePersistentState<string[]>(
-    "princefilms.searches.v1",
+    `princefilms.searches.v1.${accountId}`,
     [],
   );
 
