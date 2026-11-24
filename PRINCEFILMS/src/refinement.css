@@ -1,8 +1,8 @@
 /* PRINCEFILMS visual refinement layer — progressive enhancement over existing Tailwind components. */
 :root {
   color-scheme: dark;
-  --pf-glass: rgb(13 10 20 / 78%);
-  --pf-line: rgb(255 255 255 / 9%);
+  --pf-glass: rgb(17 17 20 / 84%);
+  --pf-line: rgb(41 37 45 / 82%);
   --pf-ease: cubic-bezier(.2,.75,.25,1);
 }
 
@@ -12,10 +12,10 @@ html {
 }
 
 body {
-  background-color: #07060a;
+  background-color: #08080B;
   background-image:
-    radial-gradient(ellipse at 15% 8%, rgb(110 50 165 / 14%), transparent 38%),
-    radial-gradient(ellipse at 85% 45%, rgb(48 72 130 / 10%), transparent 34%);
+    radial-gradient(ellipse at 15% 8%, rgb(91 21 56 / 16%), transparent 38%),
+    radial-gradient(ellipse at 85% 45%, rgb(139 92 246 / 8%), transparent 34%);
 }
 
 body::before {
@@ -24,7 +24,7 @@ body::before {
 }
 
 ::selection {
-  background: rgb(149 82 227 / 48%);
+  background: rgb(178 7 16 / 48%);
   color: #fff;
 }
 
@@ -37,7 +37,7 @@ button, a {
 }
 
 :focus-visible {
-  outline: 2px solid #c5a0fa !important;
+  outline: 2px solid #FF2638 !important;
   outline-offset: 3px !important;
 }
 
@@ -64,8 +64,8 @@ article.group > div {
 
 article.group:hover > div {
   transform: translateY(-5px);
-  border-color: rgb(197 160 250 / 24%);
-  box-shadow: 0 24px 50px -26px rgb(0 0 0 / 95%), 0 0 0 1px rgb(149 82 227 / 7%);
+  border-color: rgb(178 7 16 / 32%);
+  box-shadow: 0 24px 50px -26px rgb(0 0 0 / 95%), 0 0 0 1px rgb(178 7 16 / 8%);
 }
 
 article.group img {
@@ -83,7 +83,7 @@ article.group img {
   inset: 0;
   pointer-events: none;
   border-radius: inherit;
-  background: linear-gradient(120deg, rgb(149 82 227 / 7%), transparent 42%, rgb(6 5 10 / 12%));
+  background: linear-gradient(120deg, rgb(178 7 16 / 8%), transparent 42%, rgb(6 5 10 / 12%));
   z-index: 1;
 }
 
@@ -105,7 +105,7 @@ input, select, textarea {
 
 input:focus, select:focus, textarea:focus {
   border-color: rgb(174 121 242 / 65%) !important;
-  box-shadow: 0 0 0 3px rgb(149 82 227 / 13%);
+  box-shadow: 0 0 0 3px rgb(178 7 16 / 14%);
 }
 
 ::-webkit-scrollbar {
@@ -120,11 +120,11 @@ input:focus, select:focus, textarea:focus {
 ::-webkit-scrollbar-thumb {
   border: 2px solid #09070d;
   border-radius: 999px;
-  background: #342644;
+  background: #29252D;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #63417f;
+  background: #5B1538;
 }
 
 @keyframes pf-section-in {
@@ -161,4 +161,46 @@ input:focus, select:focus, textarea:focus {
     transition-duration: .01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+
+/* Consistent cinematic accents across existing routes and reusable controls */
+header {
+  background: rgb(8 8 11 / 82%) !important;
+  border-bottom: 1px solid rgb(41 37 45 / 75%);
+  backdrop-filter: blur(20px) saturate(130%);
+}
+header nav a:hover, header nav a[aria-current="page"] {
+  color: #FF2638;
+}
+button[class*="bg-brand"], a[class*="bg-brand"],
+button[class*="brand-500"], a[class*="brand-500"] {
+  background-image: var(--pf-button-gradient);
+}
+article.group > div {
+  background-color: #17141B;
+  border-color: #29252D;
+}
+article.group:hover > div {
+  box-shadow: 0 24px 50px -26px rgb(0 0 0 / 95%), 0 0 24px -12px rgb(178 7 16 / 38%);
+  border-color: rgb(178 7 16 / 40%);
+}
+article.group img {
+  transition: transform .6s var(--pf-ease), filter .5s ease;
+}
+article.group:hover img {
+  transform: scale(1.045);
+}
+[aria-label="Featured titles carousel"] {
+  background: linear-gradient(115deg, #08080B 0%, #18090F 35%, #35101F 70%, #160B2D 100%);
+}
+[aria-label="Featured titles carousel"]::after {
+  background: radial-gradient(ellipse at 75% 40%, rgba(178, 7, 16, 0.25) 0%, transparent 65%), linear-gradient(120deg, rgb(178 7 16 / 7%), transparent 45%, rgb(6 5 10 / 14%));
+}
+input:focus, select:focus, textarea:focus {
+  border-color: rgb(178 7 16 / 65%) !important;
+  box-shadow: 0 0 0 3px rgb(178 7 16 / 14%);
+}
+@media (prefers-reduced-motion: reduce) {
+  article.group img { transition: none; }
 }
