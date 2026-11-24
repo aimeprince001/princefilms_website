@@ -37,6 +37,7 @@ type AuthContextValue = {
   logout: () => void;
   updateName: (name: string) => void;
   changePassword: (currentPassword: string, newPassword: string) => Promise<void>;
+  resetPassword: (identifier: string, newPassword: string) => Promise<void>;
 };
 
 const ACCOUNTS_KEY = "princefilms.accounts.v1";
@@ -206,7 +207,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo(
     () => ({ user, isReady, isAuthenticating, login, register, logout, updateName, changePassword }),
-    [user, isReady, isAuthenticating, login, register, logout, updateName, changePassword],
+    [user, isReady, isAuthenticating, login, register, logout, updateName, changePassword, resetPassword],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
