@@ -1,206 +1,90 @@
-/* PRINCEFILMS visual refinement layer — progressive enhancement over existing Tailwind components. */
+/* Ocean Blue Cinema refinement layer: progressive enhancement over existing components. */
 :root {
   color-scheme: dark;
-  --pf-glass: rgb(17 17 20 / 84%);
-  --pf-line: rgb(41 37 45 / 82%);
+  --pf-glass: rgb(11 17 32 / 86%);
+  --pf-line: rgb(30 41 59 / 86%);
   --pf-ease: cubic-bezier(.2,.75,.25,1);
 }
-
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 6rem;
-}
-
+html { scroll-behavior: smooth; scroll-padding-top: 6rem; }
 body {
-  background-color: #08080B;
+  background-color: #020617;
   background-image:
-    radial-gradient(ellipse at 15% 8%, rgb(91 21 56 / 16%), transparent 38%),
-    radial-gradient(ellipse at 85% 45%, rgb(139 92 246 / 8%), transparent 34%);
+    radial-gradient(ellipse at 15% 8%, rgb(37 99 235 / 15%), transparent 38%),
+    radial-gradient(ellipse at 85% 42%, rgb(34 211 238 / 8%), transparent 35%),
+    linear-gradient(120deg, #020617 0%, #0B1120 50%, #102A56 100%);
 }
-
-body::before {
-  opacity: .45;
-  pointer-events: none;
-}
-
-::selection {
-  background: rgb(178 7 16 / 48%);
-  color: #fff;
-}
-
-a, button, input, select, textarea {
-  -webkit-tap-highlight-color: transparent;
-}
-
-button, a {
-  touch-action: manipulation;
-}
-
-:focus-visible {
-  outline: 2px solid #FF2638 !important;
-  outline-offset: 3px !important;
-}
-
-.page-shell {
-  position: relative;
-}
-
-.page-shell > section {
-  animation: pf-section-in .55s var(--pf-ease) both;
-}
-
+body::before { opacity: .55; pointer-events: none; }
+::selection { background: rgb(37 99 235 / 50%); color: #fff; }
+a, button, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+button, a { touch-action: manipulation; }
+:focus-visible { outline: 2px solid #22D3EE !important; outline-offset: 3px !important; }
+.page-shell { position: relative; }
+.page-shell > section { animation: pf-section-in .55s var(--pf-ease) both; }
 .page-shell > section:nth-of-type(2) { animation-delay: .04s; }
 .page-shell > section:nth-of-type(3) { animation-delay: .08s; }
 .page-shell > section:nth-of-type(4) { animation-delay: .12s; }
 
 article.group > div {
   box-shadow: 0 10px 34px -28px rgb(0 0 0 / 85%);
-  transition:
-    border-color .35s var(--pf-ease),
-    box-shadow .45s var(--pf-ease),
-    transform .45s var(--pf-ease),
-    background-color .35s ease;
+  transition: border-color .35s var(--pf-ease), box-shadow .45s var(--pf-ease), transform .45s var(--pf-ease), background-color .35s ease;
+  background-color: #111C33;
+  border-color: #1E293B;
 }
-
 article.group:hover > div {
   transform: translateY(-5px);
-  border-color: rgb(178 7 16 / 32%);
-  box-shadow: 0 24px 50px -26px rgb(0 0 0 / 95%), 0 0 0 1px rgb(178 7 16 / 8%);
+  border-color: rgb(37 99 235 / 48%);
+  box-shadow: 0 24px 50px -26px rgb(0 0 0 / 95%), 0 0 24px -12px rgb(37 99 235 / 38%);
 }
-
-article.group img {
-  backface-visibility: hidden;
-}
+article.group img { backface-visibility: hidden; transition: transform .6s var(--pf-ease), filter .5s ease; }
+article.group:hover img { transform: scale(1.045); }
 
 [aria-label="Featured titles carousel"] {
   isolation: isolate;
+  background: linear-gradient(115deg, #020617 0%, #0B1120 40%, #102A56 75%, #164E63 100%);
   box-shadow: 0 32px 100px -52px rgb(0 0 0 / 95%), 0 0 0 1px rgb(255 255 255 / 3%);
 }
-
 [aria-label="Featured titles carousel"]::after {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
   border-radius: inherit;
-  background: linear-gradient(120deg, rgb(178 7 16 / 8%), transparent 42%, rgb(6 5 10 / 12%));
+  background: radial-gradient(circle at 75% 35%, rgba(37, 99, 235, 0.25) 0%, transparent 65%), linear-gradient(120deg, rgb(34 211 238 / 5%), transparent 45%, rgb(2 6 23 / 14%));
   z-index: 1;
 }
-
 header {
-  backdrop-filter: saturate(140%);
+  background: rgb(2 6 23 / 82%) !important;
+  border-bottom: 1px solid rgb(30 41 59 / 78%);
+  backdrop-filter: blur(20px) saturate(135%);
 }
-
-header nav a {
-  transition: color .2s ease;
-}
-
-.panel, [role="dialog"], [role="menu"] {
-  backdrop-filter: blur(22px) saturate(135%);
-}
-
-input, select, textarea {
-  transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
-}
-
-input:focus, select:focus, textarea:focus {
-  border-color: rgb(174 121 242 / 65%) !important;
-  box-shadow: 0 0 0 3px rgb(178 7 16 / 14%);
-}
-
-::-webkit-scrollbar {
-  width: 10px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #09070d;
-}
-
-::-webkit-scrollbar-thumb {
-  border: 2px solid #09070d;
-  border-radius: 999px;
-  background: #29252D;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #5B1538;
-}
-
-@keyframes pf-section-in {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@media (hover: none) {
-  article.group:hover > div {
-    transform: none;
-  }
-}
-
-@media (max-width: 640px) {
-  .page-shell {
-    padding-inline: 1rem;
-  }
-
-  [aria-label="Featured titles carousel"] {
-    border-radius: 22px;
-  }
-
-  article.group > div {
-    border-radius: 16px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-
-  *, *::before, *::after {
-    animation-duration: .01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: .01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-
-/* Consistent cinematic accents across existing routes and reusable controls */
-header {
-  background: rgb(8 8 11 / 82%) !important;
-  border-bottom: 1px solid rgb(41 37 45 / 75%);
-  backdrop-filter: blur(20px) saturate(130%);
-}
-header nav a:hover, header nav a[aria-current="page"] {
-  color: #FF2638;
-}
-button[class*="bg-brand"], a[class*="bg-brand"],
-button[class*="brand-500"], a[class*="brand-500"] {
+header nav a { transition: color .2s ease; }
+header nav a:hover, header nav a[aria-current="page"] { color: #22D3EE; }
+.panel, [role="dialog"], [role="menu"] { backdrop-filter: blur(22px) saturate(135%); }
+[role="menu"] { background-color: #0B1120; border: 1px solid #1E293B; }
+button[class*="bg-brand"], a[class*="bg-brand"], button[class*="brand-500"], a[class*="brand-500"] {
   background-image: var(--pf-button-gradient);
 }
-article.group > div {
-  background-color: #17141B;
-  border-color: #29252D;
-}
-article.group:hover > div {
-  box-shadow: 0 24px 50px -26px rgb(0 0 0 / 95%), 0 0 24px -12px rgb(178 7 16 / 38%);
-  border-color: rgb(178 7 16 / 40%);
-}
-article.group img {
-  transition: transform .6s var(--pf-ease), filter .5s ease;
-}
-article.group:hover img {
-  transform: scale(1.045);
-}
-[aria-label="Featured titles carousel"] {
-  background: linear-gradient(115deg, #08080B 0%, #18090F 35%, #35101F 70%, #160B2D 100%);
-}
-[aria-label="Featured titles carousel"]::after {
-  background: radial-gradient(ellipse at 75% 40%, rgba(178, 7, 16, 0.25) 0%, transparent 65%), linear-gradient(120deg, rgb(178 7 16 / 7%), transparent 45%, rgb(6 5 10 / 14%));
-}
+input, select, textarea { transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease; background-color: rgb(11 17 32 / 88%); }
 input:focus, select:focus, textarea:focus {
-  border-color: rgb(178 7 16 / 65%) !important;
-  box-shadow: 0 0 0 3px rgb(178 7 16 / 14%);
+  border-color: rgb(34 211 238 / 72%) !important;
+  box-shadow: 0 0 0 3px rgb(34 211 238 / 13%);
+}
+::-webkit-scrollbar { width: 10px; height: 8px; }
+::-webkit-scrollbar-track { background: #020617; }
+::-webkit-scrollbar-thumb { border: 2px solid #020617; border-radius: 999px; background: #1E293B; }
+::-webkit-scrollbar-thumb:hover { background: #2563EB; }
+@keyframes pf-section-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (hover: none) {
+  article.group:hover > div { transform: none; }
+}
+@media (max-width: 640px) {
+  .page-shell { padding-inline: 1rem; }
+  [aria-label="Featured titles carousel"] { border-radius: 22px; }
+  article.group > div { border-radius: 16px; }
 }
 @media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
   article.group img { transition: none; }
 }
