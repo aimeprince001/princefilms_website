@@ -94,11 +94,12 @@ export function SiteHeader() {
           <label className="relative flex h-9 items-center rounded-lg border border-white/10 bg-white/[0.03] px-2.5 text-[12px] text-white/70">
             <span className="sr-only">{t("languageHelp")}</span>
             <span className="mr-1.5" aria-hidden="true">🌐</span>
+            <span className="text-[11px] font-semibold tracking-wide" aria-hidden="true">{language.toUpperCase()}</span>
             <select
               value={language}
               onChange={(event) => setLanguage(event.target.value as "en" | "rw" | "fr")}
               aria-label={t("languageHelp")}
-              className="max-w-[76px] cursor-pointer appearance-none bg-transparent pr-1 text-inherit outline-none"
+              className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
             >
               <option value="en" className="bg-ink-900 text-white">English</option>
               <option value="rw" className="bg-ink-900 text-white">Kinyarwanda</option>
