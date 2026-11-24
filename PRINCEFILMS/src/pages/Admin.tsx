@@ -8,7 +8,7 @@ const key=import.meta.env.VITE_SUPABASE_ANON_KEY as string|undefined;
 const admin=(import.meta.env.VITE_ADMIN_EMAIL as string|undefined)?.toLowerCase();
 const categories=["action","drama","comedy","thriller","adventure","crime","music","romance"];
 const interpreters=[["rocky","Rocky Kimomo"],["junior","Junior Giti"],["sankara","Sankara Da Premier"],["gaheza","Gaheza Simba"],["yanga","Yanga"],["bthegreat","B The Great"],["masterp","Master P"],["savimbi","Savimbi"],["pk","Pk The Sound"],["senior","Senior"]];
-const fresh=()=>({title:"",slug:"",year:new Date().getFullYear(),synopsis:"",category_ids:["action"],interpreter_id:"rocky",runtime:100,poster_url:"",trailer_url:"",video_url:"",audio_language:"Kinyarwanda",subtitles:["English"],quality:"HD" as const,released_at:new Date().toISOString().slice(0,10),featured:false,published:false});
+const fresh=()=>({title:"",slug:"",year:new Date().getFullYear(),synopsis:"",category_ids:["action"],interpreter_id:"rocky",runtime:100,poster_url:"",trailer_url:"",video_url:"",audio_language:"Kinyarwanda",subtitles:["English"],quality:"HD" as "HD"|"4K",released_at:new Date().toISOString().slice(0,10),featured:false,published:false});
 type Draft=ReturnType<typeof fresh>;
 export function AdminPage(){
  const [token,setToken]=useState(""); const [email,setEmail]=useState(admin??""); const [password,setPassword]=useState("");
