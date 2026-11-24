@@ -1,10 +1,11 @@
-import { ArrowLeft, Download, Play, Share2 } from "lucide-react";
+import { ArrowLeft, Download, Play, Share2, Youtube, Languages, Mic } from "lucide-react";
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
   getCategory,
   getEpisode,
   getInterpreterById,
+  INTERPRETERS,
   getTitleById,
   isSeries,
   relatedTitles,
@@ -30,6 +31,8 @@ export function TitleDetail() {
   const { play } = usePlayer();
   const { progressFor } = useLibrary();
   const [shareLabel, setShareLabel] = useState("Share");
+  const [trailerInterpreterId, setTrailerInterpreterId] = useState("");
+  const [trailerLanguage, setTrailerLanguage] = useState("Kinyarwanda");
 
   useDocumentTitle(title?.title);
 
@@ -58,6 +61,8 @@ export function TitleDetail() {
     .map((categoryId) => getCategory(categoryId))
     .filter((category): category is NonNullable<typeof category> => Boolean(category));
   const related = relatedTitles(title, 6);
+  const trailerQuery = encodeURIComponent(`${title.title} official trailer`);
+  const trailerInterpreter = getInterpreterById(trailerInterpreterId || title.interpreterId);
   const stored = progressFor(title.id);
   const startEpisode = isSeries(title) ? getEpisode(title, progressFor(title.id)?.episodeId) : undefined;
 
@@ -205,6 +210,69 @@ export function TitleDetail() {
                   </Link>
                 </p>
               )}
+            </section>
+
+            <section id="trailer" aria-labelledby="trailer-heading" className="mt-9 overflow-hidden rounded-2xl border border-brand-400/20 bg-gradient-to-br from-ink-850 via-ink-850 to-brand-900/20">
+              <div className="flex flex-wrap items-start justify-between gap-4 border-b border-white/[0.07] p-5 sm:p-6">
+                <div>
+                  <h2 id="trailer-heading" className="flex items-center gap-2 font-display text-xl text-text">
+                    <Youtube size={19} className="text-brand-200" aria-hidden="true" />
+                    Watch the trailer
+                  </h2>
+                  <p className="mt-1.5 text-[12.5px] text-muted">
+                    YouTube trailer search for {title.title}. Confirm the official upload before watching.
+                  </p>
+                </div>
+                <a href={`https://www.youtube.com/results?search_query=${trailerQuery}`} target="_blank" rel="noreferrer" className="inline-flex h-9 items-center gap-2 rounded-lg border border-brand-300/25 px-3 text-[12px] font-medium text-brand-100 transition hover:bg-brand-500/10">
+                  <Youtube size={14} aria-hidden="true" /> Open YouTube
+                </a>
+              </div>
+              <div className="aspect-video w-full bg-black">
+                <iframe
+                  title={`YouTube trailer search for ${title.title}`}
+                  src={`https://www.youtube.com/embed?listType=search&list=${trailerQuery}`}
+                  className="size-full"
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
+              </div>
+              <div className="grid gap-4 border-t border-white/[0.07] p-5 sm:grid-cols-2 sm:p-6">
+                <label className="block">
+                  <span className="mb-2 flex items-center gap-2 text-[12px] font-semibold text-white/70">
+                    <Mic size={14} className="text-brand-200" aria-hidden="true" /> Preferred interpreter
+                  </span>
+                  <select value={trailerInterpreterId || title.interpreterId} onChange={(event) => setTrailerInterpreterId(event.target.value)} className="h-11 w-full rounded-xl border border-white/10 bg-ink-900 px-3 text-[13px] text-text focus:border-brand-300 focus:outline-none">
+                    {INTERPRETERS.map((person) => <option key={person.id} value={person.id}>{person.name} — {person.role}</option>)}
+                  </select>
+                </label>
+                <label className="block">
+                  <span className="mb-2 flex items-center gap-2 text-[12px] font-semibold text-white/70">
+                    <Languages size={14} className="text-brand-200" aria-hidden="true" /> Trailer language preference
+                  </span>
+                  <select value={trailerLanguage} onChange={(event) => setTrailerLanguage(event.target.value)} className="h-11 w-full rounded-xl border border-white/10 bg-ink-900 px-3 text-[13px] text-text focus:border-brand-300 focus:outline-none">
+                    <option>Kinyarwanda</option><option>English</option><option>French</option><option>Swahili</option>
+                  </select>
+                </label>
+                <p className="text-[11.5px] leading-relaxed text-white/40 sm:col-span-2">
+                  Selected: {trailerInterpreter?.name ?? interpreter?.name} · {trailerLanguage}. This sets your preferred trailer voice and language; YouTube audio itself is controlled by the video uploader. A separately recorded dubbed trailer is needed for actual interpreter audio.
+                </p>
+              </div>
+            </section>
+
+            <section aria-labelledby="film-options-heading" className="mt-6 rounded-2xl border border-white/[0.08] bg-ink-850/70 p-5 sm:p-6">
+              <h2 id="film-options-heading" className="font-display text-xl text-text">Ready for the full film?</h2>
+              <p className="mt-1.5 text-[12.5px] text-muted">Choose streaming playback or download the available file.</p>
+              <div className="mt-4 flex flex-wrap gap-2.5">
+                <button type="button" onClick={() => play(title.id, startEpisode?.id ?? entry?.episodeId)} className={buttonClass({ size: "lg", shape: "pill" })}>
+                  <Play size={15} className="fill-current" aria-hidden="true" /> {resumable ? "Resume film" : "Play full film"}
+                </button>
+                <a href={title.downloadUrl} download target="_blank" rel="noreferrer" className="inline-flex h-11 items-center gap-2 rounded-xl border border-brand-300/25 px-4 text-[13px] font-medium text-brand-100 transition hover:bg-brand-500/10">
+                  <Download size={15} aria-hidden="true" /> Download film
+                </a>
+              </div>
+              <p className="mt-3 text-[11px] text-white/35">Downloads depend on the availability and permissions of the catalogue source.</p>
             </section>
 
             {series && <EpisodeList series={series} progress={stored} />}
