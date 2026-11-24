@@ -86,7 +86,7 @@ export function TitleCard({ title, className }: { title: Title; className?: stri
               {isNew && (
                 <span className="inline-flex w-fit items-center gap-1.5 rounded-full border border-cyan-300/35 bg-gradient-to-r from-cyan-400/95 to-brand-500 px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-[0.12em] text-white shadow-[0_0_16px_rgba(34,211,238,0.35)]">
                   <Sparkles size={11} strokeWidth={2.5} aria-hidden="true" />
-                  NEW
+                  {t("new")}
                 </span>
               )}
             </div>
