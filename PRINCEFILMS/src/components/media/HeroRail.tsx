@@ -126,7 +126,7 @@ const [paused, setPaused] = useState(false);
           <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-[11px] text-white/60">
             {isNew && (
               <span className="rounded bg-brand-500 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.15em] text-white shadow-[0_0_12px_rgba(123,44,191,0.8)]">
-                New
+                {t("new")}
               </span>
             )}
             <span className="rounded bg-brand-600/30 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] text-brand-100 ring-1 ring-inset ring-brand-400/35">
