@@ -1,22 +1,23 @@
 import { Link } from "react-router-dom";
 import { INTERPRETERS, TITLES, interpreterCounts } from "@/data/catalog";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
+import { useLanguage } from "@/context/LanguageContext";
 
 export function InterpretersPage() {
-  useDocumentTitle("Interpreters");
+  const { t } = useLanguage();
+  useDocumentTitle(t("interpreters"));
 
   return (
     <div className="page-shell pb-16 pt-8">
       <header className="max-w-2xl">
         <h1 className="font-display text-[30px] leading-[1.05] text-text sm:text-[38px]">
-          Interpreters
+          {t("interpreters")}
         </h1>
         <p className="mt-2.5 text-[14px] leading-relaxed text-muted">
-          The voice cast behind the catalogue. Each interpreter dubs their titles in
-          Kinyarwanda from studios in Kigali.
+          {t("interpreterIntro")}
         </p>
         <p className="num mt-3 text-[12.5px] text-white/35">
-          {INTERPRETERS.length} interpreters · {TITLES.length} titles
+          {INTERPRETERS.length} {t("interpreters")} · {TITLES.length} {t("titles")}
         </p>
       </header>
 
@@ -46,7 +47,7 @@ export function InterpretersPage() {
                 </div>
                 <div className="mt-4 flex items-center justify-between">
                   <span className="num text-[12px] text-white/50">
-                    {counts.movies} films · {counts.series} series
+                    {counts.movies} {t("films")} · {counts.series} series
                   </span>
                   <span className="num text-[12px] font-semibold text-brand-200">
                     {counts.total} titles
@@ -59,8 +60,7 @@ export function InterpretersPage() {
       </ul>
 
       <p className="mt-8 max-w-xl text-[12px] leading-relaxed text-white/30">
-        Interpreter credits appear on every title card, search result and player. A title
-        is always voiced by one interpreter from first episode to last.
+        {t("interpreterCredits")}
       </p>
     </div>
   );
