@@ -1,4 +1,4 @@
-import { ArrowLeft, Check, ListVideo, Play, X, Download, Youtube, Mic, Languages } from "lucide-react";
+import { ArrowLeft, Check, ListVideo, Play, X, Download, Play, Mic, Languages } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -373,12 +373,12 @@ export function PlayerOverlay() {
               <div className="flex flex-wrap items-start justify-between gap-3 border-b border-white/[0.07] p-4 sm:p-5">
                 <div>
                   <h2 id="player-trailer-heading" className="flex items-center gap-2 font-display text-lg text-text">
-                    <Youtube size={18} className="text-brand-200" aria-hidden="true" /> Trailer on YouTube
+                    <Play size={18} className="text-brand-200" aria-hidden="true" /> Trailer on YouTube
                   </h2>
                   <p className="mt-1 text-[12px] text-white/40">Find the trailer for {title.title}; confirm the official upload.</p>
                 </div>
                 <a href={`https://www.youtube.com/results?search_query=${trailerQuery}`} target="_blank" rel="noreferrer" className="inline-flex h-9 items-center gap-2 rounded-lg border border-brand-300/25 px-3 text-[12px] text-brand-100 hover:bg-brand-500/10">
-                  <Youtube size={14} aria-hidden="true" /> Open YouTube
+                  <Play size={14} aria-hidden="true" /> Open YouTube
                 </a>
               </div>
               <div className="aspect-video bg-black">
