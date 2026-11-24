@@ -1,4 +1,4 @@
-import { ArrowLeft, Download, Play, Share2, Youtube, Languages, Mic } from "lucide-react";
+import { ArrowLeft, Download, Play, Share2, Play, Languages, Mic } from "lucide-react";
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
@@ -133,7 +133,7 @@ export function TitleDetail() {
           </button>
           <SaveButton titleId={title.id} title={title.title} variant="full" />
           <a href="#trailer" className="inline-flex h-11 items-center gap-2 rounded-xl border border-brand-300/25 px-4 text-[13px] font-medium text-brand-100 transition hover:bg-brand-500/10">
-            <Youtube size={15} aria-hidden="true" /> Watch trailer
+            <Play size={15} aria-hidden="true" /> Watch trailer
           </a>
           <button
             type="button"
@@ -219,7 +219,7 @@ export function TitleDetail() {
               <div className="flex flex-wrap items-start justify-between gap-4 border-b border-white/[0.07] p-5 sm:p-6">
                 <div>
                   <h2 id="trailer-heading" className="flex items-center gap-2 font-display text-xl text-text">
-                    <Youtube size={19} className="text-brand-200" aria-hidden="true" />
+                    <Play size={19} className="text-brand-200" aria-hidden="true" />
                     Watch the trailer
                   </h2>
                   <p className="mt-1.5 text-[12.5px] text-muted">
@@ -227,7 +227,7 @@ export function TitleDetail() {
                   </p>
                 </div>
                 <a href={`https://www.youtube.com/results?search_query=${trailerQuery}`} target="_blank" rel="noreferrer" className="inline-flex h-9 items-center gap-2 rounded-lg border border-brand-300/25 px-3 text-[12px] font-medium text-brand-100 transition hover:bg-brand-500/10">
-                  <Youtube size={14} aria-hidden="true" /> Open YouTube
+                  <Play size={14} aria-hidden="true" /> Open YouTube
                 </a>
               </div>
               <div className="aspect-video w-full bg-black">
