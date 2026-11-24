@@ -13,7 +13,8 @@ type ResultRow =
   | { kind: "interpreter"; item: import("@/data/catalog").Interpreter; href: string }
   | { kind: "title"; item: Title; href: string };
 
-export function SearchCommand() {\n  const { t } = useLanguage();
+export function SearchCommand() {
+  const { t } = useLanguage();
   const { isOpen, openSearch, closeSearch } = useSearchOverlay();
   const { recentSearches, addRecentSearch, clearRecentSearches } = useLibrary();
   const navigate = useNavigate();
