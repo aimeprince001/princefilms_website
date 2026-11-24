@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import { buttonClass } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
+import { useLanguage } from "@/context/LanguageContext";
 
 const CONTACT_INFO = [
   {
@@ -38,10 +39,10 @@ const CONTACT_INFO = [
 
 const DEPARTMENTS = [
   { id: "general", label: "General inquiry" },
-  { id: "billing", label: "Billing & payments" },
-  { id: "technical", label: "Technical support" },
-  { id: "partnership", label: "Partnerships & dubbing" },
-  { id: "feedback", label: "Feedback & suggestions" },
+  { id: "billing", label: "billingPayments" },
+  { id: "technical", label: "technicalSupport" },
+  { id: "partnership", label: "partnershipsDubbing" },
+  { id: "feedback", label: "feedbackSuggestions" },
 ];
 
 const FAQS = [
@@ -68,7 +69,8 @@ const FAQS = [
 ];
 
 export function Contact() {
-  useDocumentTitle("Contact us");
+  const { t } = useLanguage();
+  useDocumentTitle(t("contactUs"));
   const navigate = useNavigate();
 
   const [department, setDepartment] = useState("general");
@@ -104,7 +106,7 @@ export function Contact() {
       <div className="page-shell py-20 lg:py-24">
         <div className="max-w-[600px] mx-auto text-center">
           <CheckCircle2 size={48} className="mx-auto mb-6 text-mint-400" aria-hidden="true" />
-          <h1 className="font-display text-[36px] leading-none text-text">Message sent!</h1>
+          <h1 className="font-display text-[36px] leading-none text-text">{t("messageSent")}</h1>
           <p className="mt-3 text-[15px] leading-relaxed text-muted">
             Thanks for reaching out. We&apos;ve received your message and will respond as soon as
             possible — usually within 24 hours.
@@ -155,7 +157,7 @@ export function Contact() {
                 {item.title}
               </span>
               <span className="font-medium text-text">{item.value}</span>
-              <span className="mt-0.5 text-[11.5px] text-white/40">{item.subtitle}</span>
+              <span className="mt-0.5 text-[11.5px] text-white/40">{t(i === 0 ? "phoneFooter" : i === 1 ? "emailDirect" : "visitUs")}</span>
             </a>
           ))}
         </div>
@@ -181,7 +183,7 @@ export function Contact() {
                   >
                     {DEPARTMENTS.map((d) => (
                       <option key={d.id} value={d.id}>
-                        {d.label}
+                        {t(d.label)}
                       </option>
                     ))}
                   </select>
@@ -268,8 +270,8 @@ export function Contact() {
                         </>
                       ) : (
                         <>
-                          <span className="text-white/60">Choose file</span>
-                          <span className="text-[10px] text-white/30">(optional)</span>
+                          <span className="text-white/60">{t("chooseFile")}</span>
+                          <span className="text-[10px] text-white/30">({t("optional")})</span>
                         </>
                       )}
                     </button>
@@ -281,7 +283,7 @@ export function Contact() {
                   disabled={submitting || !name || !email || !subject || !message}
                   className={buttonClass({ size: "lg", className: "w-full" })}
                 >
-                  {submitting ? "Sending…" : "Send message"}
+                  {submitting ? t("sending") : t("sendMessage")}
                   {!submitting && <Send size={16} aria-hidden="true" />}
                 </button>
               </form>
