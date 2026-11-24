@@ -1,8 +1,9 @@
-import { ArrowLeft, Check, ListVideo, Play, X } from "lucide-react";
+import { ArrowLeft, Check, ListVideo, Play, X, Download, Youtube, Mic, Languages } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   getEpisode,
+  INTERPRETERS,
   getInterpreterById,
   getTitleById,
   isSeries,
@@ -36,12 +37,16 @@ export function PlayerOverlay() {
   const [ended, setFailedEnded] = useState(false);
   const [queueOpen, setQueueOpen] = useState(false);
   const [season, setSeason] = useState(1);
+  const [trailerInterpreterId, setTrailerInterpreterId] = useState("");
+  const [trailerLanguage, setTrailerLanguage] = useState("Kinyarwanda");
 
   const source = episode?.videoUrl ?? title?.videoUrl ?? "";
   const sessionKey = `${session?.titleId ?? "none"}-${episode?.id ?? "film"}`;
   const upNext = series && episode ? nextEpisode(series, episode.id) : undefined;
   const stored = title ? progressFor(title.id) : undefined;
   const related = useMemo(() => (title ? relatedTitles(title, 8) : []), [title]);
+  const trailerQuery = title ? encodeURIComponent(`${title.title} official trailer`) : "";
+  const selectedTrailerInterpreter = getInterpreterById(trailerInterpreterId || title?.interpreterId || "");
 
   useLockBodyScroll(Boolean(title));
 
@@ -360,6 +365,52 @@ export function PlayerOverlay() {
               ))}
             </ul>
           </aside>
+        )}
+
+        {title && (
+          <section aria-labelledby="player-trailer-heading" className="mx-auto mt-8 w-full max-w-5xl px-4 pb-8 sm:px-6">
+            <div className="overflow-hidden rounded-2xl border border-brand-400/20 bg-gradient-to-br from-ink-850 via-ink-850 to-brand-900/20">
+              <div className="flex flex-wrap items-start justify-between gap-3 border-b border-white/[0.07] p-4 sm:p-5">
+                <div>
+                  <h2 id="player-trailer-heading" className="flex items-center gap-2 font-display text-lg text-text">
+                    <Youtube size={18} className="text-brand-200" aria-hidden="true" /> Trailer on YouTube
+                  </h2>
+                  <p className="mt-1 text-[12px] text-white/40">Find the trailer for {title.title}; confirm the official upload.</p>
+                </div>
+                <a href={`https://www.youtube.com/results?search_query=${trailerQuery}`} target="_blank" rel="noreferrer" className="inline-flex h-9 items-center gap-2 rounded-lg border border-brand-300/25 px-3 text-[12px] text-brand-100 hover:bg-brand-500/10">
+                  <Youtube size={14} aria-hidden="true" /> Open YouTube
+                </a>
+              </div>
+              <div className="aspect-video bg-black">
+                <iframe title={`YouTube trailer search for ${title.title}`} src={`https://www.youtube.com/embed?listType=search&list=${trailerQuery}`} className="size-full" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen />
+              </div>
+              <div className="grid gap-3 border-t border-white/[0.07] p-4 sm:grid-cols-2 sm:p-5">
+                <label className="block">
+                  <span className="mb-1.5 flex items-center gap-2 text-[11.5px] font-semibold text-white/65"><Mic size={13} className="text-brand-200" aria-hidden="true" /> Preferred interpreter</span>
+                  <select value={trailerInterpreterId || title.interpreterId} onChange={(event) => setTrailerInterpreterId(event.target.value)} className="h-10 w-full rounded-lg border border-white/10 bg-ink-900 px-3 text-[12.5px] text-text">
+                    {INTERPRETERS.map((person) => <option key={person.id} value={person.id}>{person.name} · {person.role}</option>)}
+                  </select>
+                </label>
+                <label className="block">
+                  <span className="mb-1.5 flex items-center gap-2 text-[11.5px] font-semibold text-white/65"><Languages size={13} className="text-brand-200" aria-hidden="true" /> Trailer language</span>
+                  <select value={trailerLanguage} onChange={(event) => setTrailerLanguage(event.target.value)} className="h-10 w-full rounded-lg border border-white/10 bg-ink-900 px-3 text-[12.5px] text-text">
+                    <option>Kinyarwanda</option><option>English</option><option>French</option><option>Swahili</option>
+                  </select>
+                </label>
+                <p className="text-[11px] leading-relaxed text-white/35 sm:col-span-2">
+                  Preference: {selectedTrailerInterpreter?.name} · {trailerLanguage}. This does not change the YouTube audio track; an actual dubbed trailer file is required for interpreter audio.
+                </p>
+              </div>
+              <div className="flex flex-wrap items-center gap-2 border-t border-white/[0.07] p-4 sm:p-5">
+                <button type="button" onClick={() => { const video = videoRef.current; if (video) { video.currentTime = 0; void video.play().catch(() => setFailed(true)); } }} className="inline-flex h-10 items-center gap-2 rounded-lg bg-brand-500 px-4 text-[12.5px] font-semibold text-white hover:bg-brand-400">
+                  <Play size={14} className="fill-current" aria-hidden="true" /> Restart full film
+                </button>
+                <a href={title.downloadUrl} download target="_blank" rel="noreferrer" className="inline-flex h-10 items-center gap-2 rounded-lg border border-white/15 px-4 text-[12.5px] font-medium text-white/75 hover:border-brand-300/35 hover:text-brand-100">
+                  <Download size={14} aria-hidden="true" /> Download film
+                </a>
+              </div>
+            </div>
+          </section>
         )}
 
         {related.length > 0 && (
