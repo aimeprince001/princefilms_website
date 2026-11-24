@@ -208,17 +208,17 @@ export function SiteHeader() {
                 to="/login"
                 className="inline-flex h-9 items-center px-2.5 text-[13px] font-medium text-white/60 transition hover:text-white"
               >
-                Sign in
+                {t("signIn")}
               </Link>
               <Link to="/register" className={buttonClass({ size: "sm" })}>
-                Join free
+                {t("joinFree")}
               </Link>
             </div>
           )}
 
           <Link
             to={user ? "/my-list" : "/login"}
-            aria-label={user ? "Open My List" : "Sign in"}
+            aria-label={user ? t("myList") : t("signIn")}
             className="grid size-9 place-items-center rounded-lg text-white/60 transition hover:bg-white/5 hover:text-white lg:hidden"
           >
             <User size={17} aria-hidden="true" />
