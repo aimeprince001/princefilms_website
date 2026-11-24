@@ -68,16 +68,21 @@ function LibraryStateProvider({ children, accountId }: { children: ReactNode; ac
   // Move the legacy shared library to the first signed-in account once, so
   // existing local data is retained without exposing it to later accounts.
   useState(() => {
-    if (accountId === "guest" || typeof window === "undefined") return false;
-    ACCOUNT_LIBRARY_KEYS.forEach((baseKey) => {
-      const scopedKey = `${baseKey}.${accountId}`;
-      if (window.localStorage.getItem(scopedKey)) return;
-      const legacyValue = window.localStorage.getItem(baseKey);
-      if (!legacyValue) return;
-      window.localStorage.setItem(scopedKey, legacyValue);
-      window.localStorage.removeItem(baseKey);
-    });
-    return true;
+    try {
+      if (accountId === "guest" || typeof window === "undefined") return false;
+      ACCOUNT_LIBRARY_KEYS.forEach((baseKey) => {
+        const scopedKey = `${baseKey}.${accountId}`;
+        if (window.localStorage.getItem(scopedKey)) return;
+        const legacyValue = window.localStorage.getItem(baseKey);
+        if (!legacyValue) return;
+        window.localStorage.setItem(scopedKey, legacyValue);
+        window.localStorage.removeItem(baseKey);
+      });
+      return true;
+    } catch {
+      // If storage is blocked, keep the app usable with in-memory state.
+      return false;
+    }
   });
   const [saved, setSaved] = usePersistentState<string[]>(`princefilms.saved.v1.${accountId}`, []);
   const [likes, setLikes] = usePersistentState<string[]>(`princefilms.likes.v1.${accountId}`, []);
