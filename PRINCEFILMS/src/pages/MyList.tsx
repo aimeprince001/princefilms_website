@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { useLibrary } from "@/context/LibraryContext";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
+import { useLanguage } from "@/context/LanguageContext";
 import { cn } from "@/lib/cn";
 import { buttonClass } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
@@ -13,24 +14,25 @@ import { ResumeCard } from "@/components/media/ResumeCard";
 type TabKey = "continue" | "saved" | "finished";
 
 export function MyListPage() {
-  useDocumentTitle("My List");
+  const { t } = useLanguage();
+  useDocumentTitle(t("myList"));
   const { user } = useAuth();
   const { continueWatching, savedTitles, finished, clearProgress } = useLibrary();
 
   const [tab, setTab] = useState<TabKey>("continue");
 
   const tabs: { key: TabKey; label: string; icon: typeof Clock; count: number }[] = [
-    { key: "continue", label: "Continue watching", icon: Clock, count: continueWatching.length },
-    { key: "saved", label: "Saved", icon: Bookmark, count: savedTitles.length },
-    { key: "finished", label: "Finished", icon: CheckCircle2, count: finished.length },
+    { key: "continue", label: t("continueWatching"), icon: Clock, count: continueWatching.length },
+    { key: "saved", label: t("savedTitles"), icon: Bookmark, count: savedTitles.length },
+    { key: "finished", label: t("finished"), icon: CheckCircle2, count: finished.length },
   ];
 
   return (
     <div className="page-shell pb-16 pt-8">
       <header className="max-w-2xl">
-        <h1 className="font-display text-[30px] leading-[1.05] text-text sm:text-[38px]">My List</h1>
+        <h1 className="font-display text-[30px] leading-[1.05] text-text sm:text-[38px]">{t("myList")}</h1>
         <p className="mt-2.5 text-[14px] leading-relaxed text-muted">
-          Progress and saved titles are kept on this device
+          {t("progressDevice")}
           {user ? ` and belong to ${user.name}` : ""}.
         </p>
         {!user && (
@@ -38,12 +40,12 @@ export function MyListPage() {
             <Link to="/login" className="font-medium text-brand-200 hover:text-brand-100">
               Sign in
             </Link>{" "}
-            to keep the same list across sessions.
+            {t("continueAcrossSessions")}
           </p>
         )}
       </header>
 
-      <div role="tablist" aria-label="My List sections" className="mt-6 flex flex-wrap items-center gap-1.5 border-b border-white/[0.07] pb-2">
+      <div role="tablist" aria-label={t("myList")} className="mt-6 flex flex-wrap items-center gap-1.5 border-b border-white/[0.07] pb-2">
         {tabs.map((item) => (
           <button
             key={item.key}
@@ -70,8 +72,8 @@ export function MyListPage() {
           {continueWatching.length === 0 ? (
             <EmptyState
               icon={PlayCircle}
-              title="Nothing in progress"
-              description="Start a film or an episode and it will appear here with the exact position you stopped at."
+              title={t("nothingInProgress")}
+              description={t("startPlaybackMessage")}
               action={
                 <Link to="/movies" className={buttonClass({ size: "md" })}>
                   Browse movies
@@ -89,7 +91,7 @@ export function MyListPage() {
                     className="mt-2 inline-flex items-center gap-1.5 text-[11.5px] text-white/35 transition hover:text-rose-400"
                   >
                     <Trash2 size={12} aria-hidden="true" />
-                    Remove from Continue watching
+                    {t("removeContinue")}
                   </button>
                 </div>
               ))}
@@ -103,8 +105,8 @@ export function MyListPage() {
           {savedTitles.length === 0 ? (
             <EmptyState
               icon={Bookmark}
-              title="My List is empty"
-              description="Save a title from its card or detail page and it will be kept here."
+              title={t("myListEmpty")}
+              description={t("saveTitleMessage")}
               action={
                 <Link to="/series" className={buttonClass({ size: "md" })}>
                   Browse series
@@ -126,8 +128,8 @@ export function MyListPage() {
           {finished.length === 0 ? (
             <EmptyState
               icon={CheckCircle2}
-              title="No finished titles yet"
-              description="Titles are marked finished when playback reaches the end."
+              title={t("noFinishedTitles")}
+              description={t("finishedMessage")}
               action={
                 <Link to="/movies" className={buttonClass({ size: "md" })}>
                   Browse movies
@@ -145,7 +147,7 @@ export function MyListPage() {
                     className="mt-2 inline-flex items-center gap-1.5 text-[11.5px] text-white/35 transition hover:text-rose-400"
                   >
                     <Trash2 size={12} aria-hidden="true" />
-                    Clear from history
+                    {t("clearHistory")}
                   </button>
                 </div>
               ))}
