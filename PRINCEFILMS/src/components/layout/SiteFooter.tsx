@@ -47,22 +47,22 @@ export function SiteFooter() {
             <ul className="mt-4 space-y-2.5 text-[13px]">
               <li>
                 <Link to="/movies" className="text-white/60 transition-colors hover:text-white">
-                  Movies
+                  {t("movies")}
                 </Link>
               </li>
               <li>
                 <Link to="/series" className="text-white/60 transition-colors hover:text-white">
-                  Series
+                  {t("series")}
                 </Link>
               </li>
               <li>
                 <Link to="/interpreters" className="text-white/60 transition-colors hover:text-white">
-                  Interpreters
+                  {t("interpreters")}
                 </Link>
               </li>
               <li>
                 <Link to="/search" className="text-white/60 transition-colors hover:text-white">
-                  Search
+                  {t("search")}
                 </Link>
               </li>
               <li className="pt-1 text-[11.5px] text-white/30">
@@ -76,7 +76,7 @@ export function SiteFooter() {
               id="footer-categories"
               className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/35"
             >
-              Categories
+              {t("categories")}
             </h2>
             <ul className="mt-4 space-y-2.5 text-[13px]">
               {CATEGORIES.slice(0, 6).map((category) => (
@@ -94,27 +94,27 @@ export function SiteFooter() {
 
           <nav aria-labelledby="footer-account">
             <h2 id="footer-account" className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/35">
-              Account
+              {t("account")}
             </h2>
             <ul className="mt-4 space-y-2.5 text-[13px]">
               <li>
                 <Link to="/my-list" className="text-white/60 transition-colors hover:text-white">
-                  My List
+                  {t("myList")}
                 </Link>
               </li>
               <li>
                 <Link to="/login" className="text-white/60 transition-colors hover:text-white">
-                  Sign in
+                  {t("signIn")}
                 </Link>
               </li>
               <li>
                 <Link to="/register" className="text-white/60 transition-colors hover:text-white">
-                  Create an account
+                  {t("createAccount")}
                 </Link>
               </li>
               <li>
                 <Link to="/contact" className="text-white/60 transition-colors hover:text-white">
-                  Contact us
+                  {t("contactUs")}
                 </Link>
               </li>
             </ul>
