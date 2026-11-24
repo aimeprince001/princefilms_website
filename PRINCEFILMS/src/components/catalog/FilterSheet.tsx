@@ -22,6 +22,7 @@ export function FilterSheet({
   resultCount: number;
   showDuration?: boolean;
 }) {
+  const { t } = useLanguage();
   useLockBodyScroll(open);
 
   useEffect(() => {
