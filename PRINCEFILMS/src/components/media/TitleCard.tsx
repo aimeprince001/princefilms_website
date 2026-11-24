@@ -21,6 +21,7 @@ import { usePlayer } from "@/context/PlayerContext";
 import { TONE_STYLES } from "@/lib/tones";
 import { cn } from "@/lib/cn";
 import { ProgressRail } from "@/components/ui/ProgressRail";
+import { useLanguage } from "@/context/LanguageContext";
 
 const NEW_WINDOW_MS = 30 * 24 * 60 * 60 * 1000;
 
@@ -29,6 +30,7 @@ const NEW_WINDOW_MS = 30 * 24 * 60 * 60 * 1000;
  * shelf, so it sizes from its container and never assumes a fixed width.
  */
 export function TitleCard({ title, className }: { title: Title; className?: string }) {
+  const { t } = useLanguage();
   const interpreter = getInterpreterById(title.interpreterId);
   const { progressFor, isLiked, toggleLike } = useLibrary();
   const { play } = usePlayer();
@@ -47,7 +49,7 @@ export function TitleCard({ title, className }: { title: Title; className?: stri
   return (
     <article
       className={cn("group relative flex h-full flex-col", className)}
-      aria-label={`${title.title}, ${series ? "series" : "film"} from ${title.year}`}
+      aria-label={`${title.title}, ${series ? t("seriesLabel") : t("filmLabel")} from ${title.year}`}
     >
       <div
         className={cn(
@@ -90,8 +92,8 @@ export function TitleCard({ title, className }: { title: Title; className?: stri
             </div>
             {series && (
               <span className="w-fit rounded-md border border-white/10 bg-ink-950/70 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.1em] text-white/80 backdrop-blur-md">
-                {series.seasons.length} {series.seasons.length === 1 ? "season" : "seasons"} ·{" "}
-                {totalEpisodes(series)} eps
+                {series.seasons.length} {series.seasons.length === 1 ? t("season") : t("seasons")} ·{" "}
+                {totalEpisodes(series)} {t("eps")}
               </span>
             )}
           </div>
@@ -100,7 +102,7 @@ export function TitleCard({ title, className }: { title: Title; className?: stri
           <Link
             to={href}
             className="absolute inset-0 z-30 rounded-[20px] focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:outline-none"
-            aria-label={`Open ${title.title}`}
+            aria-label={`${t("details")}: ${title.title}`}
           />
 
           {/* Play */}
@@ -156,7 +158,7 @@ export function TitleCard({ title, className }: { title: Title; className?: stri
                 tone.text,
               )}
             >
-              {series ? "Series" : "Film"}
+              {series ? t("seriesLabel") : t("filmLabel")}
             </span>
           </div>
 
@@ -197,7 +199,7 @@ export function TitleCard({ title, className }: { title: Title; className?: stri
               to={`/interpreters/${interpreter?.slug ?? ""}`}
               className="relative z-40 min-w-0 truncate text-[11.5px] text-muted transition-colors hover:text-brand-200"
             >
-              {interpreter?.name ?? "Interpreter"}
+              {interpreter?.name ?? t("interpreterLabel")}
             </Link>
             <span className="num inline-flex shrink-0 items-center gap-1 text-[11px] text-white/30">
               <Eye size={10} aria-hidden="true" />
@@ -208,7 +210,7 @@ export function TitleCard({ title, className }: { title: Title; className?: stri
           {started && (
             <p className="flex items-center gap-1.5 text-[11px] text-brand-200">
               <Clock size={10} aria-hidden="true" />
-              {percent >= 92 ? "Finished" : `${Math.round(percent)}% watched`}
+              {percent >= 92 ? t("finished") : `${Math.round(percent)}${t("watchedPercent")}`}
             </p>
           )}
         </div>
