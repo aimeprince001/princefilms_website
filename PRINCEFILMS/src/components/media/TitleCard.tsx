@@ -82,8 +82,9 @@ export function TitleCard({ title, className }: { title: Title; className?: stri
           <div className="pointer-events-none absolute inset-x-3 top-3 z-20 flex flex-col gap-2">
             <div className="flex items-center justify-between gap-2">
               {isNew && (
-                <span className="rounded-md bg-brand-600 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.1em] text-brand-100 shadow-[0_0_12px_rgba(149,82,227,0.55)]">
-                  New
+                <span className="inline-flex w-fit items-center gap-1.5 rounded-full border border-cyan-300/35 bg-gradient-to-r from-cyan-400/95 to-brand-500 px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-[0.12em] text-white shadow-[0_0_16px_rgba(34,211,238,0.35)]">
+                  <Sparkles size={11} strokeWidth={2.5} aria-hidden="true" />
+                  NEW
                 </span>
               )}
             </div>
