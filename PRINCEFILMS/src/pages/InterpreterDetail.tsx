@@ -12,9 +12,11 @@ import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import { usePlayer } from "@/context/PlayerContext";
 import { formatRuntime, formatViews } from "@/lib/format";
 import { Rating } from "@/components/ui/Rating";
-import { TitleRow } from "@/components/media/TitleRow";\nimport { useLanguage } from "@/context/LanguageContext";
+import { TitleRow } from "@/components/media/TitleRow";
+import { useLanguage } from "@/context/LanguageContext";
 
-export function InterpreterDetail() {\n  const { t } = useLanguage();
+export function InterpreterDetail() {
+  const { t } = useLanguage();
   const { slug } = useParams<{ slug: string }>();
   const interpreter = slug ? getInterpreterBySlug(slug) : undefined;
   const { play } = usePlayer();
