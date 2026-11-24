@@ -225,7 +225,7 @@ export function CatalogueView({ heading, description, baseTitles, lockedKind, sh
                 className="inline-flex h-10 items-center gap-2 rounded-lg border border-white/12 px-3 text-[13px] font-medium text-white/75 transition hover:border-white/25 hover:text-white lg:hidden"
               >
                 <SlidersHorizontal size={15} aria-hidden="true" />
-                Filters
+                {t("filters")}
                 {filterCount > 0 && (
                   <span className="num rounded bg-brand-500/25 px-1.5 text-[11px] text-brand-200">
                     {filterCount}
@@ -294,7 +294,7 @@ export function CatalogueView({ heading, description, baseTitles, lockedKind, sh
                 onClick={clearAll}
                 className="px-1 text-[12px] font-medium text-brand-200 transition hover:text-brand-100"
               >
-                Clear all
+                {t("clearAll")}
               </button>
             </div>
           )}
@@ -311,7 +311,7 @@ export function CatalogueView({ heading, description, baseTitles, lockedKind, sh
                   onClick={clearAll}
                   className="inline-flex h-10 items-center rounded-lg bg-brand-500 px-4 text-[13px] font-semibold text-white hover:bg-brand-400"
                 >
-                  Clear filters
+                  {t("clearFilters")}
                 </button>
               }
             />
