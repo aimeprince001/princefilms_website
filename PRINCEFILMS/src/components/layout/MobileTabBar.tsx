@@ -2,18 +2,20 @@ import { Bookmark, Film, House, Tv, Users } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { useLibrary } from "@/context/LibraryContext";
 import { cn } from "@/lib/cn";
+import { useLanguage } from "@/context/LanguageContext";
 
 const ITEMS = [
-  { to: "/", label: "Home", icon: House, end: true },
-  { to: "/movies", label: "Movies", icon: Film, end: false },
-  { to: "/series", label: "Series", icon: Tv, end: false },
-  { to: "/interpreters", label: "Voices", icon: Users, end: false },
-  { to: "/my-list", label: "My List", icon: Bookmark, end: false },
+  { to: "/", key: "home", icon: House, end: true },
+  { to: "/movies", key: "movies", icon: Film, end: false },
+  { to: "/series", key: "series", icon: Tv, end: false },
+  { to: "/interpreters", key: "interpreters", icon: Users, end: false },
+  { to: "/my-list", key: "myList", icon: Bookmark, end: false },
 ];
 
 /** Mobile navigation: five destinations, one tap away, no hidden menu. */
 export function MobileTabBar() {
   const { saved } = useLibrary();
+  const { t } = useLanguage();
 
   return (
     <nav
@@ -48,7 +50,7 @@ export function MobileTabBar() {
                       />
                     )}
                   </span>
-                  {item.label}
+                  {t(item.key)}
                   {isActive && (
                     <span
                       className="absolute inset-x-5 top-0 h-[2px] rounded-full bg-brand-400"
