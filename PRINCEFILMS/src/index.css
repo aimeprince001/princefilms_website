@@ -25,25 +25,25 @@ body::before {
   --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
 
   /* Surfaces */
-  --color-ink-950: #07060a;
-  --color-ink-900: #0a0811;
-  --color-ink-850: #0f0c17;
-  --color-ink-800: #14101e;
-  --color-ink-750: #191424;
-  --color-ink-700: #211a2e;
-  --color-ink-600: #2c2439;
-  --color-ink-500: #3d3350;
+  --color-ink-950: #08080b;
+  --color-ink-900: #111114;
+  --color-ink-850: #111114;
+  --color-ink-800: #17141b;
+  --color-ink-750: #1b171f;
+  --color-ink-700: #29252d;
+  --color-ink-600: #38313b;
+  --color-ink-500: #4b414d;
 
   /* Brand */
-  --color-brand-100: #efe4ff;
-  --color-brand-200: #dcc4fd;
-  --color-brand-300: #c5a0fa;
-  --color-brand-400: #ae79f2;
-  --color-brand-500: #9552e3;
-  --color-brand-600: #7b2cbf;
-  --color-brand-700: #63219b;
-  --color-brand-800: #48156f;
-  --color-brand-900: #2c0d44;
+  --color-brand-100: #ffe4e7;
+  --color-brand-200: #ffc1c8;
+  --color-brand-300: #ff7b88;
+  --color-brand-400: #ff2638;
+  --color-brand-500: #b20710;
+  --color-brand-600: #8f0610;
+  --color-brand-700: #6f0610;
+  --color-brand-800: #5b1538;
+  --color-brand-900: #350b18;
 
   /* Accents with fixed roles: gold = scores, mint = completed, rose = live */
   --color-gold-300: #ffdfa8;
@@ -53,19 +53,19 @@ body::before {
   --color-rose-400: #fb7185;
 
   /* Semantic aliases (kept compatible with the existing utility names) */
-  --color-bg: #07060a;
-  --color-panel: #0f0c17;
-  --color-accent: #9552e3;
-  --color-accent-glow: #ae79f2;
-  --color-text: #f4f0f9;
-  --color-muted: #9d94ac;
-  --color-border: #241e30;
+  --color-bg: #08080b;
+  --color-panel: #111114;
+  --color-accent: #b20710;
+  --color-accent-glow: #8b5cf6;
+  --color-text: #f5f5f5;
+  --color-muted: #a1a1aa;
+  --color-border: #29252d;
 
   --radius-card: 1.125rem;
   --radius-panel: 1.5rem;
 
   --shadow-lift: 0 32px 60px -40px rgb(0 0 0 / 0.95);
-  --shadow-glow: 0 0 0 1px rgb(149 82 227 / 0.22), 0 24px 60px -32px rgb(123 44 191 / 0.5);
+  --shadow-glow: 0 0 0 1px rgb(178 7 16 / 0.22), 0 24px 60px -32px rgb(178 7 16 / 0.32);
 
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -211,4 +211,35 @@ body::before {
   filter: blur(18px) brightness(0.35);
   z-index: -1;
   transform: scale(1.1);
+}
+
+
+/* PRINCEFILMS cinematic red theme */
+:root {
+  --pf-background: #08080B;
+  --pf-background-secondary: #111114;
+  --pf-card: #17141B;
+  --pf-primary: #B20710;
+  --pf-burgundy: #5B1538;
+  --pf-violet: #8B5CF6;
+  --pf-text: #F5F5F5;
+  --pf-muted: #A1A1AA;
+  --pf-border: #29252D;
+  --pf-hero-gradient: linear-gradient(115deg, #08080B 0%, #18090F 35%, #35101F 70%, #160B2D 100%);
+  --pf-button-gradient: linear-gradient(135deg, #FF2638 0%, #B20710 100%);
+  --pf-card-overlay: linear-gradient(180deg, transparent 0%, #08080B 100%);
+  --pf-cinematic-glow: radial-gradient(ellipse at 75% 40%, rgba(178, 7, 16, 0.25) 0%, transparent 65%);
+}
+body {
+  background: var(--pf-background) !important;
+  background-image: var(--pf-cinematic-glow), radial-gradient(ellipse at 15% 12%, rgba(91, 21, 56, .18), transparent 40%) !important;
+  color: var(--pf-text);
+}
+body::before {
+  background: none !important;
+  opacity: 0 !important;
+}
+.panel {
+  background-color: color-mix(in srgb, var(--pf-background-secondary) 94%, transparent);
+  border-color: var(--pf-border);
 }
