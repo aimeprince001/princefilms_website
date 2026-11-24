@@ -47,10 +47,10 @@ export function InterpretersPage() {
                 </div>
                 <div className="mt-4 flex items-center justify-between">
                   <span className="num text-[12px] text-white/50">
-                    {counts.movies} {t("films")} · {counts.series} series
+                    {counts.movies} {t("films")} · {counts.series} {t("series")}
                   </span>
                   <span className="num text-[12px] font-semibold text-brand-200">
-                    {counts.total} titles
+                    {counts.total} {t("titles")}
                   </span>
                 </div>
               </Link>
