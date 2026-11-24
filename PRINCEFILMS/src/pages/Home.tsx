@@ -117,7 +117,7 @@ export function Home() {
               ))}
             </div>
           ) : (
-            <MediaRail label="Continue watching" className="mt-5">
+            <MediaRail label={t("continueWatching")} className="mt-5">
               {railItems.map((item) => (
                 <ResumeCard key={item.title.id} title={item.title} progress={item.progress} />
               ))}
