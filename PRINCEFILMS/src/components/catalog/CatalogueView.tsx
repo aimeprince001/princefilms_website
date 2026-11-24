@@ -25,6 +25,7 @@ import { Select } from "@/components/ui/Select";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { FilterPanel } from "@/components/catalog/FilterPanel";
 import { FilterSheet } from "@/components/catalog/FilterSheet";
+import { useLanguage } from "@/context/LanguageContext";
 
 type Props = {
   heading: string;
@@ -35,6 +36,7 @@ type Props = {
 };
 
 export function CatalogueView({ heading, description, baseTitles, lockedKind, showKindSwitch }: Props) {
+  const { t } = useLanguage();
   const [searchParams, setSearchParams] = useSearchParams();
   const [sheetOpen, setSheetOpen] = useState(false);
 
@@ -125,14 +127,14 @@ export function CatalogueView({ heading, description, baseTitles, lockedKind, sh
         <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
           <h1 className="font-display text-[30px] leading-[1.05] text-text sm:text-[38px]">{heading}</h1>
           <span className="num text-[13px] text-white/35">
-            {results.length} {results.length === 1 ? "title" : "titles"}
+            {results.length} {t("title")}
           </span>
         </div>
         {description && <p className="mt-2.5 max-w-2xl text-[14px] leading-relaxed text-muted">{description}</p>}
       </header>
 
       <div className="mt-6 max-w-xl">
-        <label htmlFor="catalog-search" className="sr-only">Search movies and series</label>
+        <label htmlFor="catalog-search" className="sr-only">{t("searchCatalogue")}</label>
         <div className="flex h-12 items-center gap-3 rounded-xl border border-white/10 bg-ink-850/80 px-4 transition focus-within:border-brand-400/60 focus-within:ring-2 focus-within:ring-brand-500/15">
           <Search size={17} className="shrink-0 text-white/35" aria-hidden="true" />
           <input
@@ -140,18 +142,18 @@ export function CatalogueView({ heading, description, baseTitles, lockedKind, sh
             type="search"
             value={filters.q}
             onChange={(event) => update({ q: event.target.value })}
-            placeholder={lockedKind === "movie" ? "Search movies, genres, interpreters…" : lockedKind === "series" ? "Search series, genres, interpreters…" : "Search movies, series, genres…"}
+            placeholder={lockedKind === "movie" ? t("searchMoviesPlaceholder") : lockedKind === "series" ? t("searchSeriesPlaceholder") : t("searchAllPlaceholder")}
             className="min-w-0 flex-1 bg-transparent text-[13px] text-white placeholder:text-white/35 outline-none"
           />
           {filters.q && (
-            <button type="button" onClick={() => update({ q: "" })} aria-label="Clear search" className="grid size-7 place-items-center rounded-md text-white/45 hover:bg-white/10 hover:text-white">
+            <button type="button" onClick={() => update({ q: "" })} aria-label={t("clearSearch")} className="grid size-7 place-items-center rounded-md text-white/45 hover:bg-white/10 hover:text-white">
               <X size={14} />
             </button>
           )}
         </div>
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-2" aria-label="Quick category filters">
+      <div className="mt-4 flex flex-wrap gap-2" aria-label={t("quickFilters")}>
         {CATEGORIES.slice(0, 7).map((category) => {
           const active = filters.categories.includes(category.id);
           return (
@@ -176,13 +178,13 @@ export function CatalogueView({ heading, description, baseTitles, lockedKind, sh
       {showKindSwitch && (
         <div
           role="tablist"
-          aria-label="Content type"
+          aria-label={t("contentType")}
           className="mt-6 flex w-fit items-center gap-1 rounded-xl border border-white/10 bg-ink-850 p-1"
         >
           {[
-            { value: "all", label: "All" },
-            { value: "movie", label: "Films" },
-            { value: "series", label: "Series" },
+            { value: "all", label: t("all") },
+            { value: "movie", label: t("movies") },
+            { value: "series", label: t("series") },
           ].map((option) => (
             <button
               key={option.value}
@@ -204,7 +206,7 @@ export function CatalogueView({ heading, description, baseTitles, lockedKind, sh
       )}
 
       <div className="mt-7 grid gap-8 lg:grid-cols-[236px_minmax(0,1fr)] xl:gap-12">
-        <aside className="hidden lg:block" aria-label="Catalogue filters">
+        <aside className="hidden lg:block" aria-label={t("filters")}>
           <FilterPanel
             filters={filters}
             onChange={update}
@@ -231,13 +233,13 @@ export function CatalogueView({ heading, description, baseTitles, lockedKind, sh
                 )}
               </button>
               <span className="num hidden text-[12.5px] text-white/35 lg:inline">
-                {results.length} results
+                {results.length} {t("results")}
               </span>
             </div>
 
             <div className="flex items-center gap-2">
               <Select
-                label="Sort"
+                label={t("sort")}
                 hideLabel
                 value={filters.sort}
                 options={SORT_OPTIONS}
@@ -247,7 +249,7 @@ export function CatalogueView({ heading, description, baseTitles, lockedKind, sh
               <div className="flex items-center rounded-lg border border-white/10 bg-ink-850 p-0.5">
                 <button
                   type="button"
-                  aria-label="List view"
+                  aria-label={t("listView")}
                   aria-pressed={filters.view === "list"}
                   onClick={() => update({ view: "list" })}
                   className={cn(
@@ -259,7 +261,7 @@ export function CatalogueView({ heading, description, baseTitles, lockedKind, sh
                 </button>
                 <button
                   type="button"
-                  aria-label="Grid view"
+                  aria-label={t("gridView")}
                   aria-pressed={filters.view === "grid"}
                   onClick={() => update({ view: "grid" })}
                   className={cn(
@@ -284,7 +286,7 @@ export function CatalogueView({ heading, description, baseTitles, lockedKind, sh
                 >
                   {chip.label}
                   <X size={11} aria-hidden="true" className="text-white/40" />
-                  <span className="sr-only">Remove filter</span>
+                  <span className="sr-only">{t("removeFilter")}</span>
                 </button>
               ))}
               <button
@@ -300,8 +302,8 @@ export function CatalogueView({ heading, description, baseTitles, lockedKind, sh
           {results.length === 0 ? (
             <EmptyState
               icon={SearchX}
-              title="No titles match these filters"
-              description="Widen the rating or length filter, or clear the interpreter selection to see the full catalogue."
+              title={t("noTitlesMatch")}
+              description={t("noTitlesDesc")}
               className="mt-6"
               action={
                 <button
