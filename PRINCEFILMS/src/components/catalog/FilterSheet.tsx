@@ -54,7 +54,7 @@ export function FilterSheet({
           <button
             type="button"
             onClick={onClose}
-            aria-label="Close filters"
+            aria-label={t("closeSearch")}
             className="grid size-8 place-items-center rounded-lg text-white/50 hover:bg-white/10 hover:text-white"
           >
             <X size={16} />
