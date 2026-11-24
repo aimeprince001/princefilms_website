@@ -11,6 +11,7 @@ const messages: Record<Language, Record<string, string>> = {
     language: "Language", skip: "Skip to content", languageHelp: "Choose website language",
     footerDescription: "Kinyarwanda dubs of feature films and series, recorded in Kigali and streamed on demand.",
     subtitles: "Kinyarwanda audio. English, French and Swahili subtitles on every title.",
+    recentlyAdded: "Recently added", recentlyAddedDesc: "Fresh titles landing on PRINCEFILMS this week.", allNew: "All new releases", continueWatching: "Continue watching", viewMyList: "View My List",
   },
   rw: {
     home: "Ahabanza", movies: "Filime", series: "Ibiganiro", interpreters: "Abasemuzi", contact: "Twandikire",
@@ -20,6 +21,7 @@ const messages: Record<Language, Record<string, string>> = {
     language: "Ururimi", skip: "Jya ku bikubiyemo", languageHelp: "Hitamo ururimi rw'urubuga",
     footerDescription: "Filime n'uruhererekane byasobanuwe mu Kinyarwanda, byafatiwe i Kigali kandi birebwa igihe icyo ari cyo cyose.",
     subtitles: "Ijwi ry'Ikinyarwanda. Subtitles z'Icyongereza, Igifaransa n'Igiswahili kuri buri filime.",
+    recentlyAdded: "Byongeweho vuba", recentlyAddedDesc: "Filime nshya zageze kuri PRINCEFILMS muri iki cyumweru.", allNew: "Filime nshya zose", continueWatching: "Komeza kureba", viewMyList: "Reba urutonde rwanjye",
   },
   fr: {
     home: "Accueil", movies: "Films", series: "Séries", interpreters: "Interprètes", contact: "Contact",
@@ -29,6 +31,7 @@ const messages: Record<Language, Record<string, string>> = {
     language: "Langue", skip: "Aller au contenu", languageHelp: "Choisir la langue du site",
     footerDescription: "Films et séries doublés en kinyarwanda, enregistrés à Kigali et disponibles à la demande.",
     subtitles: "Audio en kinyarwanda. Sous-titres anglais, français et swahili pour chaque titre.",
+    recentlyAdded: "Ajouts récents", recentlyAddedDesc: "Nouveaux titres ajoutés à PRINCEFILMS cette semaine.", allNew: "Toutes les nouveautés", continueWatching: "Continuer à regarder", viewMyList: "Voir ma liste",
   },
 };
 
