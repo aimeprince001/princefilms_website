@@ -52,7 +52,7 @@ export default function App() {
     <AuthProvider>
       <LibraryProvider>
         <SearchProvider>
-          <BrowserRouter>
+          <BrowserRouter basename={import.meta.env.BASE_URL}>
             <PlayerProvider>
               <SkipLink />
 
