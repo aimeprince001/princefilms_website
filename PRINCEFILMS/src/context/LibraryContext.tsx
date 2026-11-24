@@ -9,6 +9,7 @@ import {
 import { usePersistentState } from "@/hooks/usePersistentState";
 import { getTitleById, type Title } from "@/data/catalog";
 import { progressPercent } from "@/lib/format";
+import { useAuth } from "@/context/AuthContext";
 
 export type WatchProgress = {
   titleId: string;
@@ -50,6 +51,12 @@ const LibraryContext = createContext<LibraryContextValue | undefined>(undefined)
 const COMPLETE_THRESHOLD = 92;
 
 export function LibraryProvider({ children }: { children: ReactNode }) {
+  const { user } = useAuth();
+  const accountId = user?.id ?? "guest";
+  return <LibraryStateProvider key={accountId} accountId={accountId}>{children}</LibraryStateProvider>;
+}
+
+function LibraryStateProvider({ children, accountId }: { children: ReactNode; accountId: string }) {
   const [saved, setSaved] = usePersistentState<string[]>("princefilms.saved.v1", []);
   const [likes, setLikes] = usePersistentState<string[]>("princefilms.likes.v1", []);
   const [progress, setProgress] = usePersistentState<Record<string, WatchProgress>>(
@@ -61,7 +68,7 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
     [],
   );
 
-  const [recentWatched, setRecentWatched] = usePersistentState<Record<string, number>>(RECENT_WATCHED_KEY, {});
+  const [recentWatched, setRecentWatched] = usePersistentState<Record<string, number>>(`${RECENT_WATCHED_KEY}.${accountId}`, {});
 
   useEffect(() => {
     const cutoff = Date.now() - RECENT_WATCHED_TTL;
