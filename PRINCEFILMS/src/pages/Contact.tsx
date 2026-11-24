@@ -154,7 +154,7 @@ export function Contact() {
                 {item.icon}
               </div>
               <span className="text-[12px] font-semibold uppercase tracking-wider text-white/40">
-                {item.title}
+                {t(i === 0 ? "callUs" : i === 1 ? "emailUs" : "visitUs")}
               </span>
               <span className="font-medium text-text">{item.value}</span>
               <span className="mt-0.5 text-[11.5px] text-white/40">{t(i === 0 ? "phoneFooter" : i === 1 ? "emailDirect" : "visitUs")}</span>
