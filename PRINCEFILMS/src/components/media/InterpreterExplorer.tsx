@@ -13,12 +13,14 @@ import { useLibrary } from "@/context/LibraryContext";
 import { cn } from "@/lib/cn";
 import { Rating } from "@/components/ui/Rating";
 import { ProgressRail } from "@/components/ui/ProgressRail";
+import { useLanguage } from "@/context/LanguageContext";
 
 /**
  * Interpreter-led discovery. The roster is the primary control and the
  * selected voice's catalogue fills the stage beside it.
  */
 export function InterpreterExplorer() {
+  const { t } = useLanguage();
   const first = INTERPRETERS[0];
   const [activeId, setActiveId] = useState(INTERPRETERS[0]?.id ?? "");
   const { play } = usePlayer();
@@ -78,7 +80,7 @@ export function InterpreterExplorer() {
           to="/interpreters"
           className="mt-4 inline-flex items-center gap-1.5 text-[12.5px] font-medium text-brand-200 transition hover:text-brand-100"
         >
-          All interpreters
+          {t("allInterpreters")}
           <ArrowUpRight size={13} aria-hidden="true" />
         </Link>
       </div>
@@ -101,7 +103,7 @@ export function InterpreterExplorer() {
             to={`/interpreters/${interpreter.slug}`}
             className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-white/12 px-3 text-[12.5px] font-medium text-white/70 transition hover:border-brand-400/60 hover:text-white"
           >
-            Profile
+            {t("interpreterProfile")}
             <ArrowUpRight size={13} aria-hidden="true" />
           </Link>
         </div>
@@ -152,13 +154,13 @@ export function InterpreterExplorer() {
                 className="inline-flex h-10 items-center gap-2 rounded-lg bg-white px-4 text-[13px] font-semibold text-ink-950 transition hover:bg-brand-100"
               >
                 <Play size={13} className="fill-current" aria-hidden="true" />
-                {entry && percent < 92 ? "Resume" : "Play"}
+                {entry && percent < 92 ? t(entry && percent < 92 ? "resume" : "play")}
               </button>
               <Link
                 to={`/${featured.kind}/${featured.id}`}
                 className="inline-flex h-10 items-center rounded-lg border border-white/20 px-4 text-[13px] font-medium text-white/85 backdrop-blur transition hover:border-white/40 hover:bg-white/10"
               >
-                Details
+                {t("details")}
               </Link>
             </div>
           </div>
