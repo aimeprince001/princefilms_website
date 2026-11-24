@@ -1,4 +1,4 @@
-import { Bookmark, ChevronDown, LogOut, Search, User } from "lucide-react";
+import { Bookmark, ChevronDown, LogIn, LogOut, Search, User, UserPlus } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
@@ -204,23 +204,26 @@ export function SiteHeader() {
               )}
             </div>
           ) : (
-            <div className="hidden items-center gap-2 lg:flex">
+            <div className="flex items-center gap-1.5 sm:gap-2">
               <Link
                 to="/login"
-                className="inline-flex h-9 items-center px-2.5 text-[13px] font-medium text-white/60 transition hover:text-white"
+                aria-label={t("signIn")}
+                className="inline-flex h-9 items-center gap-1.5 rounded-lg px-1.5 sm:px-2.5 text-[12px] sm:text-[13px] font-medium text-white/70 transition hover:bg-white/5 hover:text-white"
               >
-                {t("signIn")}
+                <LogIn size={15} aria-hidden="true" />
+                <span className="hidden sm:inline">{t("signIn")}</span>
               </Link>
-              <Link to="/register" className={buttonClass({ size: "sm" })}>
-                {t("joinFree")}
+              <Link to="/register" aria-label={t("joinFree")} className={buttonClass({ size: "sm", className: "gap-1.5 px-2 sm:px-3" })}>
+                <UserPlus size={15} aria-hidden="true" />
+                <span className="hidden sm:inline">{t("joinFree")}</span>
               </Link>
             </div>
           )}
 
           <Link
-            to={user ? "/my-list" : "/login"}
-            aria-label={user ? t("myList") : t("signIn")}
-            className="grid size-9 place-items-center rounded-lg text-white/60 transition hover:bg-white/5 hover:text-white lg:hidden"
+            to="/my-list"
+            aria-label={t("myList")}
+            className={cn("grid size-9 place-items-center rounded-lg text-white/60 transition hover:bg-white/5 hover:text-white lg:hidden", !user && "hidden")}
           >
             <User size={17} aria-hidden="true" />
           </Link>
