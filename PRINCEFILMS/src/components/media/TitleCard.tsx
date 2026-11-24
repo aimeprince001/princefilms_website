@@ -1,13 +1,11 @@
 import { Link } from "react-router-dom";
 import {
   Play,
-  ThumbsUp,
   Clock,
   Film,
   Tv,
   Star,
   Eye,
-  Sparkles,
 } from "lucide-react";
 import {
   getInterpreterById,
@@ -16,6 +14,7 @@ import {
   type Title,
 } from "@/data/catalog";
 import { formatRuntime, formatViews, progressPercent } from "@/lib/format";
+import { useState } from "react";
 import { useLibrary } from "@/context/LibraryContext";
 import { usePlayer } from "@/context/PlayerContext";
 import { TONE_STYLES } from "@/lib/tones";
@@ -32,7 +31,8 @@ const NEW_WINDOW_MS = 30 * 24 * 60 * 60 * 1000;
 export function TitleCard({ title, className }: { title: Title; className?: string }) {
   const { t } = useLanguage();
   const interpreter = getInterpreterById(title.interpreterId);
-  const { progressFor, isLiked, toggleLike } = useLibrary();
+  const { progressFor } = useLibrary();
+  const [imageLoaded, setImageLoaded] = useState(false);
   const { play } = usePlayer();
 
   const entry = progressFor(title.id);
@@ -40,7 +40,6 @@ export function TitleCard({ title, className }: { title: Title; className?: stri
   const href = `/${title.kind}/${title.id}`;
   const series = isSeries(title) ? title : null;
   const tone = TONE_STYLES[title.tone];
-  const liked = isLiked(title.id);
   const releaseTime = new Date(title.releasedAt).getTime();
   const age = Date.now() - releaseTime;
   const isNew = Number.isFinite(releaseTime) && age >= 0 && age < NEW_WINDOW_MS;
@@ -62,6 +61,7 @@ export function TitleCard({ title, className }: { title: Title; className?: stri
             className={cn("absolute inset-0 opacity-60 blur-2xl", tone.glow)}
             aria-hidden="true"
           />
+          {!imageLoaded && <div className="pf-skeleton absolute inset-0 z-[1]" aria-hidden="true" />}
           <img
             src={title.image}
             alt={`${title.title} — still, photo by ${title.imageCredit}`}
@@ -69,7 +69,9 @@ export function TitleCard({ title, className }: { title: Title; className?: stri
             height={400}
             loading="lazy"
             decoding="async"
-            className="relative size-full object-cover still-tone transition-transform duration-1000 ease-out group-hover:scale-[1.05]"
+            onLoad={() => setImageLoaded(true)}
+            onError={() => setImageLoaded(true)}
+            className={cn("relative size-full object-cover still-tone transition-[opacity,transform] duration-1000 ease-out group-hover:scale-[1.05]", imageLoaded ? "opacity-100" : "opacity-0")}
           />
           <div
             className={cn("absolute inset-0 bg-gradient-to-t", tone.wash)}
@@ -85,7 +87,6 @@ export function TitleCard({ title, className }: { title: Title; className?: stri
             <div className="flex items-center justify-between gap-2">
               {isNew && (
                 <span className="inline-flex w-fit items-center gap-1.5 rounded-full border border-cyan-300/35 bg-gradient-to-r from-cyan-400/95 to-brand-500 px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-[0.12em] text-white shadow-[0_0_16px_rgba(34,211,238,0.35)]">
-                  <Sparkles size={11} strokeWidth={2.5} aria-hidden="true" />
                   {t("new")}
                 </span>
               )}
@@ -113,24 +114,6 @@ export function TitleCard({ title, className }: { title: Title; className?: stri
             aria-label={`Play ${title.title}`}
           >
             <Play size={16} className="translate-x-[1px] fill-current" aria-hidden="true" />
-          </button>
-
-          {/* Like */}
-          <button
-            type="button"
-            onClick={() => toggleLike(title.id)}
-            aria-pressed={liked}
-            aria-label={liked ? `Unlike ${title.title}` : `Like ${title.title}`}
-            className={cn(
-              "absolute bottom-3 left-3 z-40 grid size-8 place-items-center rounded-full border border-white/15 bg-ink-950/70 text-white/70 backdrop-blur-md transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-brand-400",
-              liked && "border-brand-400/60 bg-brand-600/80 text-white",
-            )}
-          >
-            <ThumbsUp
-              size={13}
-              className={liked ? "fill-current" : undefined}
-              aria-hidden="true"
-            />
           </button>
 
           {started && (
