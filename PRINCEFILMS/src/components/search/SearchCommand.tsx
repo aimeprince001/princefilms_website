@@ -7,12 +7,13 @@ import { useSearchOverlay } from "@/context/SearchContext";
 import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
 import { formatRuntime, formatViews } from "@/lib/format";
 import { cn } from "@/lib/cn";
+import { useLanguage } from "@/context/LanguageContext";
 
 type ResultRow =
   | { kind: "interpreter"; item: import("@/data/catalog").Interpreter; href: string }
   | { kind: "title"; item: Title; href: string };
 
-export function SearchCommand() {
+export function SearchCommand() {\n  const { t } = useLanguage();
   const { isOpen, openSearch, closeSearch } = useSearchOverlay();
   const { recentSearches, addRecentSearch, clearRecentSearches } = useLibrary();
   const navigate = useNavigate();
@@ -104,7 +105,7 @@ export function SearchCommand() {
     <div className="fixed inset-0 z-[90] flex items-start justify-center px-3 pt-[8vh] sm:pt-[12vh]">
       <button
         type="button"
-        aria-label="Close search"
+        aria-label={t("closeSearch")}
         onClick={closeSearch}
         className="absolute inset-0 cursor-default bg-[#040308]/80 backdrop-blur-sm"
       />
@@ -112,7 +113,7 @@ export function SearchCommand() {
       <div
         role="dialog"
         aria-modal="true"
-        aria-label="Search PRINCEFILMS"
+        aria-label={t("searchAllLabel")}
         className="relative w-full max-w-2xl overflow-hidden rounded-2xl border border-white/12 bg-ink-900 shadow-[0_40px_100px_-30px_rgba(0,0,0,0.95)]"
       >
         <div className="flex items-center gap-3 border-b border-white/[0.08] px-4">
@@ -122,8 +123,8 @@ export function SearchCommand() {
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             onKeyDown={onInputKeyDown}
-            placeholder="Search titles, interpreters, genres"
-            aria-label="Search titles and interpreters"
+            placeholder={t("searchPlaceholder")}
+            aria-label={t("searchAllLabel")}
             className="h-14 w-full bg-transparent text-[15px] text-text placeholder:text-white/30 focus:outline-none"
           />
           <button
@@ -143,14 +144,14 @@ export function SearchCommand() {
                 <div className="mb-2">
                   <div className="flex items-center justify-between px-2 py-1.5">
                     <span className="text-[10.5px] font-semibold uppercase tracking-[0.14em] text-white/35">
-                      Recent
+                      {t("recent")}
                     </span>
                     <button
                       type="button"
                       onClick={clearRecentSearches}
                       className="text-[11px] text-white/35 hover:text-white/70"
                     >
-                      Clear
+                      {t("clear")}
                     </button>
                   </div>
                   <ul>
@@ -171,7 +172,7 @@ export function SearchCommand() {
               )}
 
               <div className="px-2 pb-1 pt-2 text-[10.5px] font-semibold uppercase tracking-[0.14em] text-white/35">
-                Trending searches
+                {t("trendingSearches")}
               </div>
               <div className="flex flex-wrap gap-2 p-2 pt-1.5">
                 {TRENDING_SEARCHES.map((term) => (
@@ -190,8 +191,8 @@ export function SearchCommand() {
 
           {query && rows.length === 0 && (
             <div className="px-5 py-10 text-center">
-              <p className="text-[14px] text-text">No matches for “{query}”</p>
-              <p className="mt-1 text-[12.5px] text-muted">Try an interpreter, a genre or a shorter term.</p>
+              <p className="text-[14px] text-text">{t("noMatches")} “{query}”</p>
+              <p className="mt-1 text-[12.5px] text-muted">{t("trySearch")}</p>
             </div>
           )}
 
@@ -257,14 +258,14 @@ export function SearchCommand() {
           <span className="flex items-center gap-3">
             <span>
               <kbd className="rounded border border-white/10 px-1 py-0.5">↑</kbd>
-              <kbd className="ml-1 rounded border border-white/10 px-1 py-0.5">↓</kbd> navigate
+              <kbd className="ml-1 rounded border border-white/10 px-1 py-0.5">↓</kbd> {t("navigate")}
             </span>
             <span>
-              <kbd className="rounded border border-white/10 px-1 py-0.5">↵</kbd> open
+              <kbd className="rounded border border-white/10 px-1 py-0.5">↵</kbd> {t("open")}
             </span>
           </span>
           <button type="button" onClick={submitQuery} className="hover:text-white/70">
-            See all results
+            {t("seeAllResults")}
           </button>
         </div>
       </div>
