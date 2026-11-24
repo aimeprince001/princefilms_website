@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useLockBodyScroll } from "@/hooks/useLockBodyScroll";
 import type { Filters } from "@/lib/catalogue";
 import { FilterFields } from "@/components/catalog/FilterPanel";
+import { useLanguage } from "@/context/LanguageContext";
 
 export function FilterSheet({
   open,
@@ -38,18 +39,18 @@ export function FilterSheet({
     <div className="fixed inset-0 z-[80] lg:hidden">
       <button
         type="button"
-        aria-label="Close filters"
+        aria-label={t("closeSearch")}
         onClick={onClose}
         className="absolute inset-0 bg-[#040308]/75 backdrop-blur-sm"
       />
       <div
         role="dialog"
         aria-modal="true"
-        aria-label="Filter the catalogue"
+        aria-label={t("filters")}
         className="absolute inset-x-0 bottom-0 flex max-h-[88vh] flex-col rounded-t-2xl border-t border-white/10 bg-ink-900"
       >
         <div className="flex items-center justify-between border-b border-white/[0.08] px-4 py-3">
-          <h2 className="font-display text-[15px] text-text">Filters</h2>
+          <h2 className="font-display text-[15px] text-text">{t("filters")}</h2>
           <button
             type="button"
             onClick={onClose}
@@ -70,14 +71,14 @@ export function FilterSheet({
             onClick={onClear}
             className="h-11 flex-1 rounded-xl border border-white/15 text-[13px] font-medium text-white/70 hover:bg-white/5"
           >
-            Clear all
+            {t("clearAll")}
           </button>
           <button
             type="button"
             onClick={onClose}
             className="h-11 flex-[1.6] rounded-xl bg-brand-500 text-[13px] font-semibold text-white hover:bg-brand-400"
           >
-            Show {resultCount} {resultCount === 1 ? "title" : "titles"}
+            {t("showResults")} {resultCount} {t("title")}
           </button>
         </div>
       </div>
