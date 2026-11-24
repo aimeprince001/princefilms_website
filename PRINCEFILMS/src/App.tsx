@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
+import { LanguageProvider } from "@/context/LanguageContext";
 import { LibraryProvider } from "@/context/LibraryContext";
 import { SearchProvider } from "@/context/SearchContext";
 import { PlayerProvider } from "@/context/PlayerContext";
@@ -35,6 +36,7 @@ function ScrollToTop() {
 
 export default function App() {
   return (
+    <LanguageProvider>
     <AuthProvider>
       <LibraryProvider>
         <SearchProvider>
@@ -80,5 +82,6 @@ export default function App() {
         </SearchProvider>
       </LibraryProvider>
     </AuthProvider>
+    </LanguageProvider>
   );
 }
