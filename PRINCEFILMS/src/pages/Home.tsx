@@ -10,7 +10,7 @@ import {
   getTitleById,
   isMovie,
   latestTitles,
-  total{t("episodes")},
+  totalEpisodes,
   trendingTitles,
 } from "@/data/catalog";
 import { useLibrary } from "@/context/LibraryContext";
@@ -82,7 +82,7 @@ export function Home() {
           }
         />
         <div className="mt-5 flex flex-col lg:flex-row items-start justify-between gap-6">
-          <MediaRail label="Recently added movies" className="flex-1 mt-0">
+          <MediaRail label={t("recentlyAdded")} className="flex-1 mt-0">
             {latestTitles(20)
               .filter(isMovie)
               .slice(0, 10)
@@ -106,7 +106,7 @@ export function Home() {
                 to="/my-list"
                 className="inline-flex items-center gap-1.5 text-[12.5px] font-medium text-brand-200 transition hover:text-brand-100"
               >
-                View My List <ArrowRight size={13} aria-hidden="true" />
+                {t("viewMyList")} <ArrowRight size={13} aria-hidden="true" />
               </Link>
             }
           />
@@ -198,7 +198,7 @@ export function Home() {
               {spotlight.title}
             </h2>
             <p className="num mt-2 text-[12px] text-white/40">
-              {spotlight.seasons.length} seasons / {totalEpisodes(spotlight)} episodes / {spotlight.year}
+              {spotlight.seasons.length} {t("seasons")} / {totalEpisodes(spotlight)} {t("episodesCount")} / {spotlight.year}
             </p>
             <p className="mt-3 max-w-md text-[13.5px] leading-relaxed text-muted">{spotlight.synopsis}</p>
             <div className="mt-5 flex flex-wrap items-center gap-2.5">
@@ -214,7 +214,7 @@ export function Home() {
                 to={`/series/${spotlight.id}`}
                 className="inline-flex h-11 items-center gap-2 rounded-xl border border-white/15 px-4 text-[13px] font-medium text-white/80 transition hover:border-white/30 hover:text-white"
               >
-                Episodes
+                {t("episodes")}
                 <ArrowRight size={14} aria-hidden="true" />
               </Link>
               <SaveButton titleId={spotlight.id} title={spotlight.title} />
@@ -250,7 +250,7 @@ export function Home() {
       <section aria-labelledby="series-heading" className="page-shell mt-14 lg:mt-20">
         <SectionHeading
           id="series-heading"
-          title="Series"
+          title={t("series")}
           action={
             <Link
               to="/series"
@@ -260,7 +260,7 @@ export function Home() {
             </Link>
           }
         />
-        <MediaRail label="Series" className="mt-5">
+        <MediaRail label={t("series")} className="mt-5">
           {SERIES.map((series) => (
             <div key={series.id} className="w-[268px] shrink-0 snap-start">
               <TitleCard title={series} />
