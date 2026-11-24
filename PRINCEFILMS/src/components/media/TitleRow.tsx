@@ -13,12 +13,14 @@ import { cn } from "@/lib/cn";
 import { Rating } from "@/components/ui/Rating";
 import { ProgressRail } from "@/components/ui/ProgressRail";
 import { SaveButton } from "@/components/ui/SaveButton";
+import { useLanguage } from "@/context/LanguageContext";
 
 /**
  * The catalogue's primary record: a horizontal media row rather than a card
  * grid, so interpreter, format, runtime and views stay in readable columns.
  */
 export function TitleRow({ title, className }: { title: Title; className?: string }) {
+  const { t } = useLanguage();
   const interpreter = getInterpreterById(title.interpreterId);
   const { progressFor } = useLibrary();
   const { play } = usePlayer();
@@ -73,7 +75,7 @@ export function TitleRow({ title, className }: { title: Title; className?: strin
             </Link>
           </h3>
           <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-white/35">
-            {series ? "Series" : "Film"}
+            {series ? t("seriesLabel") : t("filmLabel")}
           </span>
         </div>
 
@@ -82,7 +84,7 @@ export function TitleRow({ title, className }: { title: Title; className?: strin
             to={`/interpreters/${interpreter?.slug ?? ""}`}
             className="relative z-10 text-muted transition-colors hover:text-brand-200"
           >
-            {interpreter?.name ?? "Interpreter"}
+            {interpreter?.name ?? t("interpreterLabel")}
           </Link>
           <span aria-hidden="true" className="text-white/20">
             /
@@ -97,7 +99,7 @@ export function TitleRow({ title, className }: { title: Title; className?: strin
           </span>
           <span className="num">
             {isSeries(title)
-              ? `${title.seasons.length} seasons · ${totalEpisodes(title)} ep`
+              ? `${title.seasons.length} ${t("seasons")} · ${totalEpisodes(title)} ${t("eps")}`
               : formatRuntime(title.runtime)}
           </span>
         </p>
@@ -107,7 +109,7 @@ export function TitleRow({ title, className }: { title: Title; className?: strin
           <span className="num text-[11.5px] text-white/35">{formatViews(title.views)} views</span>
           {entry && (
             <span className="text-[11.5px] text-brand-200">
-              {percent >= 92 ? "Finished" : `${Math.round(percent)}% watched`}
+              {percent >= 92 ? t("finished") : `${Math.round(percent)}${t("watchedPercent")}`}
             </span>
           )}
         </div>
