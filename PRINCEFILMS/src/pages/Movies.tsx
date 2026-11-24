@@ -10,7 +10,7 @@ export function MoviesPage() {
   return (
     <CatalogueView
       heading={t("movies")}
-      description="Feature films dubbed in Kinyarwanda. Filter by interpreter, category, release year or length."
+      description={t("movieDescription")}
       baseTitles={MOVIES}
       lockedKind="movie"
     />
