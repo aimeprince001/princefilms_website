@@ -47,24 +47,24 @@ const DEPARTMENTS = [
 
 const FAQS = [
   {
-    q: "How do I watch films on PRINCEFILMS?",
-    a: "Create a free account, browse our catalogue of Kinyarwanda-dubbed films and series, and press play. Subtitles are available in English, French, and Swahili on every title.",
+    q: "faq1q",
+    a: "faq1a",
   },
   {
-    q: "Can I download titles for offline viewing?",
-    a: "Offline downloads are not currently available. You need an active internet connection to stream titles on PRINCEFILMS.",
+    q: "faq2q",
+    a: "faq2a",
   },
   {
-    q: "Is my account data stored on a server?",
-    a: "No. All accounts, saved lists, and playback positions are stored locally in your browser only. Nothing is uploaded to a server.",
+    q: "faq3q",
+    a: "faq3a",
   },
   {
-    q: "How do I reset my password?",
-    a: "Go to the Sign in page, click \"Forgot password?\", and follow the recovery steps. A 6-digit code will be sent to your email or phone.",
+    q: "faq4q",
+    a: "faq4a",
   },
   {
-    q: "Can I become a dubbing interpreter?",
-    a: "Yes! Select \"Partnerships & dubbing\" in the contact form and tell us about your experience. We&apos;re always looking for independent interpreters in Kigali.",
+    q: "faq5q",
+    a: "faq5a",
   },
 ];
 
@@ -108,8 +108,7 @@ export function Contact() {
           <CheckCircle2 size={48} className="mx-auto mb-6 text-mint-400" aria-hidden="true" />
           <h1 className="font-display text-[36px] leading-none text-text">{t("messageSent")}</h1>
           <p className="mt-3 text-[15px] leading-relaxed text-muted">
-            Thanks for reaching out. We&apos;ve received your message and will respond as soon as
-            possible — usually within 24 hours.
+            {t("thankYouMessage")}
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
             <button
@@ -309,14 +308,14 @@ export function Contact() {
                         onClick={() => toggleFaq(faq.q)}
                         className="flex w-full items-center justify-between px-4 py-3 text-left text-[13px] font-medium text-white hover:text-white focus-visible:ring-2 focus-visible:ring-brand-400/60"
                       >
-                        <span>{faq.q}</span>
+                        <span>{t(faq.q)}</span>
                         <span className={cn("text-white/40 transition-transform", isOpen && "rotate-180")}>
                           <ArrowRight size={14} />
                         </span>
                       </button>
                       {isOpen && (
                         <div className="px-4 pb-4 text-[12.5px] text-white/50 border-t border-white/5">
-                          {faq.a}
+                          {t(faq.a)}
                         </div>
                       )}
                     </div>
