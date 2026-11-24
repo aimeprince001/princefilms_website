@@ -14,6 +14,7 @@ import {
   trendingTitles,
 } from "@/data/catalog";
 import { useLibrary } from "@/context/LibraryContext";
+import { useLanguage } from "@/context/LanguageContext";
 import { usePlayer } from "@/context/PlayerContext";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import { formatViews } from "@/lib/format";
@@ -29,6 +30,7 @@ import { InterpreterExplorer } from "@/components/media/InterpreterExplorer";
 
 export function Home() {
   useDocumentTitle();
+  const { t } = useLanguage();
   const { continueWatching } = useLibrary();
   const { play } = usePlayer();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -68,8 +70,8 @@ export function Home() {
       <section aria-labelledby="recent-heading" className="page-shell mt-16 lg:mt-24">
         <SectionHeading
           id="recent-heading"
-          title="Recently added"
-          description="Fresh titles landing on PRINCEFILMS this week."
+          title={t("recentlyAdded")}
+          description={t("recentlyAddedDesc")}
           action={
             <Link
               to="/movies"
@@ -97,7 +99,7 @@ export function Home() {
         <section aria-labelledby="continue-heading" className="page-shell mt-12 lg:mt-16">
           <SectionHeading
             id="continue-heading"
-            title="Continue watching"
+            title={t("continueWatching")}
             count={`${railItems.length}`}
             action={
               <Link
