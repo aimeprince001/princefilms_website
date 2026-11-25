@@ -12,7 +12,6 @@ import {
   totalEpisodes,
 } from "@/data/catalog";
 import { useLibrary } from "@/context/LibraryContext";
-import { usePlayer } from "@/context/PlayerContext";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import { formatDate, formatRuntime, formatTimecode, formatViews, progressPercent } from "@/lib/format";
 import { buttonClass } from "@/components/ui/Button";
@@ -29,7 +28,6 @@ export function TitleDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const title = getTitleById(id);
-  const { play } = usePlayer();
   const { progressFor } = useLibrary();
   const [shareLabel, setShareLabel] = useState("Share");
   const [trailerInterpreterId, setTrailerInterpreterId] = useState("");
@@ -65,7 +63,6 @@ export function TitleDetail() {
   const trailerQuery = encodeURIComponent(`${title.title} official trailer`);
   const trailerInterpreter = getInterpreterById(trailerInterpreterId || title.interpreterId);
   const stored = progressFor(title.id);
-  const startEpisode = isSeries(title) ? getEpisode(title, progressFor(title.id)?.episodeId) : undefined;
 
   const share = async () => {
     const url = window.location.href;
