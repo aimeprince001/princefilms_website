@@ -1,6 +1,6 @@
 import { ArrowLeft, Download, Play, Share2, Languages, Mic } from "lucide-react";
 import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   getCategory,
   getEpisode,
@@ -27,6 +27,7 @@ import { useLanguage } from "@/context/LanguageContext";
 export function TitleDetail() {
   const { t } = useLanguage();
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const title = getTitleById(id);
   const { play } = usePlayer();
   const { progressFor } = useLibrary();
@@ -211,7 +212,7 @@ export function TitleDetail() {
                 <div className="absolute inset-0 bg-gradient-to-t from-ink-950/85 via-ink-950/25 to-transparent" aria-hidden="true" />
                 <button
                   type="button"
-                  onClick={() => window.location.assign(`/watch/${title.id}`)}
+                  onClick={() => navigate(`/watch/${title.id}`)}
                   aria-label={`Play ${title.title}`}
                   className="absolute inset-0 grid place-items-center"
                 >
