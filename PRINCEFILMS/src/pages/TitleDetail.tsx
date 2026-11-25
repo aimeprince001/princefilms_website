@@ -63,7 +63,6 @@ export function TitleDetail() {
   const trailerQuery = encodeURIComponent(`${title.title} official trailer`);
   const trailerInterpreter = getInterpreterById(trailerInterpreterId || title.interpreterId);
   const stored = progressFor(title.id);
-  const startEpisode = isSeries(title) ? getEpisode(title, progressFor(title.id)?.episodeId) : undefined;
 
   const share = async () => {
     const url = window.location.href;
@@ -267,9 +266,9 @@ export function TitleDetail() {
                 <button type="button" onClick={() => navigate(`/watch/${title.id}`)} className={buttonClass({ size: "lg", shape: "pill" })}>
                   <Play size={15} className="fill-current" aria-hidden="true" /> {resumable ? "Resume film" : "Play full film"}
                 </button>
-                <a href={title.downloadUrl} download target="_blank" rel="noreferrer" className="inline-flex h-11 items-center gap-2 rounded-xl border border-brand-300/25 px-4 text-[13px] font-medium text-brand-100 transition hover:bg-brand-500/10">
+                <Link to={`/download/${title.id}`} className="inline-flex h-11 items-center gap-2 rounded-xl border border-brand-300/25 px-4 text-[13px] font-medium text-brand-100 transition hover:bg-brand-500/10">
                   <Download size={15} aria-hidden="true" /> Download film
-                </a>
+                </Link>
               </div>
               <p className="mt-3 text-[11px] text-white/35">Downloads depend on the availability and permissions of the catalogue source.</p>
             </section>
