@@ -264,12 +264,12 @@ export function TitleDetail() {
               <h2 id="film-options-heading" className="font-display text-xl text-text">Ready for the full film?</h2>
               <p className="mt-1.5 text-[12.5px] text-muted">Choose streaming playback or download the available file.</p>
               <div className="mt-4 flex flex-wrap gap-2.5">
-                <button type="button" onClick={() => play(title.id, startEpisode?.id ?? entry?.episodeId)} className={buttonClass({ size: "lg", shape: "pill" })}>
+                <Link to={`/watch/${title.id}`} className={buttonClass({ size: "lg", shape: "pill" })}>
                   <Play size={15} className="fill-current" aria-hidden="true" /> {resumable ? "Resume film" : "Play full film"}
-                </button>
+                </Link>
                 <Link to={`/download/${title.id}`} className="inline-flex h-11 items-center gap-2 rounded-xl border border-brand-300/25 px-4 text-[13px] font-medium text-brand-100 transition hover:bg-brand-500/10">
                   <Download size={15} aria-hidden="true" /> Download film
-                </a>
+                </Link>
               </div>
               <p className="mt-3 text-[11px] text-white/35">Downloads depend on the availability and permissions of the catalogue source.</p>
             </section>
