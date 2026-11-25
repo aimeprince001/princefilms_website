@@ -122,100 +122,7 @@ export function TitleDetail() {
           {title.title}
         </h1>
 
-        <div className="mt-5 flex flex-wrap items-center gap-2.5">
-          <button
-            type="button"
-            onClick={() => play(title.id, startEpisode?.id ?? entry?.episodeId)}
-            className={buttonClass({ size: "lg", shape: "pill" })}
-          >
-            <Play size={15} className="fill-current" aria-hidden="true" />
-            {resumable ? "Resume" : isSeries(title) ? "Play episode 1" : "Play film"}
-          </button>
-          <SaveButton titleId={title.id} title={title.title} variant="full" />
-          <a href="#trailer" className="inline-flex h-11 items-center gap-2 rounded-xl border border-brand-300/25 px-4 text-[13px] font-medium text-brand-100 transition hover:bg-brand-500/10">
-            <Play size={15} aria-hidden="true" /> Watch trailer
-          </a>
-          <button
-            type="button"
-            onClick={share}
-            className="inline-flex h-11 items-center gap-2 rounded-xl border border-white/12 px-4 text-[13px] font-medium text-white/75 transition hover:border-white/30 hover:text-white"
-          >
-            <Share2 size={15} aria-hidden="true" />
-            {shareLabel}
-          </button>
-          <a
-            href={title.downloadUrl}
-            download
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex h-11 items-center gap-2 rounded-xl border border-white/12 px-4 text-[13px] font-medium text-white/75 transition hover:border-white/30 hover:text-white"
-          >
-            <Download size={15} aria-hidden="true" />
-            Download
-          </a>
-        </div>
-
-        <div className="mt-9 grid gap-9 lg:grid-cols-[minmax(0,1fr)_300px] xl:gap-12">
-          <div className="min-w-0">
-            <div className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-ink-800">
-              <div className="relative aspect-16/9">
-                <img
-                  src={title.image}
-                  alt={`${title.title} — still, photo by ${title.imageCredit}`}
-                  width={1280}
-                  height={720}
-                  className="size-full object-cover still-tone"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-ink-950/85 via-ink-950/25 to-transparent" aria-hidden="true" />
-                <button
-                  type="button"
-                  onClick={() => play(title.id, entry?.episodeId)}
-                  aria-label={`Play ${title.title}`}
-                  className="absolute inset-0 grid place-items-center"
-                >
-                  <span className="flex size-16 items-center justify-center rounded-full bg-white/95 text-ink-950 shadow-[0_20px_50px_-16px_rgba(0,0,0,0.9)] transition-transform hover:scale-105">
-                    <Play size={22} className="translate-x-[2px] fill-current" aria-hidden="true" />
-                  </span>
-                </button>
-                {entry && (
-                  <div className="absolute inset-x-4 bottom-4">
-                    <ProgressRail value={percent} complete={percent >= 92} />
-                    <div className="mt-2 flex items-center justify-between text-[11.5px] text-white/60">
-                      <span className="num">
-                        {entryEpisode ? `S${entryEpisode.season} E${entryEpisode.number} · ` : ""}
-                        {formatTimecode(entry.position)} / {formatTimecode(entry.duration)}
-                      </span>
-                      <span className="num">{Math.round(percent)}%</span>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <section aria-labelledby="about-heading" className="mt-8">
-              <h2 id="about-heading" className="font-display text-xl text-text">
-                {t("synopsis")}
-              </h2>
-              <p className="mt-2.5 max-w-2xl text-pretty text-[14px] leading-relaxed text-muted">
-                {title.synopsis}
-              </p>
-              {interpreter && (
-                <p className="mt-4 flex flex-wrap items-center gap-2 text-[12.5px] text-white/40">
-                  {t("voicedBy")}
-                  <Link
-                    to={`/interpreters/${interpreter.slug}`}
-                    className="inline-flex items-center gap-2 font-medium text-brand-200 transition hover:text-brand-100"
-                  >
-                    <span className="grid size-6 place-items-center rounded-full bg-brand-500/20 text-[10px] font-bold text-brand-100">
-                      {interpreter.name.charAt(0)}
-                    </span>
-                    {interpreter.name}
-                  </Link>
-                </p>
-              )}
-            </section>
-
-            <section id="trailer" aria-labelledby="trailer-heading" className="mt-9 overflow-hidden rounded-2xl border border-brand-400/20 bg-gradient-to-br from-ink-850 via-ink-850 to-brand-900/20">
+        <section id="trailer" aria-labelledby="trailer-heading" className="mt-9 overflow-hidden rounded-2xl border border-brand-400/20 bg-gradient-to-br from-ink-850 via-ink-850 to-brand-900/20">
               <div className="flex flex-wrap items-start justify-between gap-4 border-b border-white/[0.07] p-5 sm:p-6">
                 <div>
                   <h2 id="trailer-heading" className="flex items-center gap-2 font-display text-xl text-text">
@@ -264,6 +171,94 @@ export function TitleDetail() {
               </div>
             </section>
 
+        <div className="mt-5 flex flex-wrap items-center gap-2.5">
+          <Link to={`/watch/${title.id}`} className={buttonClass({ size: "lg", shape: "pill" })}>
+            <Play size={15} className="fill-current" aria-hidden="true" />
+            {resumable ? "Resume" : isSeries(title) ? "Play episode 1" : "Play film"}
+          </Link>
+          <SaveButton titleId={title.id} title={title.title} variant="full" />
+          <a href="#trailer" className="inline-flex h-11 items-center gap-2 rounded-xl border border-brand-300/25 px-4 text-[13px] font-medium text-brand-100 transition hover:bg-brand-500/10">
+            <Play size={15} aria-hidden="true" /> Watch trailer
+          </a>
+          <button
+            type="button"
+            onClick={share}
+            className="inline-flex h-11 items-center gap-2 rounded-xl border border-white/12 px-4 text-[13px] font-medium text-white/75 transition hover:border-white/30 hover:text-white"
+          >
+            <Share2 size={15} aria-hidden="true" />
+            {shareLabel}
+          </button>
+          <Link
+            to={`/download/${title.id}`}
+            className="inline-flex h-11 items-center gap-2 rounded-xl border border-white/12 px-4 text-[13px] font-medium text-white/75 transition hover:border-cyan-200/30 hover:text-cyan-100"
+          >
+            <Download size={15} aria-hidden="true" />
+            Download
+          </a>
+        </div>
+
+        <div className="mt-9 grid gap-9 lg:grid-cols-[minmax(0,1fr)_300px] xl:gap-12">
+          <div className="min-w-0">
+            <div className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-ink-800">
+              <div className="relative aspect-16/9">
+                <img
+                  src={title.image}
+                  alt={`${title.title} — still, photo by ${title.imageCredit}`}
+                  width={1280}
+                  height={720}
+                  className="size-full object-cover still-tone"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink-950/85 via-ink-950/25 to-transparent" aria-hidden="true" />
+                <button
+                  type="button"
+                  onClick={() => window.location.assign(`/watch/${title.id}`)}
+                  aria-label={`Play ${title.title}`}
+                  className="absolute inset-0 grid place-items-center"
+                >
+                  <span className="flex size-16 items-center justify-center rounded-full bg-white/95 text-ink-950 shadow-[0_20px_50px_-16px_rgba(0,0,0,0.9)] transition-transform hover:scale-105">
+                    <Play size={22} className="translate-x-[2px] fill-current" aria-hidden="true" />
+                  </span>
+                </button>
+                {entry && (
+                  <div className="absolute inset-x-4 bottom-4">
+                    <ProgressRail value={percent} complete={percent >= 92} />
+                    <div className="mt-2 flex items-center justify-between text-[11.5px] text-white/60">
+                      <span className="num">
+                        {entryEpisode ? `S${entryEpisode.season} E${entryEpisode.number} · ` : ""}
+                        {formatTimecode(entry.position)} / {formatTimecode(entry.duration)}
+                      </span>
+                      <span className="num">{Math.round(percent)}%</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <section aria-labelledby="about-heading" className="mt-8">
+              <h2 id="about-heading" className="font-display text-xl text-text">
+                {t("synopsis")}
+              </h2>
+              <p className="mt-2.5 max-w-2xl text-pretty text-[14px] leading-relaxed text-muted">
+                {title.synopsis}
+              </p>
+              {interpreter && (
+                <p className="mt-4 flex flex-wrap items-center gap-2 text-[12.5px] text-white/40">
+                  {t("voicedBy")}
+                  <Link
+                    to={`/interpreters/${interpreter.slug}`}
+                    className="inline-flex items-center gap-2 font-medium text-brand-200 transition hover:text-brand-100"
+                  >
+                    <span className="grid size-6 place-items-center rounded-full bg-brand-500/20 text-[10px] font-bold text-brand-100">
+                      {interpreter.name.charAt(0)}
+                    </span>
+                    {interpreter.name}
+                  </Link>
+                </p>
+              )}
+            </section>
+
+            
+
             <section aria-labelledby="film-options-heading" className="mt-6 rounded-2xl border border-white/[0.08] bg-ink-850/70 p-5 sm:p-6">
               <h2 id="film-options-heading" className="font-display text-xl text-text">Ready for the full film?</h2>
               <p className="mt-1.5 text-[12.5px] text-muted">Choose streaming playback or download the available file.</p>
@@ -271,7 +266,7 @@ export function TitleDetail() {
                 <button type="button" onClick={() => play(title.id, startEpisode?.id ?? entry?.episodeId)} className={buttonClass({ size: "lg", shape: "pill" })}>
                   <Play size={15} className="fill-current" aria-hidden="true" /> {resumable ? "Resume film" : "Play full film"}
                 </button>
-                <a href={title.downloadUrl} download target="_blank" rel="noreferrer" className="inline-flex h-11 items-center gap-2 rounded-xl border border-brand-300/25 px-4 text-[13px] font-medium text-brand-100 transition hover:bg-brand-500/10">
+                <Link to={`/download/${title.id}`} className="inline-flex h-11 items-center gap-2 rounded-xl border border-brand-300/25 px-4 text-[13px] font-medium text-brand-100 transition hover:bg-brand-500/10">
                   <Download size={15} aria-hidden="true" /> Download film
                 </a>
               </div>
