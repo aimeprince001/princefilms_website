@@ -119,3 +119,10 @@ body::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-even
 @media (prefers-reduced-motion: reduce) {
   .pf-skeleton { animation: none; background-position: 50% 0; }
 }
+
+/* Admin form controls */
+.admin-field { display:block; width:100%; margin-top:.45rem; border:1px solid rgb(255 255 255 / .12); border-radius:.75rem; background:rgb(2 6 23 / .72); color:#f8fafc; padding:.72rem .85rem; outline:none; }
+.admin-field:focus { border-color:#22d3ee; box-shadow:0 0 0 3px rgb(34 211 238 / .12); }
+.admin-field::placeholder { color:#64748b; }
+.admin-field[type=file] { font-size:.8rem; }
+.admin-field option { background:#0b1120; color:#f8fafc; }
