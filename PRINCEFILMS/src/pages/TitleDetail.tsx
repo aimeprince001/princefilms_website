@@ -264,7 +264,7 @@ export function TitleDetail() {
               <h2 id="film-options-heading" className="font-display text-xl text-text">Ready for the full film?</h2>
               <p className="mt-1.5 text-[12.5px] text-muted">Choose streaming playback or download the available file.</p>
               <div className="mt-4 flex flex-wrap gap-2.5">
-                <button type="button" onClick={() => play(title.id, startEpisode?.id ?? entry?.episodeId)} className={buttonClass({ size: "lg", shape: "pill" })}>
+                <button type="button" onClick={() => navigate(`/watch/${title.id}`)} className={buttonClass({ size: "lg", shape: "pill" })}>
                   <Play size={15} className="fill-current" aria-hidden="true" /> {resumable ? "Resume film" : "Play full film"}
                 </button>
                 <a href={title.downloadUrl} download target="_blank" rel="noreferrer" className="inline-flex h-11 items-center gap-2 rounded-xl border border-brand-300/25 px-4 text-[13px] font-medium text-brand-100 transition hover:bg-brand-500/10">
