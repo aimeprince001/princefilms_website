@@ -16,6 +16,8 @@ import { CategoryPage } from "@/pages/Category";
 import { InterpretersPage } from "@/pages/Interpreters";
 import { InterpreterDetail } from "@/pages/InterpreterDetail";
 import { TitleDetail } from "@/pages/TitleDetail";
+import { WatchPage } from "@/pages/Watch";
+import { DownloadPage } from "@/pages/Download";
 import { SearchResults } from "@/pages/SearchResults";
 import { MyListPage } from "@/pages/MyList";
 import { Login } from "@/pages/Login";
@@ -48,6 +50,8 @@ function RouteContent() {
     <Route path="/interpreters" element={<InterpretersPage />} />
     <Route path="/interpreters/:slug" element={<InterpreterDetail />} />
     <Route path="/movie/:id" element={<TitleDetail />} />
+    <Route path="/watch/:id" element={<WatchPage />} />
+    <Route path="/download/:id" element={<DownloadPage />} />
     <Route path="/series/:id" element={<TitleDetail />} />
     <Route path="/search" element={<SearchResults />} />
     <Route path="/my-list" element={<MyListPage />} />
