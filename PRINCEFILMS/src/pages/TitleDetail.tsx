@@ -194,7 +194,7 @@ export function TitleDetail() {
           >
             <Download size={15} aria-hidden="true" />
             Download
-          </a>
+          </Link>
         </div>
 
         <div className="mt-9 grid gap-9 lg:grid-cols-[minmax(0,1fr)_300px] xl:gap-12">
