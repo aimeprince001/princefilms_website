@@ -23,6 +23,8 @@ import { Register } from "@/pages/Register";
 import { Contact } from "@/pages/Contact";
 import { Profile } from "@/pages/Profile";
 import { AdminPage } from "@/pages/Admin";
+import { WatchPage } from "@/pages/Watch";
+import { DownloadPage } from "@/pages/Download";
 import { NotFound } from "@/pages/NotFound";
 import { PageSkeleton } from "@/components/ui/Skeleton";
 
@@ -48,6 +50,8 @@ function RouteContent() {
     <Route path="/interpreters" element={<InterpretersPage />} />
     <Route path="/interpreters/:slug" element={<InterpreterDetail />} />
     <Route path="/movie/:id" element={<TitleDetail />} />
+    <Route path="/watch/:id" element={<WatchPage />} />
+    <Route path="/download/:id" element={<DownloadPage />} />
     <Route path="/series/:id" element={<TitleDetail />} />
     <Route path="/search" element={<SearchResults />} />
     <Route path="/my-list" element={<MyListPage />} />
