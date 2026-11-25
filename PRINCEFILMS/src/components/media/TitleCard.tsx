@@ -57,7 +57,7 @@ export function TitleCard({ title, className }: { title: Title; className?: stri
           </div>
           <p className="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-[11px] text-white/45">
             <span className="num">{title.year}</span><span aria-hidden="true">·</span>
-            <span className="inline-flex items-center gap-1">{series ? <Tv size={10}/> : <Film size={10}/>}<span className="num">{series ? `${totalEpisodes(series)} ${t("eps")}` : formatRuntime(title.runtime)}</span></span><span aria-hidden="true">·</span>
+            <span className="inline-flex items-center gap-1">{series ? <Tv size={10}/> : <Film size={10}/>}<span className="num">{isSeries(title) ? `${totalEpisodes(title)} ${t("eps")}` : formatRuntime(title.runtime)}</span></span><span aria-hidden="true">·</span>
             <span className="inline-flex items-center gap-1"><Star size={10} className="fill-amber-300 text-amber-300"/><span className="num font-semibold text-amber-200">{title.rating.toFixed(1)}</span></span>
           </p>
           <div className="mt-auto flex items-center justify-between gap-2 pt-1">
