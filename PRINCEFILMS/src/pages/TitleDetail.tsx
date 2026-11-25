@@ -1,6 +1,6 @@
 import { ArrowLeft, Download, Play, Share2, Languages, Mic } from "lucide-react";
 import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   getCategory,
   getEpisode,
@@ -12,7 +12,6 @@ import {
   totalEpisodes,
 } from "@/data/catalog";
 import { useLibrary } from "@/context/LibraryContext";
-import { usePlayer } from "@/context/PlayerContext";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import { formatDate, formatRuntime, formatTimecode, formatViews, progressPercent } from "@/lib/format";
 import { buttonClass } from "@/components/ui/Button";
@@ -27,8 +26,8 @@ import { useLanguage } from "@/context/LanguageContext";
 export function TitleDetail() {
   const { t } = useLanguage();
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const title = getTitleById(id);
-  const { play } = usePlayer();
   const { progressFor } = useLibrary();
   const [shareLabel, setShareLabel] = useState("Share");
   const [trailerInterpreterId, setTrailerInterpreterId] = useState("");
@@ -64,7 +63,6 @@ export function TitleDetail() {
   const trailerQuery = encodeURIComponent(`${title.title} official trailer`);
   const trailerInterpreter = getInterpreterById(trailerInterpreterId || title.interpreterId);
   const stored = progressFor(title.id);
-  const startEpisode = isSeries(title) ? getEpisode(title, progressFor(title.id)?.episodeId) : undefined;
 
   const share = async () => {
     const url = window.location.href;
@@ -125,7 +123,7 @@ export function TitleDetail() {
         <div className="mt-5 flex flex-wrap items-center gap-2.5">
           <button
             type="button"
-            onClick={() => play(title.id, startEpisode?.id ?? entry?.episodeId)}
+            onClick={() => navigate(`/watch/${title.id}`)}
             className={buttonClass({ size: "lg", shape: "pill" })}
           >
             <Play size={15} className="fill-current" aria-hidden="true" />
@@ -143,16 +141,13 @@ export function TitleDetail() {
             <Share2 size={15} aria-hidden="true" />
             {shareLabel}
           </button>
-          <a
-            href={title.downloadUrl}
-            download
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex h-11 items-center gap-2 rounded-xl border border-white/12 px-4 text-[13px] font-medium text-white/75 transition hover:border-white/30 hover:text-white"
+          <Link
+            to={`/download/${title.id}`}
+            className="inline-flex h-11 items-center gap-2 rounded-xl border border-white/12 px-4 text-[13px] font-medium text-white/75 transition hover:border-cyan-200/40 hover:text-cyan-100"
           >
             <Download size={15} aria-hidden="true" />
             Download
-          </a>
+          </Link>
         </div>
 
         <div className="mt-9 grid gap-9 lg:grid-cols-[minmax(0,1fr)_300px] xl:gap-12">
@@ -169,7 +164,7 @@ export function TitleDetail() {
                 <div className="absolute inset-0 bg-gradient-to-t from-ink-950/85 via-ink-950/25 to-transparent" aria-hidden="true" />
                 <button
                   type="button"
-                  onClick={() => play(title.id, entry?.episodeId)}
+                  onClick={() => navigate(`/watch/${title.id}`)}
                   aria-label={`Play ${title.title}`}
                   className="absolute inset-0 grid place-items-center"
                 >
@@ -268,12 +263,12 @@ export function TitleDetail() {
               <h2 id="film-options-heading" className="font-display text-xl text-text">Ready for the full film?</h2>
               <p className="mt-1.5 text-[12.5px] text-muted">Choose streaming playback or download the available file.</p>
               <div className="mt-4 flex flex-wrap gap-2.5">
-                <button type="button" onClick={() => play(title.id, startEpisode?.id ?? entry?.episodeId)} className={buttonClass({ size: "lg", shape: "pill" })}>
+                <button type="button" onClick={() => navigate(`/watch/${title.id}`)} className={buttonClass({ size: "lg", shape: "pill" })}>
                   <Play size={15} className="fill-current" aria-hidden="true" /> {resumable ? "Resume film" : "Play full film"}
                 </button>
-                <a href={title.downloadUrl} download target="_blank" rel="noreferrer" className="inline-flex h-11 items-center gap-2 rounded-xl border border-brand-300/25 px-4 text-[13px] font-medium text-brand-100 transition hover:bg-brand-500/10">
+                <Link to={`/download/${title.id}`} className="inline-flex h-11 items-center gap-2 rounded-xl border border-brand-300/25 px-4 text-[13px] font-medium text-brand-100 transition hover:bg-brand-500/10">
                   <Download size={15} aria-hidden="true" /> Download film
-                </a>
+                </Link>
               </div>
               <p className="mt-3 text-[11px] text-white/35">Downloads depend on the availability and permissions of the catalogue source.</p>
             </section>

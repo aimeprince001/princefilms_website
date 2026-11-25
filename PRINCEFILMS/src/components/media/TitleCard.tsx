@@ -6,6 +6,7 @@ import {
   Tv,
   Star,
   Eye,
+  Download,
 } from "lucide-react";
 import {
   getInterpreterById,
@@ -16,7 +17,6 @@ import {
 import { formatRuntime, formatViews, progressPercent } from "@/lib/format";
 import { useState } from "react";
 import { useLibrary } from "@/context/LibraryContext";
-import { usePlayer } from "@/context/PlayerContext";
 import { TONE_STYLES } from "@/lib/tones";
 import { cn } from "@/lib/cn";
 import { ProgressRail } from "@/components/ui/ProgressRail";
@@ -33,7 +33,6 @@ export function TitleCard({ title, className }: { title: Title; className?: stri
   const interpreter = getInterpreterById(title.interpreterId);
   const { progressFor } = useLibrary();
   const [imageLoaded, setImageLoaded] = useState(false);
-  const { play } = usePlayer();
 
   const entry = progressFor(title.id);
   const percent = entry ? progressPercent(entry.position, entry.duration) : 0;
@@ -56,7 +55,7 @@ export function TitleCard({ title, className }: { title: Title; className?: stri
           "group-hover:border-white/15 group-hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.8)]",
         )}
       >
-        <div className="relative aspect-16/10 overflow-hidden">
+        <div className="relative aspect-[2/3] overflow-hidden">
           <div
             className={cn("absolute inset-0 opacity-60 blur-2xl", tone.glow)}
             aria-hidden="true"
@@ -107,14 +106,13 @@ export function TitleCard({ title, className }: { title: Title; className?: stri
           />
 
           {/* Play */}
-          <button
-            type="button"
-            onClick={() => play(title.id, entry?.episodeId)}
-            className="absolute bottom-3 right-3 z-40 flex size-10 items-center justify-center rounded-full bg-white/95 text-ink-950 shadow-xl transition-all duration-300 group-hover:scale-110 group-hover:bg-brand-500 group-hover:text-white focus-visible:ring-2 focus-visible:ring-brand-400"
+          <Link
+            to={`/watch/${title.id}`}
+            className="absolute bottom-3 right-3 z-40 flex size-11 items-center justify-center rounded-full bg-cyan-300 text-slate-950 shadow-[0_0_24px_rgba(34,211,238,.35)] transition-all duration-300 group-hover:scale-110 group-hover:bg-white focus-visible:ring-2 focus-visible:ring-cyan-200"
             aria-label={`Play ${title.title}`}
           >
-            <Play size={16} className="translate-x-[1px] fill-current" aria-hidden="true" />
-          </button>
+            <Play size={17} className="translate-x-[1px] fill-current" aria-hidden="true" />
+          </Link>
 
           {started && (
             <ProgressRail
@@ -127,7 +125,7 @@ export function TitleCard({ title, className }: { title: Title; className?: stri
         </div>
 
         {/* Info panel */}
-        <div className="flex flex-1 flex-col gap-2 p-3.5">
+        <div className="flex flex-1 flex-col gap-2.5 bg-gradient-to-b from-slate-950/30 to-slate-950 p-3.5">
           <div className="flex items-start justify-between gap-2">
             <h3 className="min-w-0 font-display text-[14.5px] leading-snug text-text">
               <Link to={href} className="transition-colors hover:text-brand-200">
@@ -190,6 +188,10 @@ export function TitleCard({ title, className }: { title: Title; className?: stri
             </span>
           </div>
 
+          <div className="mt-1 grid grid-cols-2 gap-2">
+            <Link to={`/watch/${title.id}`} className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-cyan-300 px-2 py-2 text-[11px] font-bold text-slate-950 transition hover:bg-white"><Play size={12} className="fill-current"/> Play</Link>
+            <Link to={`/download/${title.id}`} className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-cyan-200/20 bg-white/[0.04] px-2 py-2 text-[11px] font-semibold text-cyan-100 transition hover:border-cyan-200/50 hover:bg-cyan-300/10"><Download size={12}/> Download</Link>
+          </div>
           {started && (
             <p className="flex items-center gap-1.5 text-[11px] text-brand-200">
               <Clock size={10} aria-hidden="true" />
