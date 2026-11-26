@@ -22,7 +22,6 @@ import { Login } from "@/pages/Login";
 import { Register } from "@/pages/Register";
 import { Contact } from "@/pages/Contact";
 import { Profile } from "@/pages/Profile";
-import { AdminPage } from "@/pages/Admin";
 import { NotFound } from "@/pages/NotFound";
 import { PageSkeleton } from "@/components/ui/Skeleton";
 
@@ -66,25 +65,22 @@ function RouteContent() {
       <Route path="/register" element={<Register />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/profile" element={<Profile />} />
-      <Route path="/admin" element={<AdminPage />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }
 
 function AppShell() {
-  const { pathname } = useLocation();
-  const isAdmin = pathname.startsWith("/admin");
   return (
     <div className="flex min-h-screen flex-col">
       <ScrollToTop />
-      {!isAdmin && <SiteHeader />}
-      <main id="main" className={isAdmin ? "flex-1" : "flex-1 pt-16 pb-4 lg:pt-[68px]"}>
+      <SiteHeader />
+      <main id="main" className="flex-1 pt-16 pb-4 lg:pt-[68px]">
         <RouteContent />
       </main>
-      {!isAdmin && <SiteFooter />}
-      {!isAdmin && <MobileTabBar />}
-      {!isAdmin && <SearchCommand />}
+      <SiteFooter />
+      <MobileTabBar />
+      <SearchCommand />
     </div>
   );
 }
