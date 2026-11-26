@@ -95,7 +95,8 @@ export function AdminPage() {
       return;
     }
     try {
-      const user = await appwrite("/account");\n      setAdminUserId(String(user.$id || ""));
+      const user = await appwrite("/account");
+      setAdminUserId(String(user.$id || ""));
       const query = "?queries[]=" + encodeURIComponent('equal(userId,"' + user.$id + '")');
       const memberships = await appwrite("/teams/" + encodeURIComponent(ADMIN_TEAM_ID) + "/memberships" + query);
       const allowed = (memberships.memberships || []).some((membership: { roles?: string[] }) =>
