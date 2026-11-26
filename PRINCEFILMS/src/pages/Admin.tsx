@@ -50,14 +50,14 @@ function toForm(record?: FilmRecord): FilmForm {
     views: text("views", "0"),
   };
 }
-function toData(form: FilmForm) {
+function toData(form: FilmForm, createdBy = "") {
   return {
     title: form.title.trim(), description: form.description.trim(), genre: form.genre.trim(),
     releaseYear: form.releaseYear ? Number(form.releaseYear) : null, posterId: form.posterId.trim(),
     videoUrl: form.videoUrl.trim(), language: form.language.trim(), quality: form.quality,
     published: form.published, duration: form.duration ? Number(form.duration) : null,
-    rating: form.rating ? Number(form.rating) : null, director: form.director.trim(),
-    cast: form.cast.split(",").map((s) => s.trim()).filter(Boolean), featured: form.featured,
+    rating: form.rating || "", director: form.director.trim(),
+    cast: form.cast.trim(), featured: form.featured,
     trailerUrl: form.trailerUrl.trim(),
     subtitleLanguages: form.subtitleLanguages.split(",").map((s) => s.trim()).filter(Boolean),
     views: Number(form.views || 0),
@@ -67,7 +67,7 @@ function toData(form: FilmForm) {
 export function AdminPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [signedIn, setSignedIn] = useState(false);
+  const [signedIn, setSignedIn] = useState(false);\n  const [adminUserId, setAdminUserId] = useState("");
   const [checking, setChecking] = useState(true);
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState("");
@@ -92,7 +92,7 @@ export function AdminPage() {
       return;
     }
     try {
-      const user = await appwrite("/account");
+      const user = await appwrite("/account");\n      setAdminUserId(String(user.$id || ""));
       const query = "?queries[]=" + encodeURIComponent('equal(userId,"' + user.$id + '")');
       const memberships = await appwrite("/teams/" + encodeURIComponent(ADMIN_TEAM_ID) + "/memberships" + query);
       const allowed = (memberships.memberships || []).some((membership: { roles?: string[] }) =>
@@ -132,10 +132,10 @@ export function AdminPage() {
     setBusy(true); setError(""); setNotice("");
     try {
       if (editing) {
-        await appwrite(rowPath(editing.$id), "PATCH", { data: toData(form) });
+        await appwrite(rowPath(editing.$id), "PATCH", { data: toData(form, String(editing.data.createdBy || adminUserId)) });
         setNotice("Film updated successfully.");
       } else {
-        await appwrite(rowPath(), "POST", { rowId: "unique()", data: toData(form) });
+        await appwrite(rowPath(), "POST", { rowId: "unique()", data: toData(form, adminUserId) });
         setNotice("Film added successfully.");
       }
       await loadFilms(); setShowEditor(false); setEditing(null);
