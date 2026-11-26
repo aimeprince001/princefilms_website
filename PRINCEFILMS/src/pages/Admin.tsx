@@ -5,9 +5,9 @@ import "./Admin.css";
 
 const ENDPOINT = (import.meta.env.VITE_APPWRITE_ENDPOINT || "https://fra.cloud.appwrite.io/v1").replace(/\/$/, "");
 const PROJECT_ID = import.meta.env.VITE_APPWRITE_PROJECT_ID || "6b06ada200214ac45e1c";
-const DATABASE_ID = import.meta.env.VITE_APPWRITE_DATABASE_ID || "";
-const TABLE_ID = import.meta.env.VITE_APPWRITE_FILMS_TABLE_ID || "films";
-const ADMIN_TEAM_ID = import.meta.env.VITE_APPWRITE_ADMIN_TEAM_ID || "";
+const DATABASE_ID = import.meta.env.VITE_APPWRITE_DATABASE_ID || "6b06af44002b3eaf1968";
+const TABLE_ID = import.meta.env.VITE_APPWRITE_FILMS_TABLE_ID || "6b06afcf00168819da09";
+const ADMIN_TEAM_ID = import.meta.env.VITE_APPWRITE_ADMIN_TEAM_ID || "6b07130300050ff55713";
 
 type FilmRecord = {
   $id: string; $createdAt?: string; data: Record<string, unknown>;
@@ -85,7 +85,13 @@ export function AdminPage() {
     setColumnKeys(new Set((table.columns || []).map((column: { key?: string; name?: string }) => String(column.key || column.name || ""))));
     const query = "?queries[]=" + encodeURIComponent('limit(100)');
     const result = await appwrite(rowPath() + query);
-    setFilms((result.rows || []) as FilmRecord[]);
+    const rows = (result.rows || []) as Array<Record<string, unknown>>;
+    setFilms(rows.map((row) => ({
+      ...row,
+      data: row.data && typeof row.data === "object"
+        ? row.data as Record<string, unknown>
+        : Object.fromEntries(Object.entries(row).filter(([key]) => !key.startsWith("$"))),
+    })) as FilmRecord[]);
   }, []);
 
   const verifyAdmin = useCallback(async () => {
@@ -97,7 +103,7 @@ export function AdminPage() {
     try {
       const user = await appwrite("/account");
       setAdminUserId(String(user.$id || ""));
-      const query = "?queries[]=" + encodeURIComponent('equal(userId,"' + user.$id + '")');
+      const query = "?queries[]=" + encodeURIComponent('equal("userId", ["' + user.$id + '"])');
       const memberships = await appwrite("/teams/" + encodeURIComponent(ADMIN_TEAM_ID) + "/memberships" + query);
       const allowed = (memberships.memberships || []).some((membership: { roles?: string[] }) =>
         (membership.roles || []).some((role) => role.toLowerCase() === "admin" || role.toLowerCase().includes("admin")),

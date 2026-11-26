@@ -1,37 +1,41 @@
-# PRINCEFILMS Admin Dashboard setup
+# PRINCEFILMS Admin Dashboard
 
-The admin dashboard is available at `/admin` and uses Appwrite account sessions, Appwrite Teams membership, and the Films TablesDB table.
+The admin dashboard is available at `/admin`. It uses Appwrite account sessions, team membership checks, and the live Films TablesDB table.
 
-## 1. Configure environment variables
+## Appwrite project configuration
 
-Copy `.env.example` to `.env.local` in this `PRINCEFILMS` folder. Keep `.env.local` out of Git.
+The project IDs are already configured in the dashboard and in `.env.example`:
 
-Fill in:
-- `VITE_APPWRITE_DATABASE_ID`: the ID of your **Production TablesDB** database (not its display name).
-- `VITE_APPWRITE_ADMIN_TEAM_ID`: the ID of the `PRINCEFILMS-ADMINS` team (not its name).
+- Project: `6b06ada200214ac45e1c` (Prince Films Web)
+- Database: `6b06af44002b3eaf1968` (Production TablesDB)
+- Films table: `6b06afcf00168819da09` (Films)
+- Admin team: `6b07130300050ff55713` (PRINCEFILMS-ADMINS)
 
-The project endpoint and project ID are already prefilled in `.env.example`. The Films table ID defaults to `films`.
+Copy `.env.example` to `.env.local` only if you need to override the defaults. Never commit `.env.local`.
 
-For Vercel/Netlify or another deployment, add the same `VITE_...` variables to the project's environment settings and redeploy.
+## Enable administrator access
 
-## 2. Appwrite console setup
+The admin screen verifies the signed-in Appwrite user's membership in the PRINCEFILMS-ADMINS team and requires a role named `admin`.
 
-1. In Appwrite, open **Auth → Settings → Platforms** and add your website's domain (localhost for local development and your deployed domain).
-2. Open **Teams → PRINCEFILMS-ADMINS** and copy its team ID into `VITE_APPWRITE_ADMIN_TEAM_ID`.
-3. Add your administrator account to that team with the role `admin`.
-4. Open **Databases → Production TablesDB → Films** and copy the database ID into `VITE_APPWRITE_DATABASE_ID`.
-5. Ensure the administrator team has the required read, create, update, and delete permissions for the Films table/rows. The admin page will only show the dashboard after it verifies the signed-in user's membership and admin role.
+1. In Appwrite Console, open **Auth → Settings → Platforms** and add the website origin (for local testing, `http://localhost:5173`; add your deployed domain too).
+2. Open **Teams → PRINCEFILMS-ADMINS**.
+3. Add the Appwrite user you will use to sign in to the website.
+4. Assign the membership role `admin` (not just a team membership with another role).
+5. Ensure the team/table/row permissions allow administrators to read, create, update, and delete rows in Films.
 
-## 3. Supported film columns
+The connected project was inspected while setting up this dashboard: the Films table exists and currently has 18 columns. It returned no film rows at the time of inspection. The admin team also returned no memberships, so add your administrator account before signing in.
 
-The dashboard submits values for the existing film fields and checks the table's column metadata before saving, so fields not yet created in your table are omitted. Recommended field types:
-- `title`, `description`, `genre`, `posterId`, `videoUrl`, `language`, `quality`, `rating`, `director`, `cast`, `trailerUrl`, `subtitleLanguages`, `createdBy`: String
-- `releaseYear`, `duration`, `views`: Integer
-- `published`, `featured`: Boolean
+## Supported film columns
 
-Use scalar String columns for `cast` and `subtitleLanguages` (comma-separated values), not Appwrite array columns.
+The editor uses the table's existing column metadata and only submits fields that exist. The current table contains:
 
-## 4. Run locally
+- String: `title`, `description`, `genre`, `posterId`, `videoUrl`, `language`, `quality`, `rating`, `director`, `cast`, `trailerUrl`, `subtitleLanguages`, `createdBy`
+- Integer: `releaseYear`, `duration`, `views`
+- Boolean: `published`, `featured`
+
+`cast` and `subtitleLanguages` are scalar strings (comma-separated), not array columns.
+
+## Run locally
 
 ```bash
 cd PRINCEFILMS
@@ -39,6 +43,6 @@ npm install
 npm run dev
 ```
 
-Open the local Vite URL and visit `/admin`.
+Open the Vite address and visit `/admin`.
 
-**Important:** This dashboard protects its interface with Appwrite team membership. Also configure Appwrite table/row permissions correctly; frontend checks alone are not a replacement for backend permissions.
+**Security:** The dashboard's membership check protects the UI, but Appwrite table/row permissions must also enforce access. Never put an Appwrite API key in a `VITE_*` variable or browser code.
