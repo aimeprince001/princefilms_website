@@ -67,7 +67,8 @@ function toData(form: FilmForm, createdBy = "") {
 export function AdminPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [signedIn, setSignedIn] = useState(false);\n  const [adminUserId, setAdminUserId] = useState("");
+  const [signedIn, setSignedIn] = useState(false);
+  const [adminUserId, setAdminUserId] = useState("");
   const [checking, setChecking] = useState(true);
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState("");
