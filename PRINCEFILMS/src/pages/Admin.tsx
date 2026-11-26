@@ -50,20 +50,19 @@ function toForm(record?: FilmRecord): FilmForm {
     views: text("views", "0"),
   };
 }
-function toData(form: FilmForm, createdBy = "") {
-  return {
+function toData(form: FilmForm, createdBy = "", allowedColumns?: Set<string>) {
+  const data: Record<string, unknown> = {
     title: form.title.trim(), description: form.description.trim(), genre: form.genre.trim(),
     releaseYear: form.releaseYear ? Number(form.releaseYear) : null, posterId: form.posterId.trim(),
     videoUrl: form.videoUrl.trim(), language: form.language.trim(), quality: form.quality,
     published: form.published, duration: form.duration ? Number(form.duration) : null,
-    rating: form.rating || "", director: form.director.trim(),
-    cast: form.cast.trim(), featured: form.featured,
-    trailerUrl: form.trailerUrl.trim(),
-    subtitleLanguages: form.subtitleLanguages.trim(),
+    rating: form.rating || "", director: form.director.trim(), cast: form.cast.trim(),
+    featured: form.featured, trailerUrl: form.trailerUrl.trim(), subtitleLanguages: form.subtitleLanguages.trim(),
     views: Number(form.views || 0), createdBy,
   };
+  if (!allowedColumns || allowedColumns.size === 0) return data;
+  return Object.fromEntries(Object.entries(data).filter(([key]) => allowedColumns.has(key)));
 }
-
 export function AdminPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -74,6 +73,7 @@ export function AdminPage() {
   const [notice, setNotice] = useState("");
   const [error, setError] = useState("");
   const [films, setFilms] = useState<FilmRecord[]>([]);
+  const [columnKeys, setColumnKeys] = useState<Set<string>>(new Set());
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<"all" | "published" | "draft">("all");
   const [editing, setEditing] = useState<FilmRecord | null>(null);
@@ -81,6 +81,8 @@ export function AdminPage() {
   const [showEditor, setShowEditor] = useState(false);
 
   const loadFilms = useCallback(async () => {
+    const table = await appwrite("/tablesdb/" + encodeURIComponent(DATABASE_ID) + "/tables/" + encodeURIComponent(TABLE_ID));
+    setColumnKeys(new Set((table.columns || []).map((column: { key?: string; name?: string }) => String(column.key || column.name || ""))));
     const query = "?queries[]=" + encodeURIComponent('limit(100)');
     const result = await appwrite(rowPath() + query);
     setFilms((result.rows || []) as FilmRecord[]);
@@ -107,8 +109,9 @@ export function AdminPage() {
       setSignedIn(true);
       setError("");
       await loadFilms();
-    } catch {
+    } catch (caught) {
       setSignedIn(false);
+      setError(caught instanceof Error ? caught.message : "Unable to verify Appwrite administrator access.");
     } finally {
       setChecking(false);
     }
@@ -133,10 +136,10 @@ export function AdminPage() {
     setBusy(true); setError(""); setNotice("");
     try {
       if (editing) {
-        await appwrite(rowPath(editing.$id), "PATCH", { data: toData(form, String(editing.data.createdBy || adminUserId)) });
+        await appwrite(rowPath(editing.$id), "PATCH", { data: toData(form, String(editing.data.createdBy || adminUserId), columnKeys) });
         setNotice("Film updated successfully.");
       } else {
-        await appwrite(rowPath(), "POST", { rowId: "unique()", data: toData(form, adminUserId) });
+        await appwrite(rowPath(), "POST", { rowId: "unique()", data: toData(form, adminUserId, columnKeys) });
         setNotice("Film added successfully.");
       }
       await loadFilms(); setShowEditor(false); setEditing(null);
