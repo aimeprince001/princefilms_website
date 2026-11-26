@@ -38,12 +38,6 @@ jobs:
 
       - name: Build website
         working-directory: PRINCEFILMS
-        env:
-          VITE_APPWRITE_ENDPOINT: ${{ vars.VITE_APPWRITE_ENDPOINT }}
-          VITE_APPWRITE_PROJECT_ID: ${{ vars.VITE_APPWRITE_PROJECT_ID }}
-          VITE_APPWRITE_DATABASE_ID: ${{ vars.VITE_APPWRITE_DATABASE_ID }}
-          VITE_APPWRITE_FILMS_TABLE_ID: ${{ vars.VITE_APPWRITE_FILMS_TABLE_ID }}
-          VITE_APPWRITE_ADMIN_TEAM_ID: ${{ vars.VITE_APPWRITE_ADMIN_TEAM_ID }}
         run: npm run build
 
       - name: Upload website
