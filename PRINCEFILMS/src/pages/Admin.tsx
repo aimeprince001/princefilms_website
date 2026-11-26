@@ -59,8 +59,8 @@ function toData(form: FilmForm, createdBy = "") {
     rating: form.rating || "", director: form.director.trim(),
     cast: form.cast.trim(), featured: form.featured,
     trailerUrl: form.trailerUrl.trim(),
-    subtitleLanguages: form.subtitleLanguages.split(",").map((s) => s.trim()).filter(Boolean),
-    views: Number(form.views || 0),
+    subtitleLanguages: form.subtitleLanguages.trim(),
+    views: Number(form.views || 0), createdBy,
   };
 }
 
